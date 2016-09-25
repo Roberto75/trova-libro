@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.sitemaps.org/schemas/sitemap-image/1.1">
+  <url>
+    <loc>http://www.trova-libro.it/</loc>
+    <lastmod>2011-03-01</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>http://www.trova-libro.it/default.aspx</loc>
+    <lastmod>2011-03-01</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>http://www.trova-libro.it/mercatino/ricerca.aspx</loc>
+    <lastmod>2011-03-01</lastmod>
+    <changefreq>always</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>http://www.trova-libro.it/mercatino/default.aspx</loc>
+    <lastmod>2011-03-01</lastmod>
+    <changefreq>always</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>http://www.trova-libro.it/faq/Default.aspx</loc>
+    <lastmod>2011-05-01</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.8</priority>
+  </url>
+</urlset>
