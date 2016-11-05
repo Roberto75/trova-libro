@@ -1,0 +1,41 @@
+﻿@model trova_libro.manager.Models.SearchLibri
+
+@{
+
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MasterPageMobile.cshtml";
+
+    WebGrid wGrid = new WebGrid(null, rowsPerPage: Model.PageSize, defaultSort: Model.Sort, canPage: false);
+    wGrid.Bind(Model.Libri, rowCount: Model.TotalRows, autoSortAndPage: false);
+
+}
+
+<h2>Ricerca</h2>
+
+
+
+ @if (Model.TotalRows == 0)  {
+<h3>Non è stata trovata nessuna vulnerabilità. Modificare i filtri di ricerca.</h3>
+    }
+    else
+    {
+<div style="margin-top: 20px;">
+    @wGrid.GetHtml(
+            fillEmptyRows: false,
+            tableStyle: MyConstants.TABLE_STYLE,
+            headerStyle: MyConstants.TABLE_HEADER_STYLE,
+            footerStyle: MyConstants.TABLE_FOOTER_STYLE,
+            rowStyle: MyConstants.TABLE_ROW_STYLE,
+            alternatingRowStyle: MyConstants.TABLE_ALTERNATING_ROW_STYLE,
+            htmlAttributes: new { data_role = "table", id = "MyWebGrid", data_mode = "reflow" },
+            columns: new[]{
+
+                    wGrid.Column (columnName:"titolo", header :"Titolo", format:(item) =>  Html.ActionLink ( (string) (string.IsNullOrEmpty (item.titolo)?"N/A":item.titolo.ToString()), "Details",   new {id=item.annuncioId} ), canSort:true),
+                    wGrid.Column (columnName:"dataInserimento", header :"Data",  format: p=>p.DataInserimento.ToShortDateString() ,canSort : true),
+
+
+            })
+
+    @{Html.RenderPartial("_Paging", Model);}
+</div>
+    }

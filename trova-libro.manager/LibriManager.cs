@@ -1,0 +1,143 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace trova_libro.manager
+{
+    public class LibriManager : Annunci.AnnuncioManager
+    {
+
+
+        private const string _sqlElencoLibri = "SELECT UTENTI.my_login, UTENTI.user_id, ANNUNCIO.annuncio_id, ANNUNCIO.autore " +
+        ", FORMAT (ANNUNCIO.date_added,\"dd-MM-yyyy\") as date_added " +
+        ", ANNUNCIO.tipo, ANNUNCIO.nome AS nome, ANNUNCIO.prezzo, categorie.nome AS categoria, categorie.categoria_id, Switch(tipo=1,'Vendo',tipo=2,'Compro',tipo=3,'Scambio') AS tipo_desc " +
+        " FROM categorie INNER JOIN (ANNUNCIO LEFT JOIN UTENTI ON ANNUNCIO.fk_user_id=UTENTI.user_id) ON categorie.categoria_id=ANNUNCIO.fk_categoria_id";
+        
+
+
+        public LibriManager(string connectionName)
+            : base(connectionName)
+        {
+
+        }
+
+        public LibriManager(System.Data.Common.DbConnection connection)
+            : base(connection)
+        {
+
+        }
+
+
+        public void getList(Models.SearchLibri model)
+        {
+
+            List<Models.Libro> risultato;
+            risultato = new List<Models.Libro>();
+
+            mStrSQL = _sqlElencoLibri;
+            mStrSQL += " WHERE ANNUNCIO.date_deleted Is Null ";
+
+            System.Data.Common.DbCommand command;
+            command = mConnection.CreateCommand();
+
+
+            string strWHERE = "";
+
+            if (model.filter != null)
+            {
+
+               
+
+                if (model.filter.regioneId != -1 && model.filter.regioneId != 0)
+                {
+                    strWHERE += " AND regione_id = " + model.filter.regioneId;
+                }
+
+                if (!String.IsNullOrEmpty(model.filter.provinciaId) && model.filter.provinciaId != "-1" && model.filter.provinciaId != "---")
+                {
+                    strWHERE += " AND provincia_id = @PROVINCIA_ID ";
+                    mAddParameter(command, "@PROVINCIA_ID", model.filter.provinciaId);
+                }
+
+                if (!String.IsNullOrEmpty(model.filter.comuneId) && model.filter.comuneId != "-1" && model.filter.comuneId != "---")
+                {
+                    strWHERE += " AND comune_id =  @COMUNE_ID ";
+                    mAddParameter(command, "@COMUNE_ID", model.filter.comuneId);
+                }
+
+                /*
+                if (parameters.filter.immobile != null && parameters.filter.immobile > 0)
+                {
+                    strWHERE += " AND tipo = '" + parameters.filter.immobile.ToString() + "'";
+                }
+
+                if (parameters.filter.categoria != null && parameters.filter.categoria > 0)
+                {
+                    strWHERE += " AND categoria_id = " + ((int)parameters.filter.categoria);
+                }
+
+
+                if (parameters.TipoAnnuncio != null && parameters.TipoAnnuncio.Count < 2)
+                {
+
+                    if (parameters.TipoAnnuncio.Contains(Models.SearchImmobili.EnumTipoAnnuncio.Agenzia))
+                    {
+                        strWHERE += " AND (UTENTI.customer_id IS NOT NULL ) ";
+                    }
+
+                    if (parameters.TipoAnnuncio.Contains(Models.SearchImmobili.EnumTipoAnnuncio.Privato))
+                    {
+                        strWHERE += " AND (UTENTI.customer_id IS NULL ) ";
+                    }
+
+                }
+
+    */
+
+
+            }
+
+            if (!String.IsNullOrEmpty(strWHERE))
+            {
+                mStrSQL += strWHERE;
+            }
+
+
+
+            mStrSQL += " ORDER BY " + model.Sort + " " + model.SortDir;
+
+
+            command.CommandText = mStrSQL;
+
+            mDt = mFillDataTable(command);
+
+            model.TotalRows = mDt.Rows.Count;
+
+
+            if (model.PageSize  > 0 && model.PageNumber  >= 0)
+            {
+                // apply paging
+                IEnumerable<DataRow> rows = mDt.AsEnumerable().Skip((model.PageNumber  - 1) * model.PageSize ).Take(model.PageSize);
+                foreach (DataRow row in rows)
+                {
+                    risultato.Add(new Models.Libro (row, Models.Libro.SelectFileds.Lista));
+                }
+            }
+            else
+            {
+                foreach (DataRow row in mDt.Rows)
+                {
+                    risultato.Add(new Models.Libro(row, Models.Libro.SelectFileds.Lista));
+                }
+            }
+            model.Libri = risultato;
+        }
+
+
+
+
+    }
+}
