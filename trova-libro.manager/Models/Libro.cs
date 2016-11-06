@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,13 +10,22 @@ namespace trova_libro.manager.Models
     public class Libro
     {
 
-        public enum Categorie
+        public enum Tipo
         {
-            Affitto = 1000000,
-            Scambio = 4000000,
-            Acquisto = 2000000,
-            Vendita = 3000000
+            Vendo = 1,
+            Compro = 2,
+            Scambio = 3
         }
+
+
+
+        /*  public enum Categorie
+          {
+              Affitto = 1000000,
+              Scambio = 4000000,
+              Acquisto = 2000000,
+              Vendita = 3000000
+          }*/
 
 
         public enum SelectFileds
@@ -55,17 +65,18 @@ namespace trova_libro.manager.Models
 
 
 
-        // le imposto a null atlrimeti mi diventa un filtro obbligatorio nella RICERCA
-        public Categorie? categoria { get; set; }
+        // le imposto a null altrimeti mi diventa un filtro obbligatorio nella RICERCA
+        public Tipo? tipo { get; set ; }
+
+        public string categoria { get; set; }
+        public int categoriaId { get; set; }
+
+
 
         public Libro()
         {
 
         }
-
-
-
-
 
         public Libro(System.Data.DataRow row, SelectFileds mode)
         {
@@ -83,7 +94,15 @@ namespace trova_libro.manager.Models
 
             // customerId = (row["customer_id"] is DBNull) ? -1 : long.Parse(row["customer_id"].ToString());
             titolo = (row["nome"] is DBNull) ? "" : row["nome"].ToString();
+            autore = (row["autore"] is DBNull) ? "" : row["autore"].ToString();
 
+            //Debug.WriteLine("Categoria: " + row["categoria"].ToString());
+            //Debug.WriteLine("Tipo: " + row["tipo"].ToString());
+
+            categoria = (row["categoria"] is DBNull) ? "" : row["categoria"].ToString();
+            categoriaId = int.Parse(row["categoria_id"].ToString());
+
+            tipo = (Tipo)int.Parse(row["tipo"].ToString());
 
             if (mode == SelectFileds.Full)
             {

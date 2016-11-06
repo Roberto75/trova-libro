@@ -14,13 +14,66 @@
 
 
 
- @if (Model.TotalRows == 0)  {
-<h3>Non è stata trovata nessuna vulnerabilità. Modificare i filtri di ricerca.</h3>
+<form action="@Url.Action("Index", "Libri")" method="post" class="form-horizontal" id="MyForm">
+
+    <div class="form-group">
+        <label for="data" class="col-sm-2 control-label">Data inserimento</label>
+
+        <div class="col-sm-10">
+            <div class="radio-inline">
+                <input type="radio" name="days" value="@((int)MyManagerCSharp.ManagerDB.Days.Oggi)" @((Model.days == MyManagerCSharp.ManagerDB.Days.Oggi) ? "checked" : "") />
+                Oggi
+            </div>
+
+            <div class="radio-inline">
+                <input type="radio" name="days" value="@((int)MyManagerCSharp.ManagerDB.Days.Ultimi_7_giorni)" @((Model.days == MyManagerCSharp.ManagerDB.Days.Ultimi_7_giorni) ? "checked" : "") />
+                Ultima settimana
+            </div>
+
+            <div class="radio-inline">
+                <input type="radio" name="days" value="@((int)MyManagerCSharp.ManagerDB.Days.Ultimi_30_giorni)" @((Model.days == MyManagerCSharp.ManagerDB.Days.Ultimi_30_giorni) ? "checked" : "") />
+                Ultimo mese
+            </div>
+
+            <div class="radio-inline">
+                <input type="radio" name="days" value="@((int)MyManagerCSharp.ManagerDB.Days.Tutti)" @((Model.days == MyManagerCSharp.ManagerDB.Days.Tutti) ? "checked" : "") />
+                Tutti
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="form-group">
+        <label for="titolo" class="col-sm-2 control-label">Titolo</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" name="filter.titolo" value="@Model.filter.titolo">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="titolo" class="col-sm-2 control-label">Autore</label>
+        <div class="col-sm-4">
+            <input type="text" class="form-control" name="filter.autore" value="@Model.filter.autore">
+        </div>
+
+        <label for="titolo" class="col-sm-2 control-label">ISBN</label>
+        <div class="col-sm-4">
+            <input type="text" class="form-control" name="filter.isbn" value="@Model.filter.isbn">
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-default">Ricerca</button>
+
+
+    @if (Model.TotalRows == 0)
+    {
+        <h3>Non è stata trovata nessuna vulnerabilità. Modificare i filtri di ricerca.</h3>
     }
     else
     {
-<div style="margin-top: 20px;">
-    @wGrid.GetHtml(
+        <div style="margin-top: 20px;">
+            @wGrid.GetHtml(
             fillEmptyRows: false,
             tableStyle: MyConstants.TABLE_STYLE,
             headerStyle: MyConstants.TABLE_HEADER_STYLE,
@@ -29,13 +82,16 @@
             alternatingRowStyle: MyConstants.TABLE_ALTERNATING_ROW_STYLE,
             htmlAttributes: new { data_role = "table", id = "MyWebGrid", data_mode = "reflow" },
             columns: new[]{
-
+                wGrid.Column (columnName:"dataInserimento", header :"Data",  format: p=>p.DataInserimento.ToShortDateString() ,canSort : true),
                     wGrid.Column (columnName:"titolo", header :"Titolo", format:(item) =>  Html.ActionLink ( (string) (string.IsNullOrEmpty (item.titolo)?"N/A":item.titolo.ToString()), "Details",   new {id=item.annuncioId} ), canSort:true),
-                    wGrid.Column (columnName:"dataInserimento", header :"Data",  format: p=>p.DataInserimento.ToShortDateString() ,canSort : true),
-
-
+                        wGrid.Column (columnName:"categoria", header :"Categoria", canSort : true),
+                    wGrid.Column (columnName:"autore", header :"Autore", canSort : true),
+                    wGrid.Column (columnName:"login", header :"Utente", canSort : true),
+                    wGrid.Column (columnName:"tipo", header :"Tipo", canSort : true),
+                    wGrid.Column (columnName:"prezzo", header :"Prezzo", canSort : true),
             })
 
-    @{Html.RenderPartial("_Paging", Model);}
-</div>
-    }
+            @{Html.RenderPartial("_Paging", Model);}
+        </div>
+                }
+</form>

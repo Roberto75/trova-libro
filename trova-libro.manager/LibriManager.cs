@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -48,8 +49,10 @@ namespace trova_libro.manager
 
             if (model.filter != null)
             {
-
-               
+                Debug.WriteLine("Days: " + model.days);
+                Debug.WriteLine("Titolo: " + model.filter.titolo);
+                Debug.WriteLine("Autore: " + model.filter.autore);
+                Debug.WriteLine("Isbn: " + model.filter.isbn);
 
                 if (model.filter.regioneId != -1 && model.filter.regioneId != 0)
                 {
@@ -135,6 +138,38 @@ namespace trova_libro.manager
             }
             model.Libri = risultato;
         }
+
+
+
+        public Models.Libro getLibro(long id)
+        {
+            System.Data.Common.DbCommand command;
+            command = mConnection.CreateCommand();
+
+            mStrSQL = "select * from ANNUNCIO where annuncio_id = @ID";
+            mAddParameter(command, "@ID", id);
+            command.CommandText = mStrSQL;
+
+            command.CommandTimeout = 60;
+
+            mDt = mFillDataTable(command);
+
+
+            if (mDt.Rows.Count == 0)
+            {
+                return null;
+            }
+
+
+            Models.Libro libro = new Models.Libro(mDt.Rows[0], Models.Libro.SelectFileds.Full);
+
+            return libro;
+        }
+
+
+
+
+
 
 
 

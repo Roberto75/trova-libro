@@ -39,5 +39,13 @@ namespace MyWebApplication.Controllers
         }
 
 
+        public ActionResult Details(long id)
+        {
+
+            manager.
+
+            return View();
+        }
+
     }
 }
