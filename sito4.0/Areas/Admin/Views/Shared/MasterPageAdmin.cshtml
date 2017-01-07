@@ -1,0 +1,121 @@
+﻿@{
+    HtmlString javaScriptNotification = new HtmlString("");
+
+
+    if (TempData["Message"] != null && TempData["Message"].GetType() == typeof(MyMessage))
+    {
+        string messaggio = "";
+        string tipo = "";
+
+        MyMessage message = (MyMessage)TempData["Message"];
+
+        messaggio = message.testo;
+        messaggio = messaggio.Replace(Environment.NewLine, "<br />").Replace("\r\n", "<br />").Replace("\n\r", "<br />").Replace("\r", "<br />").Replace("\n", "<br />").Replace("|", "<br />").Replace("'", "\\'");
+
+        // HtmlString html = new HtmlString(temp);
+
+        switch (message.tipo)
+        {
+            case MyMessage.MyMessageType.Success:
+                tipo = "success";
+                break;
+            case MyMessage.MyMessageType.Warning:
+                tipo = "warning";
+                break;
+            case MyMessage.MyMessageType.Failed:
+            case MyMessage.MyMessageType.Exception:
+                tipo = "error";
+                break;
+        }
+
+        javaScriptNotification = new HtmlString(String.Format("MyNoty('{0}','{1}');", tipo, messaggio));
+
+    }
+
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>@System.Configuration.ConfigurationManager.AppSettings["application.name"] [Admin]</title>
+
+    <link rel="shortcut icon" href="@Url.Content("~/favicon.ico")" />
+    <link rel="icon" type="image/png" href="@Url.Content("~/favicon-32x32.png")" sizes="32x32" />
+    <link rel="icon" type="image/png" href="@Url.Content("~/favicon-16x16.png")" sizes="16x16" />
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="@Url.Content("~/Content/Style/Admin.css")" />
+
+    <link rel="stylesheet" href="@Url.Content("~/Content/Style/jquery.mobile-1.4.5.min.css")" />
+    <link rel="stylesheet" href="@Url.Content("~/Content/Style/themes/Admin.min.css")" />
+    <link rel="stylesheet" href="@Url.Content("~/Content/Style/jquery.mobile.structure-1.4.5.min.css")" />
+
+    <!-- Noty -->
+    <link rel="stylesheet" media="all" href="@Url.Content("~/Content/Style/animate.css")" />
+
+
+    <script src="@Url.Content("~/Content/js/jquery-1.11.1.min.js")"></script>
+    <script src="@Url.Content("~/Content/js/jquery.mobile-1.4.5.min.js")"></script>
+
+    <!-- NOTY -->
+    <script type="text/javascript" src="@Url.Content("~/Content/js/noty/packaged/jquery.noty.packaged.min.js")"></script>
+
+    <script type="text/javascript" src="@Url.Content("~/Content/js/MyJS.js")"></script>
+
+    <script type="text/javascript">
+        $(document).on("pageinit", function () {
+            // alert("mobileinit");
+            $.mobile.ajaxEnabled = false;
+
+            @javaScriptNotification
+        });
+
+    </script>
+</head>
+<body>
+    <div data-role="page">
+
+        <div data-role="header" style="background-color: white; min-height: 60px; overflow: hidden;">
+            <span>
+                <a href="@Url.Action("Index", "Admin")" class="ui-btn-left">
+                    <img src="@Url.Content("~/Content/Images/logo.png")" height="55">
+                </a>
+            </span>
+
+            <div data-role="controlgroup" data-type="horizontal" style="text-align: right;">
+                @if (Request.IsAuthenticated)
+                {
+                    <a href="@Url.Action("Index", "Admin")" data-role="button">Home</a>
+                    <a href="@Url.Action("Index", "Users")" data-role="button">Utenti</a>
+                    <a href="@Url.Action("Index", "Groups")" data-role="button">Gruppi</a>
+                    <a href="@Url.Action("Summary", "Logs")" data-role="button">Logs</a>
+                    <a href="@Url.Action("Check", "Admin")" data-role="button">Check</a>
+                    <a href="@Url.Action("Index", "Source")" data-role="button">Source</a>
+                    <a href="@Url.Action("Index", "Ticket")" data-role="button">Ticket</a>
+                    <a href="@Url.Action("Index", "Queue")" data-role="button">Queue</a>
+                    <!--
+                        <a href="@Url.Action("Index", "Test")"         data-role="button"     >Test</a>
+                     -->
+                    <a href="@Url.Action("Manage", "Account")" data-role="button">@User.Identity.Name</a>
+                    <a href="@Url.Action("LogOff", "Account")" data-role="button">Log Off</a>
+                }
+            </div>
+        </div>
+        <!-- /header -->
+
+        <div id="content">
+            
+            <div id="main" data-role="main" class="ui-content jqm-content jqm-fullwidth">
+                @RenderBody()
+            </div>
+            <!-- /main -->
+        </div>
+
+        @{Html.RenderPartial("_footer");}
+
+
+    </div>
+</body>
+</html>

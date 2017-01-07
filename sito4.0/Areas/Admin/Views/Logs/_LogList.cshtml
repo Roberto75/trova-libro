@@ -1,0 +1,40 @@
+﻿@model MyManagerCSharp.Log.Models.SearchMyLogs
+@{
+    Layout = null;
+}
+
+<style>
+    .wrap {
+        white-space: normal !important;
+    }
+</style>
+
+
+<ol data-role="listview" data-inset="true" data-split-theme="b">
+    @foreach (MyManagerCSharp.Log.Models.MyLog l in Model.LogsList)
+    {
+        <li data-icon="false"
+            @((l.level == MyManagerCSharp.Log.LogManager.Level.Exception) ? "data-theme=f" : "")
+            @((l.level == MyManagerCSharp.Log.LogManager.Level.Error) ? "data-theme=d" : "")
+            @((l.level == MyManagerCSharp.Log.LogManager.Level.Warning) ? "data-theme=e" : "")>
+            <a href="#">
+                <h2>@(String.IsNullOrEmpty(l.source) ? l.level.ToString() : l.source)</h2>
+                <p class="wrap">@l.note</p>
+
+                @if (!String.IsNullOrEmpty(l.reference))
+                {
+                    <p>@l.reference</p>
+                }
+
+                <p class="ui-li-aside"><strong>@l.dateAdded</strong></p>
+            </a>
+            @if (!String.IsNullOrEmpty(l.sessionId))
+            {
+                <a href="@Url.Action("Details", "Logs", new { id = l.sessionId })">Details</a>
+            }
+        </li>
+    }
+</ol>
+
+
+

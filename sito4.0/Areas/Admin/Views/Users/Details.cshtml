@@ -1,0 +1,334 @@
+﻿@model MyWebApplication.Areas.Admin.Models.MyUserModel
+@{
+    ViewBag.Title = "Dettaglio utente: " + ((String.IsNullOrEmpty(Model.Utente.login)) ? "N/A" : Model.Utente.login);
+    Layout = "~/Areas/Admin/Views/Shared/MasterPageAdminMobile.cshtml";
+}
+
+
+<script type="text/javascript">
+    $(document).on("pageinit", function () {
+        $('#TabAccessi').on('click', function (event) {
+            // alert("TabAccessi OnClick");
+
+            getReport();
+
+        });
+
+
+        $("[name='Days']").change(function () {
+            //alert("Days");
+            //var d = $("[name='Days']").val();
+            //alert("Days: " + d);
+
+            getReport();
+        });
+    });
+
+
+    function getReport() {
+        //alert("getReport");
+
+        var d = $("[name='Days']").val();
+
+        var request = $.ajax({
+            url: "@Url.Action("LoginByUser","Reports")",
+            type: "POST",
+            data: { userId: @Model.Utente.userId, days: d },
+            dataType: "html"
+        });
+
+        request.done(function (msg) {
+            // alert("Done: " + msg);
+
+            $("#DivLoginByUser").html(msg);
+
+            initMyReport();
+        });
+
+        request.fail(function (jqXHR, textStatus) {
+            alert("Request failed: " + textStatus);
+        });
+    }
+
+
+
+    function LoginByUserOnClickEventListener(e, shape) {
+        // If you have multiple charts on your canvas the .__object__ is a reference to
+        // the last one that you created
+        var obj = e.target.__object__
+
+        var index = shape['index'];
+        var value = obj.data[index];
+        //alert('Value is: ' + value);
+
+        var label = obj.get("chart.labels")[index];
+        //alert('Label is: ' + label);
+
+        var arr = label.split('/');
+
+        var request = $.ajax({
+            url: "@Url.Action("LoginByUserDetails","Reports")",
+            type: "POST",
+            data: { userId: @Model.Utente.userId, anno: arr[2], mese:arr[1], giorno: arr[0] },
+            dataType: "html"
+        });
+
+        request.done(function (msg) {
+            // alert("Done: " + msg);
+            $("#DivLoginByUserDetails").html(msg);
+
+            //$("#MyPanel").trigger("updatelayout");
+            $("#MyDataTable").css("font-size", "10px");
+            $("#MyPanel").trigger('create');
+
+            $("#MyPanel").panel("open");
+
+            // $("#MyDataTable").table("rebuild");
+
+
+        });
+
+        request.fail(function (jqXHR, textStatus) {
+            alert("Request failed: " + textStatus);
+        });
+    }
+
+
+</script>
+
+
+
+
+<h2>Utente: @Model.Utente.login (id: @Model.Utente.userId)</h2>
+
+<div data-role="tabs" id="tabs">
+    <div data-role="navbar">
+        <ul>
+            <li><a href="#tabs-1" data-theme="@MyConstantsAdmin.TAB_NAVBAR_BUTTON_THEME">Account</a></li>
+            <li><a href="#tabs-2" data-theme="@MyConstantsAdmin.TAB_NAVBAR_BUTTON_THEME">Anagrafica</a></li>
+            <li><a href="#tabs-3" data-theme="@MyConstantsAdmin.TAB_NAVBAR_BUTTON_THEME">Gruppi</a></li>
+            <li><a href="#tabs-4" data-theme="@MyConstantsAdmin.TAB_NAVBAR_BUTTON_THEME">Ruoli</a></li>
+            <li><a id="TabAccessi" href="#tabs-5" data-theme="@MyConstantsAdmin.TAB_NAVBAR_BUTTON_THEME">Accessi</a></li>
+        </ul>
+    </div>
+
+    <div id="tabs-1" class="ui-body ui-body-a">
+        @{Html.RenderPartial("TabInfoAccount", Model.Utente);}
+        <br />
+        <br />
+        <div class="ui-grid-c">
+            <div class="ui-block-a">
+                <div class="@MyConstantsAdmin.UI_BLOCK_HEADER">Date added:</div>
+                <div class="@MyConstantsAdmin.UI_BLOCK_HEADER">Date modified:</div>
+                <div class="@MyConstantsAdmin.UI_BLOCK_HEADER">Date expire:</div>
+                <div class="@MyConstantsAdmin.UI_BLOCK_HEADER">Date expire password:</div>
+                <div class="@MyConstantsAdmin.UI_BLOCK_HEADER">Date activation account:</div>
+            </div>
+            <div class="ui-block-b">
+                <div class="@MyConstantsAdmin.UI_BLOCK_BODY">@MyHelper.decodeNull(Model.Utente.dateAdded)</div>
+                <div class="@MyConstantsAdmin.UI_BLOCK_BODY">@MyHelper.decodeNull(Model.Utente.dateModified)</div>
+                <div class="@MyConstantsAdmin.UI_BLOCK_BODY">@MyHelper.decodeNull(Model.Utente.dateExpire)</div>
+                <div class="@MyConstantsAdmin.UI_BLOCK_BODY">@MyHelper.decodeNull(Model.Utente.dateExpirePassword)</div>
+                <div class="@MyConstantsAdmin.UI_BLOCK_BODY">@MyHelper.decodeNull(Model.Utente.dateActivationAccount)</div>
+            </div>
+            <div class="ui-block-c">
+                <div class="@MyConstantsAdmin.UI_BLOCK_HEADER">Login success:</div>
+                <div class="@MyConstantsAdmin.UI_BLOCK_HEADER">Login failed:</div>
+                <div class="@MyConstantsAdmin.UI_BLOCK_HEADER">Date last login:</div>
+            </div>
+            <div class="ui-block-d">
+                <div class="@MyConstantsAdmin.UI_BLOCK_BODY">@Model.Utente.loginSuccess </div>
+                <div class="@MyConstantsAdmin.UI_BLOCK_BODY">@Model.Utente.loginFailed</div>
+                <div class="@MyConstantsAdmin.UI_BLOCK_BODY">@MyHelper.decodeNull(Model.Utente.dateLastLogin)</div>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="tabs-2" class="ui-body ui-body-a">
+        @{Html.RenderPartial("TabInfoAnagrafica", Model.Utente);}
+
+        <br />
+        <br />
+
+
+        <div class="ui-grid-c">
+            <div class="ui-block-a">
+                <div class="@MyConstantsAdmin.UI_BLOCK_HEADER">Telefono:</div>
+                <div class="@MyConstantsAdmin.UI_BLOCK_HEADER">Mobile:</div>
+            </div>
+            <div class="ui-block-b">
+                <div class="@MyConstantsAdmin.UI_BLOCK_BODY">@MyHelper.decodeNull(Model.Utente.telefono)</div>
+                <div class="@MyConstantsAdmin.UI_BLOCK_BODY">@MyHelper.decodeNull(Model.Utente.mobile)</div>
+            </div>
+            <div class="ui-block-c">
+                <div class="@MyConstantsAdmin.UI_BLOCK_HEADER">Http:</div>
+                <div class="@MyConstantsAdmin.UI_BLOCK_HEADER">Fax:</div>
+            </div>
+            <div class="ui-block-d">
+                <div class="@MyConstantsAdmin.UI_BLOCK_BODY">@MyHelper.decodeNull(Model.Utente.http)</div>
+                <div class="@MyConstantsAdmin.UI_BLOCK_BODY">@MyHelper.decodeNull(Model.Utente.fax)</div>
+            </div>
+        </div>
+
+
+
+        <div class="ui-grid-c">
+            <div class="ui-block-a">
+                <div class="@MyConstantsAdmin.UI_BLOCK_HEADER">Indirizzo:</div>
+                <div class="@MyConstantsAdmin.UI_BLOCK_HEADER">Numero civico:</div>
+                <div class="@MyConstantsAdmin.UI_BLOCK_HEADER">Cap:</div>
+            </div>
+            <div class="ui-block-b">
+                <div class="@MyConstantsAdmin.UI_BLOCK_BODY">@MyHelper.decodeNull(Model.Utente.indirizzo)</div>
+                <div class="@MyConstantsAdmin.UI_BLOCK_BODY">@MyHelper.decodeNull(Model.Utente.numero_civico)</div>
+                <div class="@MyConstantsAdmin.UI_BLOCK_BODY">@MyHelper.decodeNull(Model.Utente.cap)</div>
+            </div>
+            <div class="ui-block-c">
+                <div class="@MyConstantsAdmin.UI_BLOCK_HEADER">Regione:</div>
+                <div class="@MyConstantsAdmin.UI_BLOCK_HEADER">Provincia:</div>
+                <div class="@MyConstantsAdmin.UI_BLOCK_HEADER">Comune:</div>
+            </div>
+            <div class="ui-block-d">
+                <div class="@MyConstantsAdmin.UI_BLOCK_BODY">@MyHelper.decodeNull(Model.Utente.regione)</div>
+                <div class="@MyConstantsAdmin.UI_BLOCK_BODY">@MyHelper.decodeNull(Model.Utente.provincia)</div>
+                <div class="@MyConstantsAdmin.UI_BLOCK_BODY">@MyHelper.decodeNull(Model.Utente.comune)</div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <div id="tabs-3" class="ui-body ui-body-a">
+        @if (Model.Utente.Gruppi == null || Model.Utente.Gruppi.Count() == 0)
+        {
+            <h3>Nessun gruppo associato</h3>
+        }
+        else
+        {
+            <ol data-role="listview" data-inset="true">
+                @foreach (MyUsers.Models.MyGroup g in Model.Utente.Gruppi)
+                {
+                    if (String.IsNullOrEmpty(g.tipo))
+                    {
+
+                        <li><a href="@Url.Action("Details", "Groups", new { id = g.gruppoId })">@(g.nome)  @((!String.IsNullOrEmpty(g.tipo)) ? " [" + g.tipo + "]" : "")</a></li>
+
+                    }
+                }
+            </ol>
+        }
+
+
+
+        @{
+            List<MyUsers.Models.MyGroup> GruppoRedazione;
+            GruppoRedazione = Model.Utente.Gruppi.FindAll(x => x.tipo == "REDAZIONE");
+
+            List<MyUsers.Models.MyGroup> GruppoAsset;
+            GruppoAsset = Model.Utente.Gruppi.FindAll(x => x.tipo == "ASSET");
+        }
+
+
+
+        @if (GruppoRedazione == null || GruppoRedazione.Count == 0)
+        {
+            <h3>L'utente non appartiene ad un gruppo di redazione</h3>
+        }
+        else
+        {
+            <h3>Gruppo per la redazione di bollettini</h3>
+
+            if (GruppoRedazione.Count > 1)
+            {
+                <h3 style="color: red;">Attenzione l'utente deve appartenere ad un solo gruppo di redazione</h3>
+            }
+
+            <ol data-role="listview" data-inset="true">
+                @foreach (MyUsers.Models.MyGroup g in GruppoRedazione)
+                {
+                    <li><a href="@Url.Action("Details", "Groups", new { id = g.gruppoId })">@(g.nome)</a></li>
+                }
+            </ol>
+        }
+
+
+
+        @if (GruppoAsset == null || GruppoAsset.Count == 0)
+        {
+            <h3>L'utente non appartiene ad un gruppo asset virtuale</h3>
+        }
+        else
+        {
+            <h3>Gruppo asset virtuale</h3>
+            if (GruppoAsset.Count > 1)
+            {
+                <h3 style="color: red;">Attenzione l'utente deve appartenere ad un solo gruppo asset virtuale</h3>
+            }
+
+            <ol data-role="listview" data-inset="true">
+                @foreach (MyUsers.Models.MyGroup g in GruppoAsset)
+                {
+                    <li><a href="@Url.Action("Details", "Groups", new { id = g.gruppoId })">@(g.nome)</a></li>
+                }
+            </ol>
+        }
+
+
+    </div>
+
+
+    <div id="tabs-4" class="ui-body ui-body-a">
+        @if (Model.Utente.Ruoli == null || Model.Utente.Ruoli.Count() == 0)
+        {
+            <h3>Nessun ruolo associato</h3>
+        }
+        else
+        {
+
+            <ol data-role="listview" data-inset="true">
+                @foreach (MyUsers.Models.MyRole r in Model.Utente.Ruoli)
+                {
+                    <li data-icon="false"><a href="#">@(r.nome)  [@(r.gruppo)]</a></li>
+                }
+            </ol>
+        }
+    </div>
+
+
+    <div id="tabs-5" class="ui-body ui-body-a">
+
+
+        <div class="ui-field-contain">
+            <label for="Days">Data:</label>
+            @{Html.RenderPartial("_ComboData", MyManagerCSharp.ManagerDB.Days.Oggi);}
+        </div>
+
+
+        <div id="DivLoginByUser">
+            @{ Html.RenderPartial("~/Views/Widget/RGraphV2.cshtml", new MyManagerCSharp.RGraph.Models.WidgetRGraph() { RGraph = Model.Reports }); }
+        </div>
+
+
+
+
+
+
+    </div>
+
+
+</div>
+
+
+
+<div data-role="controlgrup" data-type="horizontal">
+    <a href="@Url.Action("Index", "Users")" class="ui-btn-inline ui-btn ui-corner-all ui-mini @MyConstantsAdmin.BUTTON_THEME_UI">Torna alla lista</a>
+    <a href="@Url.Action("Edit", "Users", new { id = Model.Utente.userId })" class="ui-btn ui-icon-edit ui-btn-icon-left ui-btn-inline ui-corner-all ui-mini @MyConstantsAdmin.BUTTON_THEME_UI">Modifica</a>
+    <a href="@Url.Action("Delete", "Users", new { id = Model.Utente.userId })" class="ui-btn ui-icon-delete ui-btn-icon-left ui-btn-inline ui-corner-all ui-mini @MyConstantsAdmin.BUTTON_THEME_UI">Elimina</a>
+</div>
+
+
+<div data-role="panel" id="MyPanel" data-display="overlay" data-position="right">
+    <div id="DivLoginByUserDetails">
+    </div>
+</div>

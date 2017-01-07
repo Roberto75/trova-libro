@@ -1,0 +1,22 @@
+﻿@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Areas/Admin/Views/Shared/MasterPageAdminMobile.cshtml";
+}
+
+<h2>Delete</h2>
+
+@using (Html.BeginForm("Delete", "Logs", FormMethod.Post, new { id = "MyForm" }))
+{
+    <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
+        <legend>Confermare la cancellazione dei logs più vecchi di :</legend>
+
+        @{Html.RenderPartial("_ComboData", MyManagerCSharp.ManagerDB.Days.Oggi);}
+    </fieldset>
+
+
+    <div data-role="controlgrup" data-type="horizontal" data-mini="true">
+        <a href="@Url.Action("Index", "Logs")" class="ui-btn-inline ui-btn ui-corner-all ui-mini">Annulla</a>
+        <input type="submit" data-inline="true" data-mini="true" value="Delete" data-icon="search" />
+    </div>
+
+}

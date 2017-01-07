@@ -1,0 +1,33 @@
+﻿@model MyWebApplication.Areas.Admin.Models.CheckModel
+@{
+    ViewBag.Title = "Check";
+    Layout = "~/Areas/Admin/Views/Shared/MasterPageAdminMobile.cshtml";
+}
+
+<h2>Check System Status</h2>
+
+<ul data-role="listview" data-inset="true">
+
+    @foreach (MyManagerCSharp.Models.MyCheckItem check in Model.checkList)
+    {
+        <li data-icon="false">
+            <a href="#">
+                @switch (check.Status)
+                {
+                    case MyManagerCSharp.Models.MyCheckItem.StatusType.Passed:
+                        <img src="@Url.Content("~/Content/Images/Shared/ok.png")" border="0" alt="Passed" style="margin-top:1em;margin-left:1em;" />
+                        break;
+                    case MyManagerCSharp.Models.MyCheckItem.StatusType.Failed:
+                    <img src="@Url.Content("~/Content/Images/Shared/error1_48x48.gif")" border="0" alt="Failed" style="margin-top:1em;margin-left:1em;" />
+                        break;
+                }
+
+                <h2>@check.Name</h2>
+                <p>@check.Description</p>
+                <p class="ui-li-aside">Valore: <strong>@check.Value</strong></p>
+
+            </a>
+        </li>
+    }
+
+</ul>

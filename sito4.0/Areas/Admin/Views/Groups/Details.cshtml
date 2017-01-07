@@ -1,0 +1,102 @@
+﻿@model MyWebApplication.Areas.Admin.Models.MyGroupModel
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Areas/Admin/Views/Shared/MasterPageAdminMobile.cshtml";
+}
+
+<h2>Gruppo: @Model.Gruppo.nome (id: @Model.Gruppo.gruppoId)</h2>
+
+<div data-role="tabs" id="tabs">
+    <div data-role="navbar">
+        <ul>
+            <li><a href="#tabs-1" data-theme="@MyConstantsAdmin.TAB_NAVBAR_BUTTON_THEME">Dettagli</a></li>
+            <li><a href="#tabs-2" data-theme="@MyConstantsAdmin.TAB_NAVBAR_BUTTON_THEME">Utenti</a></li>
+            <li><a href="#tabs-3" data-theme="@MyConstantsAdmin.TAB_NAVBAR_BUTTON_THEME">Ruoli</a></li>
+        </ul>
+    </div>
+
+    <div id="tabs-1" class="ui-body ui-body-a">
+        <br />
+        <div class="ui-grid-a">
+            <div class="ui-block-a">
+                <div class="@MyConstantsAdmin.UI_BLOCK_HEADER">Nome:</div>
+                <div class="@MyConstantsAdmin.UI_BLOCK_HEADER">Tipo:</div>
+            </div>
+            <div class="ui-block-b">
+                <div class="@MyConstantsAdmin.UI_BLOCK_BODY">@MyHelper.decodeNull(Model.Gruppo.nome)</div>
+                <div class="@MyConstantsAdmin.UI_BLOCK_BODY">@MyHelper.decodeNull(Model.Gruppo.tipo)</div>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="tabs-2" class="ui-body ui-body-a">
+        @if (Model.Utenti.Count() == 0)
+        {
+            <h3>Nessun utente associato</h3>
+        }
+        else
+        {
+            <ol data-role="listview" data-inset="true">
+                @foreach (MyUsers.Models.MyUser u in Model.Utenti)
+                {
+                    <li><a href="@Url.Action("Details", "Users", new { id = u.userId })">@(u.login)</a></li>
+                }
+            </ol>
+        }
+    </div>
+
+
+
+    <div id="tabs-3" class="ui-body ui-body-a">
+
+        @if (Model.Gruppo.Ruoli.Count() == 0)
+        {
+            <h3>Nessun ruolo associato</h3>
+        }
+        else
+        {
+            <ol data-role="listview" data-inset="true">
+                @foreach (MyUsers.Models.MyRole p in Model.Gruppo.Ruoli)
+                {
+                    <li data-icon="false"><a href="#">@(p.nome)</a></li>
+                }
+            </ol>
+        }
+    </div>
+
+</div>
+
+
+
+
+<div data-role="controlgrup" data-type="horizontal">
+    <a href="@Url.Action("Index", "Groups")" class="ui-btn-inline ui-btn ui-corner-all ui-mini">Torna alla lista</a>
+    <a href="@Url.Action("Edit", "Groups", new { id = Model.Gruppo.gruppoId })" class="ui-btn ui-icon-edit ui-btn-icon-left ui-btn-inline ui-corner-all ui-mini">Modifica</a>
+    <a href="@Url.Action("Delete", "Groups", new { id = Model.Gruppo.gruppoId })" class="ui-btn ui-icon-delete ui-btn-icon-left ui-btn-inline ui-corner-all ui-mini">Elimina</a>
+</div>
+
+
+<script>
+    $(function () {
+        //alert("ready");
+
+        $("#button").click(function () {
+            //  alert("click");
+            $.ajax({
+                type: "GET",
+                url: "/Groups/Users/@Model.Gruppo.gruppoId",
+                dataType: "html",
+                success: function (resultdata) {
+                    $('#usersList').html(resultdata);
+                }
+            });
+        });
+
+    });
+</script>
+
+
+
+

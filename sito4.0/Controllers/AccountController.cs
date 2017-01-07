@@ -17,6 +17,7 @@ namespace MyWebApplication.Controllers
     public class AccountController : MyBaseController
     {
 
+        public const bool MY_CUSTOM_IDENTITY = false;
 
 
         private string testoPrivacy = "Informativa ai sensi dell’art. 13 D.Lgs. 196/03 <br />" + Environment.NewLine +
@@ -174,6 +175,9 @@ namespace MyWebApplication.Controllers
             ViewBag.ReturnUrl = returnUrl;
             LogOnModel model = new LogOnModel();
             model.Password = "";
+
+            model.UserName = "roberto.rutigliano";
+            model.Password = "r0b3rt0";
             return View(model);
         }
 
@@ -203,33 +207,52 @@ namespace MyWebApplication.Controllers
 
                     if (userId != -1)
                     {
-                        string userDataString;
-                        userDataString = userId + ";" + model.UserName.Trim() + ";";
+                        if (MY_CUSTOM_IDENTITY == true)
+                        {
+                            string userDataString;
+                            userDataString = userId + ";" + model.UserName.Trim() + ";";
+                            HttpCookie authCookie = FormsAuthentication.GetAuthCookie(model.UserName, model.RememberMe);
+                            //Get the FormsAuthenticationTicket out of the encrypted cookie
+                            FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(authCookie.Value);
+                            //Create a new FormsAuthenticationTicket that includes our custom User Data
+                            FormsAuthenticationTicket newTicket = new FormsAuthenticationTicket(ticket.Version, ticket.Name, ticket.IssueDate, ticket.Expiration, ticket.IsPersistent, userDataString);
 
-                        HttpCookie authCookie = FormsAuthentication.GetAuthCookie(model.UserName, model.RememberMe);
-                        //Get the FormsAuthenticationTicket out of the encrypted cookie
-                        FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(authCookie.Value);
-                        //Create a new FormsAuthenticationTicket that includes our custom User Data
-                        FormsAuthenticationTicket newTicket = new FormsAuthenticationTicket(ticket.Version, ticket.Name, ticket.IssueDate, ticket.Expiration, ticket.IsPersistent, userDataString);
+                            //Update the authCookie's Value to use the encrypted version of newTicket
+                            authCookie.Value = FormsAuthentication.Encrypt(newTicket);
 
-                        //Update the authCookie's Value to use the encrypted version of newTicket
-                        authCookie.Value = FormsAuthentication.Encrypt(newTicket);
+                            //Manually add the authCookie to the Cookies collection
+                            Response.Cookies.Add(authCookie);
+                        }
+                        else
+                        {
+                            FormsAuthentication.SetAuthCookie(model.UserName, model.RememberMe);
+                        }
 
-                        //Manually add the authCookie to the Cookies collection
+                        /*MyManagerCSharp.Log.LogUserManager log = new MyManagerCSharp.Log.LogUserManager(manager.mGetConnection());
 
-                        Response.Cookies.Add(authCookie);
+                        if (TempData["AREA"] != null && TempData["AREA"].ToString() == "Mobile")
+                        {
+                            log.insert(userId, model.UserName.Trim(), MyManagerCSharp.Log.LogUserManager.LogType.LoginMobile, System.Net.IPAddress.Parse(ip));
+                        }
+                        else
+                        {
+                            log.insert(userId, model.UserName.Trim(), MyManagerCSharp.Log.LogUserManager.LogType.Login, System.Net.IPAddress.Parse(ip));
+                        }*/
+
+
+                        /** SESSIONE **/
+                        MyManagerCSharp.MySessionData session = new MyManagerCSharp.MySessionData(userId);
+                        session.Login = manager.getLogin(userId);
+                        session.Roles = manager.getRoles(userId);
+                        session.Profili = manager.getProfili(userId);
+                        session.Groups = manager.getGroupSmall(userId);
+
+                        Session["MySessionData"] = session;
 
                         string temp;
                         temp = FormsAuthentication.GetRedirectUrl(model.UserName, model.RememberMe);
 
                         Debug.WriteLine("FormsAuthentication.GetRedirectUrl " + temp);
-
-                        //System.Web.HttpContext.Current.User = new MyUsers.MyCustomPrincipal(new MyUsers.MyCustomIndentity(userId, model.UserName));
-                        // System.Web.HttpContext.Current.
-                        //System.Threading.Thread.CurrentPrincipal = new MyUsers.MyCustomPrincipal(new MyUsers.MyCustomIndentity(userId, model.UserName));
-                        //System.Web.HttpContext.Current.Session["MySessionData"] = userId;
-
-                        // Debug.WriteLine("UserId:" + (User.Identity as MyCustomIndentity).UserId); 
                     }
 
 
@@ -271,7 +294,8 @@ namespace MyWebApplication.Controllers
                 }
 
                 //MyUsers.SimpleSessionPersister.Username = model.UserName;
-                return RedirectToLocal(returnUrl);
+                //return RedirectToLocal(returnUrl);
+                return Redirect(returnUrl);
             }
 
             // If we got this far, something failed, redisplay form
@@ -289,6 +313,8 @@ namespace MyWebApplication.Controllers
         {
             //WebSecurity.Logout();
             FormsAuthentication.SignOut();
+
+            (Session["MySessionData"] as MyManagerCSharp.MySessionData).LogOff();
 
             return RedirectToAction("Index", "Home");
         }
@@ -901,6 +927,11 @@ namespace MyWebApplication.Controllers
         #region Helpers
         private ActionResult RedirectToLocal(string returnUrl)
         {
+            if (Url == null)
+            {
+                Url = new UrlHelper();
+            }
+
             if (Url.IsLocalUrl(returnUrl))
             {
                 return Redirect(returnUrl);

@@ -84,7 +84,7 @@
             columns: new[]{
                 wGrid.Column (columnName:"dataInserimento", header :"Data",  format: p=>p.DataInserimento.ToShortDateString() ,canSort : true),
                     wGrid.Column (columnName:"titolo", header :"Titolo", format:(item) =>  Html.ActionLink ( (string) (string.IsNullOrEmpty (item.titolo)?"N/A":item.titolo.ToString()), "Details",   new {id=item.annuncioId} ), canSort:true),
-                        wGrid.Column (columnName:"categoria", header :"Categoria", canSort : true),
+                    wGrid.Column (columnName:"categoria", header :"Categoria", canSort : true),
                     wGrid.Column (columnName:"autore", header :"Autore", canSort : true),
                     wGrid.Column (columnName:"login", header :"Utente", canSort : true),
                     wGrid.Column (columnName:"tipo", header :"Tipo", canSort : true),

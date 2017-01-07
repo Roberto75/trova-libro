@@ -880,6 +880,23 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
+    <Compile Include="Areas\Admin\Controllers\AccountController.cs" />
+    <Compile Include="Areas\Admin\Controllers\AdminController.cs" />
+    <Compile Include="Areas\Admin\Controllers\GroupsController.cs" />
+    <Compile Include="Areas\Admin\Controllers\LogsController.cs" />
+    <Compile Include="Areas\Admin\Controllers\MyAuthorizeAttribute.cs" />
+    <Compile Include="Areas\Admin\Controllers\MyBaseController.cs" />
+    <Compile Include="Areas\Admin\Controllers\TestController.cs" />
+    <Compile Include="Areas\Admin\Controllers\UsersController.cs" />
+    <Compile Include="Areas\Admin\Models\CheckModel.cs" />
+    <Compile Include="Areas\Admin\Models\LogsSummaryModel.cs" />
+    <Compile Include="Areas\Admin\Models\ModelHome.cs" />
+    <Compile Include="Areas\Admin\Models\MyGroupModel.cs" />
+    <Compile Include="Areas\Admin\Models\MyUserModel.cs" />
+    <Compile Include="Areas\Admin\Models\ReportsModel.cs" />
+    <Compile Include="Areas\Admin\Models\SourceModel.cs" />
+    <Compile Include="Areas\Admin\Models\UserProfile.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LibriController.cs" />
@@ -892,8 +909,11 @@
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\GalleryModel.cs" />
     <Compile Include="Models\ModelRegioneProvinciaComune.cs" />
+    <Compile Include="Models\ReplyModel.cs" />
     <Compile Include="Models\TestModels.cs" />
     <Compile Include="MyConstants.cs" />
+    <Compile Include="MyHelper.cs" />
+    <Compile Include="MyMessage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -918,6 +938,39 @@
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Libri\Details.cshtml" />
+    <Content Include="Views\Libri\Reply.cshtml" />
+    <Content Include="Views\Account\ResetPassword.cshtml" />
+    <Content Include="Areas\Admin\Views\web.config" />
+    <Content Include="Areas\Admin\Views\Shared\MasterPageAdmin.cshtml" />
+    <Content Include="Areas\Admin\Views\Admin\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Account\Login.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\_footer.cshtml" />
+    <Content Include="Areas\Admin\Views\Admin\AccessDenied.cshtml" />
+    <Content Include="Areas\Admin\Views\Admin\Whatsnew.cshtml" />
+    <Content Include="Areas\Admin\Views\Admin\MD5.cshtml" />
+    <Content Include="Areas\Admin\Views\Admin\Error.cshtml" />
+    <Content Include="Areas\Admin\Views\Admin\Check.cshtml" />
+    <Content Include="Areas\Admin\Views\Account\Manage.cshtml" />
+    <Content Include="Areas\Admin\Views\Users\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Users\Delete.cshtml" />
+    <Content Include="Areas\Admin\Views\Users\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\Users\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Users\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Users\SID.cshtml" />
+    <Content Include="Areas\Admin\Views\Users\TabInfoAccount.cshtml" />
+    <Content Include="Areas\Admin\Views\Users\TabInfoAnagrafica.cshtml" />
+    <Content Include="Areas\Admin\Views\Groups\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Groups\Delete.cshtml" />
+    <Content Include="Areas\Admin\Views\Groups\DeleteUser.cshtml" />
+    <Content Include="Areas\Admin\Views\Groups\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\Groups\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Groups\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Groups\SearchUser.cshtml" />
+    <Content Include="Areas\Admin\Views\Logs\Delete.cshtml" />
+    <Content Include="Areas\Admin\Views\Logs\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\Logs\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Logs\Summary.cshtml" />
+    <Content Include="Areas\Admin\Views\Logs\_LogList.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

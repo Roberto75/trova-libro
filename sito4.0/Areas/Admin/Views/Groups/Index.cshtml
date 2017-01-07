@@ -1,0 +1,87 @@
+﻿@model MyUsers.Models.SearchGroups
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/MasterPageAdminMobile.cshtml";
+
+    WebGrid wGrid = new WebGrid(null, rowsPerPage: Model.PageSize, defaultSort: "NOME", canPage: false);
+    wGrid.Bind(Model.Gruppi, rowCount: Model.TotalRows, autoSortAndPage: false);
+
+    bool chk;
+}
+
+<h2>Elenco gruppi</h2>
+
+<a href="@Url.Action("Create", "Groups")"  data-icon="plus"  data-inline="true" data-mini="true"  data-role="button"  >Crea un nuovo gruppo</a>
+
+
+
+@using (Html.BeginForm("Index", "Groups", FormMethod.Post, new { id = "MyForm" }))
+{
+    
+    <div class="ui-field-contain">
+        <label for="filter_tipo">Tipo:</label>
+        <select name="filter.tipo" id="filter_tipo" data-mini="true" data-inline="true">
+            <option value="" @((String.IsNullOrEmpty(Model.filter.tipo)) ? "selected" : "") >---</option>
+
+            @foreach (MyManagerCSharp.Models.MyItem item in Model.ListaTipi)
+            {
+                if (Model.filter.tipo != null && Model.filter.tipo == item.Value)
+                {
+                    chk = true;
+                }
+                else
+                {
+                    chk = false;
+                }
+                <option value="@item.Value" @((chk) ? "selected" : "") >@item.Text</option>
+            }
+        </select>
+    </div>
+    
+
+            if (Model.TotalRows == 0)
+            {
+    <h3>Non è stato trovato nessun gruppo. Modificare i filtri di ricerca.</h3>
+            }
+            else
+            {
+
+    <div style="margin-top: 20px;">
+        @wGrid.GetHtml(
+            fillEmptyRows: false,
+            tableStyle: MyConstantsAdmin.TABLE_STYLE,
+            headerStyle: MyConstantsAdmin.TABLE_HEADER_STYLE,
+            footerStyle: MyConstantsAdmin.TABLE_FOOTER_STYLE,
+            rowStyle: MyConstantsAdmin.TABLE_ROW_STYLE,
+            alternatingRowStyle: MyConstantsAdmin.TABLE_ALTERNATING_ROW_STYLE,
+            htmlAttributes: new { data_role = "table", id = "MyWebGrid", data_mode = "reflow" },
+            columns: new[]{
+                wGrid.Column ("Nome","", canSort  : true),
+                wGrid.Column ("countUsers","Numero utenti", canSort  : false ),
+                wGrid.Column ("countRoles","Numero ruoli", canSort  : false ),
+                wGrid.Column ("tipo","Tipo", canSort  : false),
+                wGrid.Column ("", header :"Actions",  format:@<text>
+        <a class="ui-btn-inline ui-btn ui-icon-info ui-btn-icon-notext ui-corner-all"   href="@Url.Action("Details", "Groups", new { id = item.gruppoId })">Info</a>
+        <a class="ui-btn-inline ui-btn ui-icon-edit ui-btn-icon-notext ui-corner-all" title="Edit"  href="@Url.Action("Edit", "Groups", new { id = item.gruppoId })">Edit</a>
+        <a class="ui-btn-inline ui-btn ui-icon-delete ui-btn-icon-notext ui-corner-all" href="@Url.Action("Delete", "Groups", new { id = item.gruppoId })">Delete</a>
+        </text>, canSort : false)
+                }
+            )
+
+        @{Html.RenderPartial("Paging", Model);}
+    </div>
+            }
+
+}
+
+
+<script type="text/javascript">
+    $(document).on("pageinit", function () {
+
+        $("#filter_tipo").change(function () {
+            $("#MyForm").submit();
+        });
+
+    });
+
+</script>

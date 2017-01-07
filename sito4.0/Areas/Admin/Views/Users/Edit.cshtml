@@ -1,0 +1,115 @@
+﻿@model  MyWebApplication.Areas.Admin.Models.MyUserModel
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Areas/Admin/Views/Shared/MasterPageAdminMobile.cshtml";
+}
+
+<script>
+    $(function () {
+        //per abilitare il controllo anche sui tab hidde
+        $("form").validate().settings.ignore = "";
+
+        //Add custom rule / Validation method
+        $.validator.addMethod("checkboxrequired", function (value, element, param) {
+            //alert("checkboxGroup: " + $("[id ^='Gruppi']:checked").length);
+            if ($("[id ^='Gruppi']").length == 0) {
+                return false;
+            }
+            return true;
+        }, "Selezionare almeno un gruppo");
+
+
+        $.validator.addClassRules("checkRequireOne", { checkboxrequired: true });
+        //alert("dd");
+
+    });
+</script>
+
+
+<h2>Utente: @Model.Utente.login (id: @Model.Utente.userId)</h2>
+
+
+<div data-role="tabs" id="tabs">
+    <div data-role="navbar">
+        <ul>
+            <li><a href="#tabs-1" data-theme="@MyConstantsAdmin.TAB_NAVBAR_BUTTON_THEME">Account</a></li>
+            <li><a href="#tabs-3" data-theme="@MyConstantsAdmin.TAB_NAVBAR_BUTTON_THEME">Gruppi</a></li>
+        </ul>
+    </div>
+
+    <div id="tabs-1" class="ui-body ui-body-a">
+        @using (Html.BeginForm("Edit", "Users", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(false)
+
+            <input  type="hidden" name="Utente.userId" value="@Model.Utente.userId" />
+                        
+            <div class="ui-field-contain">
+                <label for="email">Email:</label>
+                <input type="text" id="email" name="Utente.email" required="required" data-clear-btn="true" value="@Model.Utente.email"  />
+            </div>
+            
+            
+            <div class="ui-field-contain">
+                <label for="select-profilo">Profilo:</label>
+                <select name="ProfiloId" id="select-profilo">
+                    <option value="">---</option>
+                    @foreach (SelectListItem i in Model.Profilo)
+                    {
+                        <option value="@(i.Value)" @(i.Selected ? "selected" : "") >@(i.Text)</option>
+                    }
+                </select>
+            </div>
+            
+            <input type="submit" value="Salva" data-inline="true" data-mini="true" />
+        }
+    </div>
+
+    <div id="tabs-3" class="ui-body ui-body-a">
+        @using (Html.BeginForm("AddGroup", "Users", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(false)
+
+            <input  type="hidden" name="userId" value="@Model.Utente.userId" />
+            
+            <fieldset data-role="controlgroup">
+                <legend></legend>
+
+                @{
+            int conta = 0;
+            bool selected;
+                }
+                @foreach (MyUsers.Models.MyGroup g in Model.Gruppi)
+                {
+
+                    selected = Model.Utente.Gruppi.Find(x => x.gruppoId == g.gruppoId) != null;
+                    
+                    <input type ="checkbox" name="gruppiIDs" id="Gruppi[@(conta)].gruppoId" @(selected ? "checked" : "")   value ="@(g.gruppoId)" />
+                    <label for="Gruppi[@(conta++)].gruppoId">@(g.nome) @((!String.IsNullOrEmpty(g.tipo)) ? " [" + g.tipo + "]" : "")</label>
+                }
+
+            </fieldset>
+            <input type="submit" value="Salva" data-inline="true" data-mini="true" />
+        }
+    </div>
+</div>
+
+
+
+<div data-role="controlgrup" data-type="horizontal">
+    <a href="@Url.Action("Index", "Users")" class="ui-btn-inline ui-btn ui-corner-all ui-mini" >Torna alla lista</a>
+    <a href="@Url.Action("Details", "Users", new { id = Model.Utente.userId })" class="ui-btn-inline ui-btn ui-corner-all ui-mini">Annulla</a>
+</div>
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,24 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/MasterPageAdmin.cshtml";
+}
+
+<h2>Index</h2>
+
+
+<style>
+    #main {
+        background-image: url('@Url.Content("~/Content/Images/logoPoste.jpg")');
+             background-repeat: no-repeat;
+        background-position: center;
+    }
+</style>
+
+
+
+<h3>Benvenuto @User.Identity.Name</h3>
+
+<p>Version: @Model.version</p>
+
+<p>MVC: @Model.versionMVC</p>

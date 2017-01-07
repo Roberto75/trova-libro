@@ -146,7 +146,17 @@ namespace trova_libro.manager
             System.Data.Common.DbCommand command;
             command = mConnection.CreateCommand();
 
-            mStrSQL = "select * from ANNUNCIO where annuncio_id = @ID";
+            mStrSQL = "select * from ANNUNCIO where annuncio_id = @ID ";
+
+
+
+            mStrSQL = " SELECT UTENTI.my_login AS my_login, UTENTI.user_id AS user_id, UTENTI.isModeratore AS isModeratore, ANNUNCIO.annuncio_id AS annuncio_id, ANNUNCIO.date_added AS date_added, ANNUNCIO.tipo AS tipo, ANNUNCIO.nome AS nome, ANNUNCIO.prezzo AS prezzo, ANNUNCIO.autore AS autore, ANNUNCIO.marca AS marca, ANNUNCIO.modello AS modello, ANNUNCIO.casa_editrice AS casa_editrice, ANNUNCIO.descrizione AS descrizione, ANNUNCIO.stato AS stato, Switch(tipo=1,'Vendo',tipo=2,'Compro',tipo=3,'Scambio') AS tipo_desc, categorie.nome AS categoria, categorie.categoria_id AS categoria_id, ANNUNCIO.isbn AS isbn " +
+                ", ANNUNCIO.regione AS regione, ANNUNCIO.provincia AS provincia , ANNUNCIO.comune AS comune" +
+                ", ANNUNCIO.regione_id AS regione_id, ANNUNCIO.provincia_id AS provincia_id , ANNUNCIO.comune_id AS comune_id" +
+            " ,ANNUNCIO.count_click ,ANNUNCIO.date_start_click_parziale ,ANNUNCIO.date_last_click , ANNUNCIO.count_click_parziale " +
+            " FROM categorie INNER JOIN (ANNUNCIO LEFT JOIN UTENTI ON ANNUNCIO.fk_user_id=UTENTI.user_id) ON categorie.categoria_id=ANNUNCIO.fk_categoria_id " +
+            " WHERE (ANNUNCIO.date_deleted Is Null) And (ANNUNCIO.ANNUNCIO_ID= @ID )";
+
             mAddParameter(command, "@ID", id);
             command.CommandText = mStrSQL;
 
@@ -160,19 +170,9 @@ namespace trova_libro.manager
                 return null;
             }
 
-
             Models.Libro libro = new Models.Libro(mDt.Rows[0], Models.Libro.SelectFileds.Full);
 
             return libro;
         }
-
-
-
-
-
-
-
-
-
     }
 }

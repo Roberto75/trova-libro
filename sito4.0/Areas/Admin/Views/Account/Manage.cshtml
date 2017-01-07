@@ -1,0 +1,27 @@
+﻿@model MyWebApplication.Areas.Admin.Models.UserProfile
+@{
+    ViewBag.Title = "Manage";
+    Layout = "~/Areas/Admin/Views/Shared/MasterPageAdminMobile.cshtml";
+}
+
+<h2>Manage</h2>
+
+
+
+<h3>Gruppi</h3>
+<ul>
+    @foreach (MyUsers.Models.MyGroup g in Model.utente.Gruppi)
+    {
+        <li>@g.nome</li>
+    }
+    
+</ul>
+
+
+<h3>Ruoli</h3>
+<ul>
+    @foreach (MyUsers.Models.MyRole r in Model.utente.Ruoli)
+    {
+        <li>@r.nome</li>
+    }
+</ul>

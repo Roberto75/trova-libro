@@ -1,0 +1,69 @@
+﻿@{
+    ViewBag.Title = "Error";
+    Layout = "~/Areas/Admin/Views/Shared/MasterPageAdminMobile.cshtml";
+}
+
+
+<style>
+    DIV.box_1 {
+        text-align: center;
+        background-color: #CCCCCC;
+        width: 500px;
+        margin-top: 10px;
+        margin-left: 10px;
+        margin-right: 10px;
+        margin-bottom: 15px;
+        padding-top: 10px;
+        padding-right: 10px;
+        padding-left: 10px;
+        padding-bottom: 10px;
+        border: 1px solid #DFE8F7;
+        font-family: verdana, arial, sans-serif;
+        font-size: 14px;
+        color: White;
+    }
+
+    DIV.box_center {
+        background-color: #f8e9db;
+        margin: 0px;
+        padding: 10px;
+        border: 1px solid #DFE8F7;
+        font-family: verdana, arial, sans-serif;
+        font-size: 11px;
+        line-height: 18px;
+        color: #333333;
+    }
+</style>
+
+<h2>Errore generico</h2>
+<center>
+<div class="box_1">
+    <div style="float: right;">
+        <img src="@Url.Content("~/Content/Images/Shared/error1_48x48.gif")" />
+    </div>
+
+    <div class="box_center">
+        <p>Attenzione si è verificato un errore all'interno del sistema.</p>
+
+
+        @if (String.IsNullOrEmpty(System.Configuration.ConfigurationManager.AppSettings["mail.webmaster"]))
+        {
+            <p>Se l'errore persiste contattare l'amministartore di sistema.</p>
+        }
+        else
+        {
+            <p>
+                Se l'errore persiste contattare l'amministartore di sistema al sequente indirizzo:
+ <a href="mailto:@System.Configuration.ConfigurationManager.AppSettings["mail.webmaster"]">@System.Configuration.ConfigurationManager.AppSettings["mail.webmaster"]</a>
+
+            </p>
+        }
+        
+        <p>Grazie per la collaborazione e scusateci per il disagio.</p>
+    </div>
+    <p>
+        <a href="/Admin">Vai alla Home Page</a>
+    </p>
+</div>
+
+    </center>

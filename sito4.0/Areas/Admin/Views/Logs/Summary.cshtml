@@ -1,0 +1,218 @@
+﻿@model MyWebApplication.Areas.Admin.Models.LogsSummaryModel
+@{
+    ViewBag.Title = "Home";
+    Layout = "~/Areas/Admin/Views/Shared/MasterPageAdminMobile.cshtml";
+
+    int conta = 0;
+    string css = "";
+
+}
+
+<h2>Summary</h2>
+
+<table class="@MyConstantsAdmin.TABLE_STYLE" data-role="table" data-mode="reflow">
+    <thead>
+        <tr class="@MyConstantsAdmin.TABLE_HEADER_STYLE">
+            <th>Level</th>
+            <th>Oggi</th>
+            <th>Ieri</th>
+            <th>Ultimi 7 giorni</th>
+            <th>Ultimi 30 giorni</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (System.Data.DataRow row in Model.summary.Rows)
+        {
+            conta++;
+
+            switch (row["my_level"].ToString())
+            {
+                case "Exception":
+                    css = "ui-body-f";
+                    break;
+                case "Error":
+                    css = "ui-body-d";
+                    break;
+                case "Warning":
+                    css = "ui-body-e";
+                    break;
+                case "Info":
+                    css = "ui-body-a";
+                    break;
+            }
+
+            <tr class="@css">
+                <td>@row["my_level"]</td>
+                <td>
+                    @if (row["Oggi"].ToString() == "0")
+                    {
+                        @:0
+                    }
+                    else
+                    {
+                        <a href="javascript:logDetails(0,'@row["my_level"]')">@row["Oggi"]</a>
+                    }
+                </td>
+                <td>
+                    @if (row["Ieri"].ToString() == "0")
+                    {
+                        @:0
+                    }
+                    else
+                    {
+                        <a href="javascript:logDetails(1,'@row["my_level"]')">@row["Ieri"]</a>
+                    }
+                </td>
+                <td>
+                    @if (row["Ultimi 7 giorni"].ToString() == "0")
+                    {
+                        @:0
+                    }
+                    else
+                    {
+                        <a href="javascript:logDetails(7,'@row["my_level"]')">@row["Ultimi 7 giorni"]</a>
+                    }
+                </td>
+                <td>
+                    @if (row["Ultimi 30 giorni"].ToString() == "0")
+                    {
+                        @:0
+                    }
+                    else
+                    {
+                        <a href="javascript:logDetails(30,'@row["my_level"]')">@row["Ultimi 30 giorni"]</a>
+                    }
+                </td>
+            </tr>
+        }
+
+
+
+    </tbody>
+</table>
+
+
+
+<script type="text/javascript">
+
+
+    $(document).on("pageinit", function () {
+
+        $("[name='Days']").change(function () {
+            $("#MyForm").submit();
+        });
+    });
+
+
+
+    function logDetails(days, livello) {
+        //alert(days + ' ' + livello);
+
+        var request = $.ajax({
+            url: "@Url.Action("AjaxSearch", "Logs")",
+            type: "POST",
+            data: { level: livello, days: days },
+            cache: false,
+            dataType: "html"
+        });
+
+        request.done(function (msg) {
+            // alert("Done: " + msg);
+            // $("#divList").html(msg);
+            //$("#divList").trigger('create');
+
+
+            $("#DivPanelDetails").html(msg);
+
+            //$("#MyPanel").trigger("updatelayout");
+            // $("#MyDataTable").css("font-size", "10px");
+            $("#MyPanel").trigger('create');
+
+            $("#MyPanel").panel("open");
+
+
+
+        });
+
+        request.fail(function (jqXHR, textStatus) {
+            alert("Request failed: " + textStatus);
+        });
+    }
+</script>
+
+
+
+
+
+<hr />
+<h2>Tasks</h2>
+
+
+@using (Html.BeginForm("Summary", "Logs", FormMethod.Post, new { id = "MyForm" }))
+{
+
+    <div class="ui-field-contain">
+        <label for="Days">Data:</label>
+        @{Html.RenderPartial("_ComboData", Model.days);}
+    </div>
+
+}
+
+<table class="@MyConstantsAdmin.TABLE_STYLE" data-role="table" data-mode="reflow">
+    <thead>
+        <tr class="@MyConstantsAdmin.TABLE_HEADER_STYLE">
+            <th>Task</th>
+            <th>Data inizio</th>
+            <th>Data fine</th>
+            <th>Durata</th>
+            <th class="ui-body-f">Exception</th>
+            <th class="ui-body-d">Error</th>
+            <th class="ui-body-e">Warning</th>
+            <th>Info</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (System.Data.DataRow row in Model.summaryV2.Rows)
+        {
+
+
+            conta++;
+            if (conta % 2 == 0)
+            {
+                css = MyConstantsAdmin.TABLE_ROW_STYLE;
+            }
+            else
+            {
+                css = MyConstantsAdmin.TABLE_ALTERNATING_ROW_STYLE;
+            }
+
+
+            <tr class="@css">
+                <td>
+                    @if (row["session_id"] is DBNull)
+                    {
+                        @row["my_source"]
+                    }
+                    else
+                    {
+                        <a href="@Url.Action("Details", new {  id = row["session_id"] })">@row["my_source"]</a>
+                    }
+                </td>
+                <td>@DateTime.Parse(row["data_inizio"].ToString()).ToLongDateString() @DateTime.Parse(row["data_inizio"].ToString()).ToLongTimeString()  </td>
+                <td>@DateTime.Parse(row["data_fine"].ToString()).ToLongDateString() @DateTime.Parse(row["data_fine"].ToString()).ToLongTimeString() </td>
+                <td>@MyManagerCSharp.ConsoleManager.calcolaTempoDiElaborazione(DateTime.Parse(row["data_inizio"].ToString()), DateTime.Parse(row["data_fine"].ToString()))</td>
+                <td @((int.Parse(row["Exception"].ToString()) > 0) ? "class=ui-body-f" : "")>@row["Exception"]</td>
+                <td @((int.Parse(row["Error"].ToString()) > 0) ? "class=ui-body-d" : "")>@row["Error"]</td>
+                <td @((int.Parse(row["Warning"].ToString()) > 0) ? "class=ui-body-e" : "")>@row["Warning"]</td>
+                <td>@row["Info"]</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+
+<div data-role="panel" id="MyPanel" data-display="overlay" data-position="right" style="width:50%;">
+    <div id="DivPanelDetails">
+    </div>
+</div>

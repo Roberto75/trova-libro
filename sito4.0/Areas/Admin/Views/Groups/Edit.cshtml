@@ -1,0 +1,211 @@
+﻿@model  MyWebApplication.Areas.Admin.Models.MyGroupModel
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Areas/Admin/Views/Shared/MasterPageAdminMobile.cshtml";
+
+    bool chk;
+
+
+    bool isSystem = false;
+
+    if (Model.Gruppo.nome == "Administrators" || Model.Gruppo.nome == "Guest")
+    {
+        isSystem = true;
+    }
+
+}
+
+<h2>Gruppo: @Model.Gruppo.nome (id: @Model.Gruppo.gruppoId)</h2>
+
+<div data-role="tabs" id="tabs">
+    <div data-role="navbar">
+        <ul>
+            <li><a href="#tabs-1" data-theme="@MyConstantsAdmin.TAB_NAVBAR_BUTTON_THEME">Dettagli</a></li>
+            <li><a href="#tabs-2" data-theme="@MyConstantsAdmin.TAB_NAVBAR_BUTTON_THEME">Utenti</a></li>
+            <li><a href="#tabs-3" data-theme="@MyConstantsAdmin.TAB_NAVBAR_BUTTON_THEME">Ruoli</a></li>
+        </ul>
+    </div>
+
+    <div id="tabs-1" class="ui-body ui-body-a">
+        @if (isSystem)
+        {
+            <p>Gruppo di sistema NON modificabile.</p>
+            <div class="ui-grid-a">
+                <div class="ui-block-a">
+                    <div class="@MyConstantsAdmin.UI_BLOCK_HEADER">Nome:</div>
+                </div>
+                <div class="ui-block-b">
+                    <div class="@MyConstantsAdmin.UI_BLOCK_BODY">@MyHelper.decodeNull(Model.Gruppo.nome)</div>
+                </div>
+            </div>
+        }
+        else
+        {
+            using (Html.BeginForm("Edit", "Groups", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true)
+
+                <input type="hidden" name="Gruppo.gruppoId" value="@Model.Gruppo.gruppoId" />
+
+                <div class="ui-field-contain">
+                    <label for="nome">Nome:</label>
+                    <input type="text" id="nome" name="Gruppo.nome" required="required" value="@Model.Gruppo.nome" />
+                </div>
+
+
+                <div class="ui-field-contain">
+                    <label for="filter_tipo">Tipo:</label>
+                    <select name="Gruppo.tipo" id="filter_tipo" data-mini="true" data-inline="true">
+                        <option value="" @((String.IsNullOrEmpty(Model.Gruppo.tipo)) ? "selected" : "")>---</option>
+
+                        @foreach (MyManagerCSharp.Models.MyItem item in Model.ListaTipi)
+                        {
+                            if (Model.Gruppo.tipo != null && Model.Gruppo.tipo == item.Value)
+                            {
+                                chk = true;
+                            }
+                            else
+                            {
+                                chk = false;
+                            }
+                            <option value="@item.Value" @((chk) ? "selected" : "")>@item.Text</option>
+                        }
+                    </select>
+                </div>
+                <input type="submit" value="Salva" data-inline="true" data-mini="true" />
+            }
+        }
+    </div>
+
+
+    <div id="tabs-2" class="ui-body ui-body-a">
+
+        <p>Inserisci il nome dell'utente da aggiungere al gruppo:</p>
+        <input type="text" id="searchField" data-icon="plus" placeholder="Login utente da cercare">
+
+        <div>
+            @using (Html.BeginForm("AddUser", "Groups", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true)
+
+                <input type="hidden" name="gruppoId" value="@Model.Gruppo.gruppoId" />
+
+                <fieldset id="suggestions" data-role="controlgroup">
+                    <legend></legend>
+                </fieldset>
+
+                <input type="submit" value="Salva" data-inline="true" data-mini="true" />
+            }
+        </div>
+
+        <br />
+
+        @if (Model.Utenti == null || Model.Utenti.Count<MyUsers.Models.MyUser>() == 0)
+        {
+            <h3>Nessun utente associato</h3>
+        }
+        else
+        {
+            <ul data-role="listview" data-inset="true">
+                @foreach (MyUsers.Models.MyUser u in Model.Utenti)
+                {
+                    <li data-icon="delete"><a href="@Url.Action("DeleteUser", "Groups", new { id = Model.Gruppo.gruppoId, userId = u.userId })">@u.login</a></li>
+                }
+            </ul>
+        }
+    </div>
+
+
+
+    <div id="tabs-3" class="ui-body ui-body-a">
+
+        @if (Model.Ruoli == null)
+        {
+            <h3>Nessun ruolo associato</h3>
+        }
+        else
+        {
+
+            using (Html.BeginForm("Roles", "Groups", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true)
+
+
+                <input type="hidden" name="Gruppo.gruppoId" value="@Model.Gruppo.gruppoId" />
+
+
+                <fieldset data-role="controlgroup">
+                    <legend></legend>
+
+                    @{
+                int conta = 0;
+                    }
+                    @foreach (SelectListItem i in Model.Ruoli)
+                    {
+
+                        <input type="checkbox" name="permessiIDs" id="Permessi[@(conta)].permessoId" @(i.Selected ? "checked" : "") value="@(i.Value)" />
+                        <label for="Permessi[@(conta++)].permessoId">@(i.Text)</label>
+                    }
+                </fieldset>
+
+                <input type="submit" value="Salva" data-inline="true" data-mini="true" />
+            }
+        }
+    </div>
+</div>
+
+
+
+
+<div data-role="controlgrup" data-type="horizontal">
+    <a href="@Url.Action("Index", "Groups")" class="ui-btn-inline ui-btn ui-corner-all ui-mini">Torna alla lista</a>
+    <a href="@Url.Action("Details", "Groups", new { id = Model.Gruppo.gruppoId })" class="ui-btn-inline ui-btn ui-corner-all ui-mini">Annulla</a>
+</div>
+
+
+
+
+
+<script type="text/javascript">
+    $(document).on("pageshow", function () {
+        // alert("pageshow");
+
+        $("#searchField").on("input", function (e) {
+            var text = $(this).val();
+
+            if (text.length < 3) {
+                $("#suggestions").html("");
+                $("#suggestions").listview("refresh");
+            } else {
+
+                console.log("source");
+                $.getJSON('@Url.Action("AutoCompleteLogin", "Users")', { value: text }, function (mydata) {
+
+                    var str = "";
+                    for (var i = 0, len = mydata.length; i < len; i++) {
+                        //str += "<li>" + res[i] + "</li>";
+                        str += "<input type =\"checkbox\" name=\"myItems\" id=\"myItems[" + i + "]\"  value =\"" + mydata[i].Value + "\">";
+                        str += "<label for=\"myItems[" + i + "]\">" + mydata[i].Text + "</label>";
+
+                    }
+
+                    $("#suggestions").html(str);
+
+                    $("[type=checkbox]").checkboxradio();
+                    $("[data-role=controlgroup]").controlgroup("refresh");
+                });
+
+                //$("#searchField").removeClass('ui-autocomplete-loading');
+                console.log("source END");
+            }
+        });
+
+
+    });
+</script>
+
+

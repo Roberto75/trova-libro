@@ -1,0 +1,93 @@
+﻿@model MyManagerCSharp.Log.Models.MyLogDetail
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Areas/Admin/Views/Shared/MasterPageAdminMobile.cshtml";
+
+    bool chk;
+}
+
+<h2>Details Session Id: @Model.sessionId</h2>
+<br />
+
+
+@if (Model.Logs.Count > 2000)
+{
+    <h3>Attenzione sono state trovati più di 2.000 records. (@(String.Format("{0:N0}", Model.Logs.Count)))</h3>
+    <p>E' un numero di record troppo elevato da poter visualizzare in una pagina.</p>
+}
+else
+{
+
+    using (Html.BeginForm("Details", "Logs", FormMethod.Post, new { id = "MyForm" }))
+    {
+        <input type="hidden" name="id" value="@Model.sessionId" />
+        <div class="ui-field-contain">
+
+
+            <fieldset data-role="controlgroup" data-type="horizontal">
+                <legend>Level:</legend>
+                @foreach (var value in Enum.GetValues(typeof(MyManagerCSharp.Log.LogManager.Level)))
+                {
+
+                    if ((MyManagerCSharp.Log.LogManager.Level)value == MyManagerCSharp.Log.LogManager.Level.Undefined)
+                    {
+                        continue;
+                    }
+
+
+                    if (Model.LevelSelected != null && Model.LevelSelected.Contains((MyManagerCSharp.Log.LogManager.Level)value))
+                    {
+                        chk = true;
+                    }
+                    else
+                    {
+                        chk = false;
+                    }
+                
+                    <input name="LevelSelected" id="levelSelected_@value" type="checkbox"  @((chk) ? "checked" : "")    value="@((MyManagerCSharp.Log.LogManager.Level)value)" /> 
+                    <label for="levelSelected_@value">@((MyManagerCSharp.Log.LogManager.Level)value)</label>
+                }
+            </fieldset>
+        </div>
+    }
+    
+    <ol data-role="listview" data-inset="true">
+        @foreach (MyManagerCSharp.Log.Models.MyLog l in Model.Logs)
+        {
+            <li @((l.level == MyManagerCSharp.Log.LogManager.Level.Exception) ? "data-theme=f" : "")
+                @((l.level == MyManagerCSharp.Log.LogManager.Level.Error) ? "data-theme=d" : "")
+                @((l.level == MyManagerCSharp.Log.LogManager.Level.Warning) ? "data-theme=e" : "")>
+                
+                <h2>@(String.IsNullOrEmpty(l.source) ? l.level.ToString() : l.source)</h2>
+
+                <p class="wrap">@l.note</p>
+                @if (!String.IsNullOrEmpty(l.reference))
+                {
+                    <p>@l.reference</p>
+                }
+                
+              
+                <p class="ui-li-aside"><strong>@l.dateAdded</strong></p>
+            </li>
+        }
+    </ol>
+}
+
+
+
+<div data-role="footer" data-position="fixed" data-theme="@MyConstantsAdmin.BUTTON_THEME">
+    <div data-role="navbar">
+        <ul>
+            <li><a href="@Url.Action("Index", "Logs")" class="ui-btn-inline ui-btn ui-corner-all ui-mini" >Torna alla lista</a></li>
+            <li><a href="@Url.Action("Summary", "Logs")" class="ui-btn-inline ui-btn ui-corner-all ui-mini">Torna al summary</a></li>
+        </ul>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).on("pageinit", function () {
+        $("[name='LevelSelected']").click(function () {
+            $("#MyForm").submit();
+        });
+    });
+</script>

@@ -1,4 +1,4 @@
-﻿
+﻿@model trova_libro.manager.Models.Libro
 @{
     ViewBag.Title = "Details";
     Layout = "~/Views/Shared/_MasterPageMobile.cshtml";
@@ -6,3 +6,40 @@
 
 <h2>Details</h2>
 
+<!-- Nav tabs -->
+<ul class="nav nav-tabs" role="tablist">
+    <li role="presentation" class="active"><a href="#info" aria-controls="info" role="tab" data-toggle="tab">Info</a></li>
+    <li role="presentation"><a href="#descrizione" aria-controls="descrizione" role="tab" data-toggle="tab">Descrizione</a></li>
+    <li role="presentation"><a href="#photo" aria-controls="photo" role="tab" data-toggle="tab">Photo</a></li>
+</ul>
+
+<!-- Tab panes -->
+<div class="tab-content">
+    <div role="tabpanel" class="tab-pane active" id="info">
+        <div class="row">
+            <div class="col-md-4">Titolo:</div>
+            <div class="col-md-8">@Model.titolo</div>
+        </div>
+
+    </div>
+    <div role="tabpanel" class="tab-pane" id="descrizione">
+        <textarea>@Model.nota</textarea>
+    </div>
+    <div role="tabpanel" class="tab-pane" id="photo">...</div>
+</div>
+
+
+
+
+<div class="lead">
+    Se sei interessatto a questo annuncio clicca su "Rispondi" per mandare un un messaggio all'inserzionista.
+</div>
+
+
+<div class="row">
+    <div class="col-xs-12">
+        <a class="btn btn-default" href="@Url.Action("Index", "Libri")">Pagina di ricerca</a>
+        <a class="btn btn-primary text-right" href="@Url.Action("Reply", "Libri", new { annuncioId = Model.annuncioId })">Rispondi</a>
+
+    </div>
+</div>

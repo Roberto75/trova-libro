@@ -1,0 +1,37 @@
+﻿@{
+    ViewBag.Title = "Whatsnew";
+    Layout = "~/Areas/Admin/Views/Shared/MasterPageAdminMobile.cshtml";
+}
+
+<h2 style="float:right;">Versione corrente: @typeof(MyWebApplication.MvcApplication).Assembly.GetName().Version.ToString()</h2>
+    <h2>Whatsnew</h2>
+
+    @{
+
+        System.IO.MemoryStream risultatoMemoryStream;
+        risultatoMemoryStream = new MemoryStream();
+
+        System.Xml.Xsl.XslCompiledTransform xslt;
+        xslt = new System.Xml.Xsl.XslCompiledTransform();
+        //System.Xml.XmlReader reader = System.Xml.XmlReader.Create(System.IO.File.ReadAllText(Server.MapPath("~/Content/xsl/menuTop.xsl")));
+        //xslt.Load(reader);
+
+        xslt.Load(Server.MapPath("~/Content/xsl/whatsnew.xsl"));
+
+        System.Xml.Xsl.XsltArgumentList args = new System.Xml.Xsl.XsltArgumentList();
+
+
+        xslt.Transform(Server.MapPath("~/Content/xml/whatsnew.xml"), args, risultatoMemoryStream);
+        risultatoMemoryStream.Flush();
+
+
+        string risultato;
+
+        System.Text.Encoding encoding = System.Text.Encoding.UTF8;
+        risultato = encoding.GetString(risultatoMemoryStream.ToArray());
+
+
+        HtmlString risultatoHTML = new HtmlString(risultato);
+    }
+
+    @risultatoHTML

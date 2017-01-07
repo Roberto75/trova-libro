@@ -1,0 +1,32 @@
+﻿@model MyWebApplication.Areas.Admin.Models.MyGroupModel
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Areas/Admin/Views/Shared/MasterPageAdminMobile.cshtml";
+}
+
+<h2>Gruppo: @Model.Gruppo.nome (id: @Model.Gruppo.gruppoId)</h2>
+
+
+@if (ViewData.ModelState.IsValid)
+{
+    <p>Confermare la cancellazione del gruppo "@Model.Gruppo.nome"?</p>
+}
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary() 
+    <input type="hidden" name="id" value ="@Model.Gruppo.gruppoId" />
+
+    <div data-role="controlgrup" data-type="horizontal" data-mini="true">
+        <a href="@Url.Action("Index", "Groups")"   data-inline="true"  data-mini="true"  data-role="button"  >Torna alla lista</a>
+        <a href="@Url.Action("Details", "Groups", new { id = Model.Gruppo.gruppoId })"   data-mini="true"  data-inline="true"   data-role="button"  >Annulla</a>
+
+        @if (ViewData.ModelState.IsValid)
+        {
+            <input type="submit" value="Delete" data-mini="true" data-inline="true" />
+        }
+    </div>
+}
