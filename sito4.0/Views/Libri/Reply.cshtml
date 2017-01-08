@@ -4,7 +4,7 @@
     Layout = "~/Views/Shared/_MasterPageMobile.cshtml";
 }
 
-<h1>Rispondi all'annuncio: @Model.annuncio.ToString() </h1>
+<h1>Rispondi all'annuncio: @Model.annuncio.titolo</h1>
 
 <p>Al termine dell'operazione verrà inviato un messaggio di notifica al proprietario (@Model.annuncio.login) dell'annuncio.</p>
 
@@ -17,7 +17,9 @@
     <input type="hidden" name="trattativaId" value="@Model.trattativaId" />
     <input type="hidden" name="rispostaId" value="@Model.rispostaId" />
 
-    <textarea style="height: 150px;" name="testo">@Model.testo</textarea>
+    <textarea class="form-control" name="testo" rows="5">@Model.testo</textarea>
+
+    <br />
 
     <div data-role="controlgrup" data-type="horizontal" data-mini="true">
         <a href="@Url.Action("Index", "Libri")"  class="btn btn-default" >Torna all'elenco</a>
