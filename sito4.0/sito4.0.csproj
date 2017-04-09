@@ -912,6 +912,7 @@
     <Compile Include="Models\ReplyModel.cs" />
     <Compile Include="Models\TestModels.cs" />
     <Compile Include="MyConstants.cs" />
+    <Compile Include="MyConstantsAdmin.cs" />
     <Compile Include="MyHelper.cs" />
     <Compile Include="MyMessage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -971,6 +972,7 @@
     <Content Include="Areas\Admin\Views\Logs\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Logs\Summary.cshtml" />
     <Content Include="Areas\Admin\Views\Logs\_LogList.cshtml" />
+    <Content Include="Views\Shared\_MyValidationSummary.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
