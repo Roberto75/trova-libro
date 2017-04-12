@@ -6,70 +6,194 @@
 
 <h2>Registrazione ai Servizi di @System.Configuration.ConfigurationManager.AppSettings["application.name"] </h2>
 
-La registrazione al servizio si articola in 3 fasi:
-<ul>
-<li>compilazione dei dati personali, accettazione delle condizioni e termini del servizio e consenso ai sensi del Codice in materia di protezione dei dati personali;</li>
-<li>ricezione di un'e-mail di conferma dei dati inseriti;</li>
-    <li>ricezione di una seconda email con una password generata dal sistema.</li>
-
-</ul>
-
-
-Gentile utente la registrazione ai servizi di Trova-libro consente di accere alle aree riservate del sito.
-
-Consenso ai sensi del D. Lgs. 196/03
-
-Prima di completare la registrazione, leggi la nota informativa, sulle norme che tutelano la privacy e decidi se rilasciare il consenso al trattamento dei dati personali.
-
-Se lo farai, non solo potrai accedere ai servizi offerti da questo portale, ma potrai anche ricevere informazioni personalizzate nella tua casella di posta elettronica ed essere sempre aggiornato su tutti i nostri servizi e su eventuali nuove offerte e promozioni.
-
-
-
 @using (Html.BeginForm("Register", "Account", FormMethod.Post))
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(false, "Attenzione")
 
-    <ul>
-         <li >
-            <label for="nome">Nome:</label>
-            <input type="text" name="nome" id="nome" value="@Model.nome" data-clear-btn="true">
-        </li>
+    <div class="row acc-wizard">
 
-        <li >
-            <label for="cognome">Cognome:</label>
-            <input type="text" name="cognome" id="cognome" value="@Model.cognome" data-clear-btn="true">
-        </li>
+        <div class="col-md-3">
+            <ol class="acc-wizard-sidebar">
+                <li class="acc-wizard-todo acc-wizard-completed"><a href="#step0">Inizio</a></li>
+                <li class="acc-wizard-todo"><a href="#step1">Dati obbligatori</a></li>
+                <li class="acc-wizard-todo"><a href="#step2">Dati facoltativi</a></li>
+                <li class="acc-wizard-todo"><a href="#step3">Condizioni del servizio</a></li>
+                <li class="acc-wizard-todo"><a href="#step4">Fine</a></li>
+            </ol>
+        </div>
 
-       
-        <li>
-            <label for="login">Scegli una login:</label>
-            <input type="text" name="login" id="login" value="@Model.login" data-clear-btn="true">
-        </li>
+        <div class="col-md-9">
 
-        <li>
-            <label for="email">Il tuo indirizzo email attuale:</label>
-            <input type="email" name="email" id="email" value="@Model.email" data-clear-btn="true">
-        </li>
-    </ul>
+            <div id="accordion" class="panel-group">
 
-    
-    <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
-        <legend>Informativa sulla privacy</legend>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion" href="#step0" aria-expanded="true" aria-controls="step0">
+                                Inizio
+                            </a>
+                        </h4>
+                    </div>
+                    <div class="panel-collapse collapse in" id="step0" aria-expanded="true">
+                        <div class="panel-body">
+                            La registrazione al servizio si articola in 3 fasi:
+                            <ul>
+                                <li>compilazione dei dati personali, accettazione delle condizioni e termini del servizio e consenso ai sensi del Codice in materia di protezione dei dati personali;</li>
+                                <li>ricezione di un'e-mail di conferma dei dati inseriti;</li>
+                                <li>ricezione di una seconda email con una password generata dal sistema.</li>
 
-        <div>@(new HtmlString(ViewData["TestoPrivacy"].ToString()))</div>
+                            </ul>
 
-               <input type="radio" name="privacy" id="privacy-si" value="SI">
-        <label for="privacy-si">Accetto</label>
-        <input type="radio" name="privacy" id="privacy-no" value="NO">
-        <label for="privacy-no">Non accetto</label>
-    </fieldset>
 
-    
+                            Gentile utente la registrazione ai servizi di Trova-libro consente di accere alle aree riservate del sito.
 
-    <div data-role="controlgrup" data-type="horizontal" data-mini="true">
-        <a href="javascript:history.back();" data-inline="true" data-role="button">Annulla</a>
-        <input type="submit" data-inline="true" value="Prosegui con la registrazione" />
+                            Consenso ai sensi del D. Lgs. 196/03
+
+                            Prima di completare la registrazione, leggi la nota informativa, sulle norme che tutelano la privacy e decidi se rilasciare il consenso al trattamento dei dati personali.
+
+                            Se lo farai, non solo potrai accedere ai servizi offerti da questo portale, ma potrai anche ricevere informazioni personalizzate nella tua casella di posta elettronica ed essere sempre aggiornato su tutti i nostri servizi e su eventuali nuove offerte e promozioni.
+
+
+                            <div class="acc-wizard-step">
+                                <button class="btn btn-primary" type="submit">Inizia</button>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion" href="#step1" aria-expanded="true" aria-controls="step1">
+                                Dati obbligatori
+                            </a>
+                        </h4>
+                    </div>
+                    <div class="panel-collapse collapse in" id="step1" aria-expanded="true">
+                        <div class="panel-body">
+                            <ul>
+                                <li>
+                                    <label for="nome">Nome:</label>
+                                    <input type="text" name="nome" id="nome" value="@Model.nome" data-clear-btn="true">
+                                </li>
+
+                                <li>
+                                    <label for="cognome">Cognome:</label>
+                                    <input type="text" name="cognome" id="cognome" value="@Model.cognome" data-clear-btn="true">
+                                </li>
+
+
+                                <li>
+                                    <label for="login">Scegli una login:</label>
+                                    <input type="text" name="login" id="login" value="@Model.login" data-clear-btn="true">
+                                </li>
+
+                                <li>
+                                    <label for="email">Il tuo indirizzo email attuale:</label>
+                                    <input type="email" name="email" id="email" value="@Model.email" data-clear-btn="true">
+                                </li>
+                            </ul>
+
+                            <div class="acc-wizard-step">
+                                <button class="btn" type="reset">Indietro</button>
+                                <button class="btn btn-primary" type="submit">Next Step</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion" href="#step2" aria-expanded="true" aria-controls="step2">
+                                Dati facoltativi
+                            </a>
+                        </h4>
+                    </div>
+                    <div class="panel-collapse collapse in" id="step2" aria-expanded="true">
+                        <div class="panel-body">
+                            Dati facoltativi
+
+                            <div class="acc-wizard-step">
+                                <button class="btn" type="reset">Indietro</button>
+                                <button class="btn btn-primary" type="submit">Next Step</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion" href="#step3" aria-expanded="true" aria-controls="step3">
+                                Condizioni del servizio
+                            </a>
+                        </h4>
+                    </div>
+                    <div class="panel-collapse collapse in" id="step3" aria-expanded="true">
+                        <div class="panel-body">
+                            <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
+                                <legend>Informativa sulla privacy</legend>
+
+                                <div>@(new HtmlString(ViewData["TestoPrivacy"].ToString()))</div>
+
+                                <input type="radio" name="privacy" id="privacy-si" value="SI">
+                                <label for="privacy-si">Accetto</label>
+                                <input type="radio" name="privacy" id="privacy-no" value="NO">
+                                <label for="privacy-no">Non accetto</label>
+                            </fieldset>
+
+                            <div class="acc-wizard-step">
+                                <button class="btn" type="reset">Indietro</button>
+                                <button class="btn btn-primary" type="submit">Next Step</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion" href="#step4" aria-expanded="true" aria-controls="step4">
+                                Fine
+                            </a>
+                        </h4>
+                    </div>
+                    <div class="panel-collapse collapse in" id="step4" aria-expanded="true">
+                        <div class="panel-body">
+
+                            
+                            <div class="acc-wizard-step">
+                                <button class="btn" type="reset">Indietro</button>
+                                <button class="btn btn-primary" type="submit">Salva</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
     </div>
 
+
+
+
+
+
+
+
+
+
+
 }
+
+
+
+<script>
+    $(document).ready(function () {
+        console.log("LOAD ACC-WIZARD");
+        $(".acc-wizard").accwizard();
+    });
+</script>

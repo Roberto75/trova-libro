@@ -744,6 +744,8 @@
     <Content Include="Content\Images\wait.gif" />
     <Content Include="Content\Images\workflow.jpg" />
     <Content Include="Content\Images\zoom1_16x16.gif" />
+    <Content Include="Content\js\acc-wizard.min.js" />
+    <Content Include="Content\Style\acc-wizard.min.css" />
     <Content Include="Content\Style\Admin.css" />
     <Content Include="Content\Style\lightbox.css" />
     <Content Include="Content\Style\Site.css" />
