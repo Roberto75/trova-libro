@@ -1,4 +1,4 @@
-﻿
+﻿@model MyWebApplication.Models.RegisterModel
 @{
     ViewBag.Title = "Register";
     Layout = "~/Views/Shared/_MasterPageMobile.cshtml";
@@ -73,28 +73,35 @@
                     </div>
                     <div class="panel-collapse collapse in" id="step1" aria-expanded="true">
                         <div class="panel-body">
-                            <ul>
-                                <li>
-                                    <label for="nome">Nome:</label>
-                                    <input type="text" name="nome" id="nome" value="@Model.nome" data-clear-btn="true">
-                                </li>
-
-                                <li>
-                                    <label for="cognome">Cognome:</label>
-                                    <input type="text" name="cognome" id="cognome" value="@Model.cognome" data-clear-btn="true">
-                                </li>
 
 
-                                <li>
-                                    <label for="login">Scegli una login:</label>
-                                    <input type="text" name="login" id="login" value="@Model.login" data-clear-btn="true">
-                                </li>
+                            @Html.Partial("_MyValidationSummary", ViewData.ModelState);
 
-                                <li>
-                                    <label for="email">Il tuo indirizzo email attuale:</label>
-                                    <input type="email" name="email" id="email" value="@Model.email" data-clear-btn="true">
-                                </li>
-                            </ul>
+
+                            <div class="form-group">
+                                <label for="nome">Nome:</label>
+                                <input type="text" class="form-control" value="@Model.nome" id="nome" name="nome" placeholder="Nome">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="cognome">Cognome:</label>
+                                <input type="text" class="form-control" value="@Model.cognome" id="cognome" name="cognome" placeholder="Cognome">
+                            </div>
+
+
+                            <div class="form-group">
+                                <label for="login">Login:</label>
+                                <input type="text" class="form-control" value="@Model.login" id="login" name="login" placeholder="Scegli una login" />
+                            </div>
+
+                            <div class="form-group">
+                                <label for="email">Email:</label>
+                                <input type="email" class="form-control" value="@Model.email" id="email" name="email" placeholder="Il tuo indirizzo email attuale" />
+                            </div>
+
+
+
+                           >
 
                             <div class="acc-wizard-step">
                                 <button class="btn" type="reset">Indietro</button>
@@ -176,15 +183,6 @@
 
         </div>
     </div>
-
-
-
-
-
-
-
-
-
 
 
 }
