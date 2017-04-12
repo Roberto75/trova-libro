@@ -492,6 +492,9 @@ namespace MyWebApplication.Controllers
                 }
             }
 
+
+            model.tipoUtenza = "P";
+
             if (model.tipoUtenza == "A" && String.IsNullOrEmpty(model.ragioneSociale))
             {
                 ModelState.AddModelError("ragioneSociale", "Occorre specificare la ragione sociale dell'agenzia immobiliare");

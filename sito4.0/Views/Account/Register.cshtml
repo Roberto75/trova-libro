@@ -34,23 +34,23 @@ Se lo farai, non solo potrai accedere ai servizi offerti da questo portale, ma p
 
     <div class="form-group">
         <label for="nome">Nome:</label>
-        <input type="text" class="form-control" value="@Model.nome" id="nome" placeholder="Nome">
+        <input type="text" class="form-control" value="@Model.nome" id="nome" name="nome" placeholder="Nome">
     </div>
 
     <div class="form-group">
         <label for="cognome">Cognome:</label>
-        <input type="text" class="form-control" value="@Model.cognome" id="cognome" placeholder="Cognome">
+        <input type="text" class="form-control" value="@Model.cognome" id="cognome" name="cognome" placeholder="Cognome">
     </div>
 
 
     <div class="form-group">
         <label for="login">Login:</label>
-        <input type="text" class="form-control" value="@Model.login" id="login" placeholder="Scegli una login" />
+        <input type="text" class="form-control" value="@Model.login" id="login" name="login" placeholder="Scegli una login" />
     </div>
 
     <div class="form-group">
         <label for="email">Email:</label>
-        <input type="email" class="form-control" value="@Model.email" id="email" placeholder="Il tuo indirizzo email attuale" />
+        <input type="email" class="form-control" value="@Model.email" id="email" name="email" placeholder="Il tuo indirizzo email attuale" />
     </div>
 
 
@@ -65,14 +65,13 @@ Se lo farai, non solo potrai accedere ai servizi offerti da questo portale, ma p
 
         <div class="checkbox">
             <label>
-                <input type="radio" name="privacy" id="privacy-si" value="SI" /> Accetto
+                <input type="radio" name="privacy" id="privacy-no" value="NO" /> Non accetto
             </label>
 
             <label>
-                <input type="radio" name="privacy" id="privacy-no" value="NO" /> Non accetto
+                <input type="radio" name="privacy" id="privacy-si" value="SI" /> Accetto
             </label>
         </div>
-
     </fieldset>
 
 

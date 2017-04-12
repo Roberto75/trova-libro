@@ -71,6 +71,12 @@ namespace trova_libro.manager
                     mAddParameter(command, "@COMUNE_ID", model.filter.comuneId);
                 }
 
+
+                if (!String.IsNullOrEmpty(model.filter.titolo))
+                {
+                    strWHERE += " AND ANNUNCIO.nome like  @TITOLO ";
+                    mAddParameter(command, "@TITOLO", "%" + model.filter.titolo.Trim() + "%");
+                }
                 /*
                 if (parameters.filter.immobile != null && parameters.filter.immobile > 0)
                 {
