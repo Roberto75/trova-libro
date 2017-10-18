@@ -75,7 +75,7 @@
                         <div class="panel-body">
 
 
-                            @Html.Partial("_MyValidationSummary", ViewData.ModelState);
+                            @Html.Partial("_MyValidationSummary", ViewData.ModelState)
 
 
                             <div class="form-group">
@@ -99,10 +99,7 @@
                                 <input type="email" class="form-control" value="@Model.email" id="email" name="email" placeholder="Il tuo indirizzo email attuale" />
                             </div>
 
-
-
-                           >
-
+                            
                             <div class="acc-wizard-step">
                                 <button class="btn" type="reset">Indietro</button>
                                 <button class="btn btn-primary" type="submit">Next Step</button>
@@ -174,7 +171,7 @@
                             
                             <div class="acc-wizard-step">
                                 <button class="btn" type="reset">Indietro</button>
-                                <button class="btn btn-primary" type="submit">Salva</button>
+                                <button class="btn btn-primary" type="button" onclick="buttonSalvaOnClick()">Salva</button>
                             </div>
                         </div>
                     </div>
@@ -194,4 +191,11 @@
         console.log("LOAD ACC-WIZARD");
         $(".acc-wizard").accwizard();
     });
+
+    function buttonSalvaOnClick() {
+        console.log("buttonSalvaOnClick");
+        $("form").submit();
+    }
+
+
 </script>

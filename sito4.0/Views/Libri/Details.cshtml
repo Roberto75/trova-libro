@@ -4,7 +4,7 @@
     Layout = "~/Views/Shared/_MasterPageMobile.cshtml";
 }
 
-<h2>Details</h2>
+<p class="lead">Dettaglio annuncio</p>
 
 <!-- Nav tabs -->
 <ul class="nav nav-tabs" role="tablist">
@@ -16,26 +16,87 @@
 <!-- Tab panes -->
 <div class="tab-content">
     <div role="tabpanel" class="tab-pane active" id="info">
+    
+
         <div class="row">
-            <div class="col-md-4">Titolo:</div>
-            <div class="col-md-8">@Model.titolo</div>
+            <div class="col-xs-4">Data inserimento:</div>
+            <div class="col-xs-8">@Model.dataInserimento.ToString("dd/MM/yyyy")</div>
         </div>
+
+        <div class="row">
+            <div class="col-xs-4">Utente:</div>
+            <div class="col-xs-8">@Model.login</div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-4">Tipo annuncio:</div>
+            <div class="col-xs-8">@Model.tipo</div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-4">Categoria:</div>
+            <div class="col-xs-8">@Model.categoria</div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-xs-4">Titolo:</div>
+            <div class="col-xs-8">@Model.titolo</div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-xs-4">Autore:</div>
+            <div class="col-xs-8">@Model.autore</div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-4">Casa editrice:</div>
+            <div class="col-xs-8">@Model.casaEditrice</div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-4">Prezzo:</div>
+            <div class="col-xs-8">@Model.prezzo</div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-4">ISBN:</div>
+            <div class="col-xs-8">@Model.isbn</div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-4">Regione-Provincia:</div>
+            <div class="col-xs-8">@Model.regione - @Model.provincia</div>
+        </div>
+
 
     </div>
     <div role="tabpanel" class="tab-pane" id="descrizione">
-        <textarea>@Model.nota</textarea>
+
+        <blockquote>@Html.Raw(Model.nota)</blockquote>
+        <p style="white-space: pre-line">@Html.Raw(Model.nota)</p>
+
     </div>
-    <div role="tabpanel" class="tab-pane" id="photo">...</div>
+    <div role="tabpanel" class="tab-pane" id="photo">
+
+        <a href="@Url.Content("~/Content/images/Number-1-icon.png")" data -lightbox="roadtrip">Image #1</a>
+        <a href="@Url.Content("~/Content/images/Number-2-icon.png")" data -lightbox="roadtrip">Image #2</a>
+        <a href="@Url.Content("~/Content/images/Number-3-icon.png")" data -lightbox="roadtrip">Image #3</a>
+        <a href="@Url.Content("~/Content/images/Number-4-icon.png")" data -lightbox="roadtrip">Image #4</a>
+        
+
+    </div>
 </div>
 
 
 
-
-<div class="lead">
+<br />
+<div>
     Se sei interessatto a questo annuncio clicca su "Rispondi" per mandare un un messaggio all'inserzionista.
 </div>
 
-
+<br />
 <div class="row">
     <div class="col-xs-12">
         <a class="btn btn-default" href="@Url.Action("Index", "Libri")">Pagina di ricerca</a>
