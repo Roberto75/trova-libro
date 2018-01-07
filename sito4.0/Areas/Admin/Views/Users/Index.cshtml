@@ -1,7 +1,7 @@
 ﻿@model MyUsers.Models.SearchUsers
 @{
     ViewBag.Title = "Admin: elenco utenti";
-    Layout = "~/Areas/Admin/Views/Shared/MasterPageAdminMobile.cshtml";
+    Layout = "~/Areas/Admin/Views/Shared/MasterPageAdmin.cshtml";
 
     WebGrid wGrid = new WebGrid(null, rowsPerPage: Model.PageSize, defaultSort: "MY_LOGIN", canPage: false);
     wGrid.Bind(Model.Utenti, rowCount: Model.TotalRows, autoSortAndPage: false);
@@ -71,7 +71,7 @@
                 </text>, canSort : false)
             })
 
-            @{Html.RenderPartial("Paging", Model);}
+            @{Html.RenderPartial("_Paging", Model);}
         </div>
     }
 

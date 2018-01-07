@@ -1,0 +1,130 @@
+﻿@model  MyWebApplication.Models.Widget.IWidget
+
+
+<style>
+    #sortable {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        width: 100%;
+    }
+
+
+        #sortable li {
+            margin: 3px 3px 3px 0;
+            padding: 1px;
+            float: left;
+            width: 30%;
+            height: 400px;
+            font-size: 4em;
+            text-align: center;
+            background-color: azure;
+        }
+
+
+
+
+    .widget {
+        font-size: small;
+        margin: 0;
+        border-style: solid;
+        display: table;
+        border-width: 1px;
+        border-color: black;
+        width: 100%;
+        height: 100%;
+        border-collapse: collapse;
+        /*    
+
+        float:left;
+            
+         height: 300px;
+     
+            
+         
+           */
+    }
+
+
+        .widget .header {
+            background-color: ButtonHighlight;
+            display: table-row;
+            height: 25px;
+            /*  
+         padding:0.5em;
+       
+         
+            
+         position: relative; 
+         
+            */
+        }
+
+        .widget .footer {
+            background-color: ButtonHighlight;
+            display: table-row;
+            height: 20px;
+            vertical-align: bottom;
+            /*  
+         padding:0.5em;
+          
+           
+          
+        
+       
+         
+         ;*/
+        }
+
+        .widget .body {
+            display: table-row;
+            /*               
+            
+
+         padding:0.5em;
+         width:auto;
+         height:auto;
+*/
+        }
+</style>
+
+<script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+
+
+
+
+<ul id="sortable">
+
+
+    @foreach (MyWebApplication.Models.Widget.IWidget wm in ViewBag.Widgets)
+    { <li>
+
+        @Html.Partial(string.Concat(new[] { "Widget", "/", "_Widget" }), wm)
+
+    </li>
+    }
+
+
+
+</ul>
+
+
+
+<script>
+    $(document).on("pageshow", function () {
+
+
+        $("#sortable").sortable();
+        $("#sortable").disableSelection();
+
+        @foreach (MyWebApplication.Models.Widget.IWidget wm in ViewBag.Widgets)
+        {
+
+            //   @:$("#widget_@wm.SortOrder").draggable();
+            // @:$("#widget_@wm.SortOrder").resizable({ containment: "#container"  });
+        }
+
+
+    });
+</script>

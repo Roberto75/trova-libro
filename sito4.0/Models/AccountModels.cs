@@ -7,9 +7,9 @@ using System.Web.Security;
 
 namespace MyWebApplication.Models
 {
-    
 
-  
+
+
     public class UserProfile
     {
         public long userId { get; set; }
@@ -35,7 +35,7 @@ namespace MyWebApplication.Models
         public string OldPassword { get; set; }
 
         [Required]
-       // [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        // [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "New password")]
         public string NewPassword { get; set; }
@@ -65,10 +65,10 @@ namespace MyWebApplication.Models
         [Required(ErrorMessage = "La login è un valore obbligatorio")]
         public string login { get; set; }
 
-        [Required ( ErrorMessage = "L'indirizzo email è un valore obbligatorio")]
+        [Required(ErrorMessage = "L'indirizzo email è un valore obbligatorio")]
         public string email { get; set; }
 
-       
+
         public string nome { get; set; }
         public string cognome { get; set; }
         public string ragioneSociale { get; set; }
@@ -76,9 +76,15 @@ namespace MyWebApplication.Models
 
         //A= Agenzia, P = Persona fisica
         public string tipoUtenza { get; set; }
-     
 
-
+        public string sesso { get; set; }
+        public string telefono { get; set; }
+        public string http { get; set; }
+        public string indirizzo { get; set; }
+        public string numeroCivico { get; set; }
+        public string cap { get; set; }
+        public string citta { get; set; }
+        public string provincia { get; set; }
         //[Required]
         //[StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
         //[DataType(DataType.Password)]
@@ -100,7 +106,7 @@ namespace MyWebApplication.Models
         [Display(Name = "User name")]
         public string Login { get; set; }
 
-         [Required]
+        [Required]
         public string Email { get; set; }
     }
 

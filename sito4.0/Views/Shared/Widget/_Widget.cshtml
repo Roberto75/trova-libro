@@ -1,0 +1,17 @@
+﻿@model  MyWebApplication.Models.Widget.IWidget
+ 
+<div class="widget" id="widget_@Model.SortOrder">
+   
+        <div class="header">
+            @Model.HeaderText
+        </div>
+        <div class="body">
+ 
+            @Html.Partial(string.Concat(new[] { "Widget", "/", "_SubWidget" }), @Model.SubWidget)
+ 
+        </div>
+        <div class="footer">
+            @Model.FooterText
+        </div>
+   
+</div>

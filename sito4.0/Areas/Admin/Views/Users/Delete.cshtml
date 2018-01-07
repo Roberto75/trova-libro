@@ -2,7 +2,7 @@
 
 @{
     ViewBag.Title = "Delete utente:" + ((String.IsNullOrEmpty(Model.login)) ? "N/A" : Model.login);
-    Layout = "~/Areas/Admin/Views/Shared/MasterPageAdminMobile.cshtml";
+    Layout = "~/Areas/Admin/Views/Shared/MasterPageAdmin.cshtml";
 }
 
 <h2>Cancellazione utente: @Model.login (id: @Model.userId)</h2>

@@ -53,7 +53,7 @@ namespace MyWebApplication.Areas.Admin.Controllers
             {
                 Debug.WriteLine("Admin.MyBaseController.OnException: " + filterContext.Exception.Message);
 
-                MyManagerCSharp.Log.LogManager log = new MyManagerCSharp.Log.LogManager("DefaultConnection");
+                MyManagerCSharp.Log.LogManager log = new MyManagerCSharp.Log.LogManager("log");
                 log.mOpenConnection();
                 try
                 {

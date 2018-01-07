@@ -1,0 +1,226 @@
+﻿@model MyWebApplication.Models.CreateModel
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_MasterPageMobile.cshtml";
+}
+
+<!-- include summernote css/js-->
+<link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote-bs4.css" rel="stylesheet">
+<script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote-bs4.js"></script>
+
+
+<h2>Nuovo annuncio</h2>
+<p>Segui la procedura guidata per l'inserimento di un nuovo annuncio.</p>
+<p>Al termine della procedura riceverai un messaggio al tuo indirizzo email con i dai inseirti. </p>
+<p>Dopo aver concluso la procedura guidata potrai aggiungere delle immagini cliccado sul relativo annuncio dal menu "I miei annunci" </p>
+
+@using (Html.BeginForm("Create", "Libri", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+
+    @Html.Partial("_MyValidationSummary", ViewData.ModelState)
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="tipo">Tipo di annuncio*:</label>
+                <select class="form-control mb-3" id="tipo" name="libro.tipo" value="@(Model.libro.tipo!= null?Model.libro.tipo.Value.ToString():"")">
+                    <option value="">---</option>
+                    <option value="1" @( Model.libro.tipo != null && (int)Model.libro.tipo == 1 ? "selected" : "")>Vendo</option>
+                    <option value="2" @( Model.libro.tipo != null && (int)Model.libro.tipo == 2 ? "selected" : "")>Compro</option>
+                    <option value="3" @( Model.libro.tipo != null && (int)Model.libro.tipo == 3 ? "selected" : "")>Scambio</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="comboCategoria">Categoria*:</label>
+                <select class="form-control mb-3" id="comboCategoria" name="libro.categoriaId">
+                    <option value="">---</option>
+                    @foreach (MyManagerCSharp.Models.MyItem item in Model.comboCategorie)
+                {
+                        <option value="@item.Value" @(item.Value == Model.libro.categoriaId.ToString() ? "selected" : "")>@item.Text</option>
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="comboSubCategoria">Sub-categoria</label>
+                <select class="form-control mb-3" id="comboSubCategoria">
+                    <option value="">---</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+
+            <div class="form-group">
+                <label for="titolo">Titolo*:</label>
+                <input type="text" class="form-control" value="@Model.libro.titolo" id="titolo" name="libro.titolo" placeholder="Titolo">
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="autore">Autore:</label>
+                <input type="text" class="form-control" value="@Model.libro.autore" id="autore" name="libro.autore" placeholder="Autore">
+            </div>
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="casaEditrice">Casa editrice:</label>
+                <input type="text" class="form-control" value="@Model.libro.casaEditrice" id="casaEditrice" name="libro.casaEditrice" placeholder="Casa editrice">
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="isbn">ISBN:</label>
+                <input type="text" class="form-control" value="@Model.libro.isbn" id="isbn" name="libro.isbn" placeholder="ISBN">
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="prezzo">Prezzo:</label>
+                <input type="number" class="form-control" value="@Model.libro.prezzo" id="prezzo" name="libro.prezzo" placeholder="Inserire il prezzo del libro in euro">
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="row">
+        <div class="col-md-4">
+
+            <div class="form-group">
+                <label for="comboRegione">Regione</label>
+                <select class="form-control mb-3" id="comboRegione" name="libro.regioneId">
+                    <option value="">---</option>
+                    @foreach (MyManagerCSharp.Models.MyItem item in Model.comboRegioni)
+                {
+                        <option value="@item.Value" @(item.Value == Model.libro.regioneId.ToString() ? "selected" : "")>@item.Text</option>
+                    }
+                </select>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="comboProvincia">Provincia</label>
+                <select class="form-control mb-3" id="comboProvincia">
+                    <option value="">---</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="comboComune">Comune</label>
+                <select class="form-control mb-3" id="comboComune">
+                    <option value="">---</option>
+                </select>
+            </div>
+
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <textarea id="summernote" name="libro.nota">@Model.libro.nota</textarea>
+            </div>
+        </div>
+    </div>
+
+
+        <a class="btn btn-secondary" href="@Url.Action("MyAnnunci", "Libri")" role="button">Annulla</a>
+        <button class="btn btn-primary" type="button" onclick="buttonSalvaOnClick()">Salva</button>
+}
+
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $("#comboCategoria").on("change", comboCategoriaOnChange);
+        $("#comboRegione").on("change", comboRegioneOnChange);
+
+        $('#summernote').summernote({
+            tabsize: 2,
+            height: 100
+        });
+    });
+
+
+
+    function comboRegioneOnChange(e) {
+        console.log("comboRegioneOnChange", e);
+        //let selected = $(this).find("option:selected").val();
+        let selectedValue = $(this).val();
+        //var selectedText = $(this).find(":selected").text();
+        console.log("comboRegioneOnChange selectedValue:" + selectedValue);
+
+
+        $.getJSON('@Url.Action("GetProvince", "RegioneProvinciaComune")', { regioneId: selectedValue }, function (dati) {
+
+
+            $('#comboProvincia').empty();
+            $('#comboProvincia').append($('<option/>', { value: "", text: "---" }));
+            $('#comboProvincia').val("---").change();
+
+            $.each(dati, function (index, item) {
+                //console.log(item.Value)
+                $('#comboProvincia').append($('<option/>', { value: item.value, text: item.text }));
+            });
+
+        });
+    }
+
+
+    function comboCategoriaOnChange(e) {
+        console.log("comboCategoriaOnChange", e);
+        //let selected = $(this).find("option:selected").val();
+        let selectedValue = $(this).val();
+        //var selectedText = $(this).find(":selected").text();
+        console.log("comboCategoriaOnChange selectedValue:" + selectedValue);
+
+
+        $.getJSON('@Url.Action("GetSubCategoria", "Libri")', { categoriaId: selectedValue }, function (dati) {
+
+
+            $('#comboSubCategoria').empty();
+            $('#comboSubCategoria').append($('<option/>', { value: "", text: "---" }));
+            $('#comboSubCategoria').val("---").change();
+
+            $.each(dati, function (index, item) {
+                //console.log(item.Value)
+                $('#comboSubCategoria').append($('<option/>', { value: item.Value, text: item.Text }));
+            });
+
+        });
+
+
+    }
+
+    function buttonSalvaOnClick() {
+        console.log("buttonSalvaOnClick");
+        let check = true;
+
+
+
+
+        if (check === false) {
+            return;
+        }
+
+        $("form").submit();
+    }
+
+
+</script>

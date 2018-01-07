@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Annunci;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
@@ -16,7 +17,7 @@ namespace trova_libro.manager
         ", FORMAT (ANNUNCIO.date_added,\"dd-MM-yyyy\") as date_added " +
         ", ANNUNCIO.tipo, ANNUNCIO.nome AS nome, ANNUNCIO.prezzo, categorie.nome AS categoria, categorie.categoria_id, Switch(tipo=1,'Vendo',tipo=2,'Compro',tipo=3,'Scambio') AS tipo_desc " +
         " FROM categorie INNER JOIN (ANNUNCIO LEFT JOIN UTENTI ON ANNUNCIO.fk_user_id=UTENTI.user_id) ON categorie.categoria_id=ANNUNCIO.fk_categoria_id";
-        
+
 
 
         public LibriManager(string connectionName)
@@ -126,13 +127,13 @@ namespace trova_libro.manager
             model.TotalRows = mDt.Rows.Count;
 
 
-            if (model.PageSize  > 0 && model.PageNumber  >= 0)
+            if (model.PageSize > 0 && model.PageNumber >= 0)
             {
                 // apply paging
-                IEnumerable<DataRow> rows = mDt.AsEnumerable().Skip((model.PageNumber  - 1) * model.PageSize ).Take(model.PageSize);
+                IEnumerable<DataRow> rows = mDt.AsEnumerable().Skip((model.PageNumber - 1) * model.PageSize).Take(model.PageSize);
                 foreach (DataRow row in rows)
                 {
-                    risultato.Add(new Models.Libro (row, Models.Libro.SelectFileds.Lista));
+                    risultato.Add(new Models.Libro(row, Models.Libro.SelectFileds.Lista));
                 }
             }
             else
@@ -180,5 +181,234 @@ namespace trova_libro.manager
 
             return libro;
         }
+
+
+
+        public List<MyManagerCSharp.Models.MyItem> getComboCategoriaRoot()
+        {
+            //mStrSQL = "select A.nome, A.categoria_id ,  (select count (*) from  CATEGORIE where FK_PADRE_ID = a.CATEGORIA_ID  ) as childnodecount  " +
+            //      "from CATEGORIE A WHERE FK_PADRE_ID is NULL  AND HIDE = False" +
+            //    " ORDER BY nome";
+
+            mStrSQL = "select A.nome, A.categoria_id " +
+                    "from CATEGORIE A WHERE FK_PADRE_ID is NULL  AND HIDE = False" +
+                    " ORDER BY nome";
+
+            mDt = mFillDataTable(mStrSQL);
+
+            List<MyManagerCSharp.Models.MyItem> risultato = new List<MyManagerCSharp.Models.MyItem>();
+
+            MyManagerCSharp.Models.MyItem item;
+            foreach (DataRow row in mDt.Rows)
+            {
+                item = new MyManagerCSharp.Models.MyItem(row["categoria_id"].ToString(), row["nome"].ToString());
+
+                risultato.Add(item);
+            }
+
+            return risultato;
+
+        }
+
+
+
+
+
+        //elenco delle sotto-categorie
+        public List<MyManagerCSharp.Models.MyItem> getComboCategoria(long categoria_id)
+        {
+
+
+            mStrSQL = "select A.nome, A.categoria_id,  (select count (*) from  CATEGORIE where FK_PADRE_ID = a.CATEGORIA_ID  ) as childnodecount  " +
+                           " from CATEGORIE A WHERE FK_PADRE_ID = " + categoria_id +
+                           " ORDER BY nome";
+
+            mStrSQL = "select A.nome, A.categoria_id  " +
+                           " from CATEGORIE A WHERE FK_PADRE_ID = " + categoria_id +
+                           " ORDER BY nome";
+
+
+
+            mDt = mFillDataTable(mStrSQL);
+
+            List<MyManagerCSharp.Models.MyItem> risultato = new List<MyManagerCSharp.Models.MyItem>();
+
+            MyManagerCSharp.Models.MyItem item;
+            foreach (DataRow row in mDt.Rows)
+            {
+                item = new MyManagerCSharp.Models.MyItem(row["categoria_id"].ToString(), row["nome"].ToString());
+
+                risultato.Add(item);
+            }
+
+            return risultato;
+
+        }
+
+
+
+        public long insertAnnuncio(Models.Libro libro, long userId)
+        {
+            return insertAnnuncio(libro, userId, false, 0, DateTime.MinValue);
+        }
+
+        public long insertAnnuncioInTestMode(Models.Libro libro, long userId)
+        {
+            return insertAnnuncio(libro, userId, true, 0, DateTime.MinValue);
+        }
+
+        public long insertAnnuncio(Models.Libro libro, long userId, bool test_mode, AnnuncioManager.StatoAnnuncio myStato, DateTime dateAdded)
+        {
+
+            if (libro.categoriaId == null || libro.categoriaId == 0)
+            {
+                throw new MyManagerCSharp.MyException("La Categoria deve essere obbiligatoria");
+            }
+
+            string strSQLParametri;
+
+            mStrSQL = "INSERT INTO ANNUNCIO ( FK_CATEGORIA_ID , MY_STATO";
+            strSQLParametri = " VALUES ( " + libro.categoriaId;
+
+            if (myStato == 0)
+            {
+                strSQLParametri += ", '" + AnnuncioManager.StatoAnnuncio.Pubblicato.ToString() + "' ";
+            }
+            else
+            {
+                strSQLParametri += ", '" + myStato.ToString() + "' ";
+            }
+
+
+            System.Data.Common.DbCommand command;
+            command = mConnection.CreateCommand();
+
+
+            //'27/01/2012 iposto data di modifica =  data inserimento 
+            DateTime dataCorrente = DateTime.Now;
+
+            mStrSQL += ",DATE_ADDED, DATE_MODIFIED";
+            strSQLParametri += ", @DATE_ADDED , @DATE_MODIFIED ";
+
+            if (dateAdded != DateTime.MinValue)
+            {
+                mAddParameter(command, "@DATE_ADDED", dateAdded);
+                mAddParameter(command, "@DATE_MODIFIED", dateAdded);
+            }
+            else
+            {
+                mAddParameter(command, "@DATE_ADDED", dataCorrente);
+                mAddParameter(command, "@DATE_MODIFIED", dataCorrente);
+            }
+
+            if (userId != 0)
+            {
+                mStrSQL += ",FK_USER_ID ";
+                strSQLParametri += ", @FK_USER_ID ";
+                mAddParameter(command, "@FK_USER_ID", userId);
+            }
+
+            /*
+            mStrSQL += ",TIPO ";
+            strSQLParametri += ", @TIPO ";
+            mAddParameter(command, "@TIPO", libro.immobile.ToString());
+            */
+            if (!String.IsNullOrEmpty(libro.nota))
+            {
+                mStrSQL += ",DESCRIZIONE ";
+                strSQLParametri += ", @DESCRIZIONE ";
+                mAddParameter(command, "@DESCRIZIONE", libro.nota);
+            }
+
+
+            if (!String.IsNullOrEmpty(libro.titolo))
+            {
+                mStrSQL += ",nome ";
+                strSQLParametri += ", @NOME ";
+                mAddParameter(command, "@NOME", libro.titolo);
+            }
+
+            if (!String.IsNullOrEmpty(libro.autore))
+            {
+                mStrSQL += ",autore ";
+                strSQLParametri += ", @AUTORE ";
+                mAddParameter(command, "@AUTORE", libro.autore);
+            }
+
+
+
+
+
+            if (libro.prezzo > 0)
+            {
+                mStrSQL += ",PREZZO ";
+                strSQLParametri += ", @PREZZO ";
+                mAddParameter(command, "@PREZZO", libro.prezzo);
+            }
+
+            
+
+            if (!String.IsNullOrEmpty(libro.regione))
+            {
+                mStrSQL += ",REGIONE ";
+                strSQLParametri += ", @REGIONE ";
+                mAddParameter(command, "@REGIONE", libro.regione);
+            }
+
+            if (!String.IsNullOrEmpty(libro.provincia))
+            {
+                mStrSQL += ",PROVINCIA ";
+                strSQLParametri += ", @PROVINCIA ";
+                mAddParameter(command, "@PROVINCIA", libro.provincia);
+            }
+
+            if (!String.IsNullOrEmpty(libro.comune))
+            {
+                mStrSQL += ", COMUNE ";
+                strSQLParametri += ", @COMUNE ";
+                mAddParameter(command, "@COMUNE", libro.comune);
+            }
+
+
+            if (libro.regioneId != null)
+            {
+                mStrSQL += ",REGIONE_ID ";
+                strSQLParametri += ", @REGIONE_ID ";
+                mAddParameter(command, "@REGIONE_ID", libro.regioneId);
+            }
+
+            //'if (immobile.provinciaId != -1 {
+            if (!String.IsNullOrEmpty(libro.provinciaId))
+            {
+                mStrSQL += ",PROVINCIA_ID ";
+                strSQLParametri += ", @PROVINCIA_ID ";
+                mAddParameter(command, "@PROVINCIA_ID", libro.provinciaId);
+            }
+
+            //'if (immobile.comuneId != -1 {
+            if (!String.IsNullOrEmpty(libro.comuneId))
+            {
+                mStrSQL += ", COMUNE_ID ";
+                strSQLParametri += ", @COMUNE_ID ";
+                mAddParameter(command, "@COMUNE_ID", libro.comuneId);
+            }
+
+
+
+            command.CommandText = mStrSQL + " ) " + strSQLParametri + " )";
+
+            if (test_mode == true)
+            {
+                mTransactionBegin();
+                mExecuteNoQuery(command);
+                mTransactionRollback();
+                return -1;
+            }
+
+            mExecuteNoQuery(command);
+
+            return mGetIdentity();
+        }
+
     }
 }

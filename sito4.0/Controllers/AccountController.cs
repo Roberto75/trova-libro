@@ -137,7 +137,7 @@ namespace MyWebApplication.Controllers
                 string pathImage;
                 pathImage = "~/public/UserFiles/" + u.login + "/photo.gif";
 
-                
+
                 if (!System.IO.File.Exists(Server.MapPath(pathImage)))
                 {
 
@@ -152,9 +152,9 @@ namespace MyWebApplication.Controllers
                 }
 
                 //29/08/2013 per la cache
-                pathImage += "?" + DateTime.Now.Ticks; 
+                pathImage += "?" + DateTime.Now.Ticks;
                 model.pathImageProfile = pathImage;
-               
+
 
             }
             finally
@@ -295,6 +295,11 @@ namespace MyWebApplication.Controllers
 
                 //MyUsers.SimpleSessionPersister.Username = model.UserName;
                 //return RedirectToLocal(returnUrl);
+
+                if (String.IsNullOrEmpty(returnUrl))
+                {
+                    returnUrl = Url.Action("Index", "Home");
+                }
                 return Redirect(returnUrl);
             }
 
@@ -314,7 +319,12 @@ namespace MyWebApplication.Controllers
             //WebSecurity.Logout();
             FormsAuthentication.SignOut();
 
-            (Session["MySessionData"] as MyManagerCSharp.MySessionData).LogOff();
+
+            if (Session["MySessionData"] != null)
+            {
+                (Session["MySessionData"] as MyManagerCSharp.MySessionData).LogOff();
+            }
+
 
             return RedirectToAction("Index", "Home");
         }
@@ -641,7 +651,7 @@ namespace MyWebApplication.Controllers
 
 
                         //*** IMMOBILIARE ***
-                        if (bool.Parse(System.Configuration.ConfigurationManager.AppSettings["Annunci.isEnabled"]))
+                        if (System.Configuration.ConfigurationManager.AppSettings["Annunci.isEnabled"] != null && bool.Parse(System.Configuration.ConfigurationManager.AppSettings["Annunci.isEnabled"]))
                         {
                             Annunci.ImmobiliareManager managerImmobiliare = new Annunci.ImmobiliareManager("immobiliare");
 
@@ -674,7 +684,8 @@ namespace MyWebApplication.Controllers
                         }
 
 
-                        return RedirectToAction("Ok", "Home");
+                        return View("RegisterCompleted");
+                        //return RedirectToAction("Ok", "Home");
                     }
                 }
                 catch (Exception e)
@@ -691,6 +702,11 @@ namespace MyWebApplication.Controllers
             ViewData["TestoPrivacy"] = testoPrivacy;
             return View(model);
         }
+
+
+
+
+
 
         //
         // POST: /Account/Disassociate

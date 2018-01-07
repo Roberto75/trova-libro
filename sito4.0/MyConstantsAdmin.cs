@@ -16,6 +16,9 @@ public static class MyConstantsAdmin
 
     public static MyManagerCSharp.ManagerDB.Days DefaultDay = MyManagerCSharp.ManagerDB.Days.Anno_corrente;
 
+    public const string CONNECTION_LOG = "log";
+
+
     public const string TABLE_STYLE = "MyTable ui-responsive";
     public const string TABLE_ROW_STYLE = "ui-body-a";
     public const string TABLE_ALTERNATING_ROW_STYLE = "ui-body-g";

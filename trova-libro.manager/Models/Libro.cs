@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Mvc;
 
 namespace trova_libro.manager.Models
 {
@@ -48,6 +49,7 @@ namespace trova_libro.manager.Models
         public string casaEditrice { get; set; }
         public string autore { get; set; }
 
+        [AllowHtml]
         public string nota { get; set; }
         public string isbn { get; set; }
 
@@ -58,7 +60,7 @@ namespace trova_libro.manager.Models
         public string regione { get; set; }
         public string provincia { get; set; }
         public string comune { get; set; }
-        public int regioneId { get; set; }
+        public int? regioneId { get; set; }
         public string provinciaId { get; set; }
         public string comuneId { get; set; }
 
@@ -69,10 +71,8 @@ namespace trova_libro.manager.Models
         public Tipo? tipo { get; set ; }
 
         public string categoria { get; set; }
-        public int categoriaId { get; set; }
-
-
-
+        public int? categoriaId { get; set; }
+        
         public Libro()
         {
 

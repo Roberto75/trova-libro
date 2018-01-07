@@ -1,4 +1,4 @@
-﻿ @model MyWebApplication.Models.LogOnModel
+﻿@model MyWebApplication.Models.LogOnModel
 @{
     ViewBag.Title = System.Configuration.ConfigurationManager.AppSettings["application.name"] + " [Admin] - Login";
     Layout = "~/Areas/Admin/Views/Shared/MasterPageAdmin.cshtml";
@@ -12,20 +12,20 @@
 {
     @Html.AntiForgeryToken()
 
-    <div style="max-width: 500px;">
-        <div>
+    
+        <div class="form-group">
             <label for="UserName">Username:</label>
-            <input type="text" name="UserName" id="UserName" data-clear-btn="true" data-mini="false" required value="@Model.UserName">
-        </div>
-        <div>
-            <label for="Password">Password:</label>
-            <input type="password" name="Password" id="Password" data-clear-btn="true" data-mini="false" required value="">
+            <input class="form-control" placeholder="Enter username" type="text" name="UserName" id="UserName" required value="@Model.UserName">
         </div>
 
-        <div data-role="controlgrup" data-type="horizontal">
-            <input type="submit" data-inline="true" value="Login" data-mini="true" />
+        <div class="form-group">
+            <label for="Password">Password:</label>
+            <input class="form-control" placeholder="Enter password" type="password" name="Password" id="Password" required value="@Model.Password">
         </div>
-    </div>
+
+        <input type="submit" class="btn btn-primary" value="Login" />
+
+    
 
     <input type="hidden" name="returnUrl" value="@ViewBag.ReturnUrl" />
 }

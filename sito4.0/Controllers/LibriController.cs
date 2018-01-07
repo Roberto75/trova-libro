@@ -1,15 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
 namespace MyWebApplication.Controllers
 {
+    [Authorize]
     public class LibriController : Controller
     {
+        protected MyManagerCSharp.MySessionData MySessionData;
 
         private trova_libro.manager.LibriManager manager = new trova_libro.manager.LibriManager("mercatino");
+
+        private MyManagerCSharp.RegioniProvinceComuniManager regioniProvinceComuniManager = new MyManagerCSharp.RegioniProvinceComuniManager("RegioniProvinceComuni");
+
+        protected override void Initialize(System.Web.Routing.RequestContext requestContext)
+        {
+            base.Initialize(requestContext);
+
+            if (Session["MySessionData"] != null)
+            {
+                MySessionData = (Session["MySessionData"] as MyManagerCSharp.MySessionData);
+            }
+        }
 
         [AllowAnonymous]
         public ActionResult Index(trova_libro.manager.Models.SearchLibri model)
@@ -38,7 +53,7 @@ namespace MyWebApplication.Controllers
             return View();
         }
 
-
+        [AllowAnonymous]
         public ActionResult Details(long id)
         {
             trova_libro.manager.Models.Libro libro;
@@ -123,7 +138,6 @@ namespace MyWebApplication.Controllers
 
 
 
-        [Authorize]
         [HttpPost, ActionName("Reply")]
         [ValidateAntiForgeryToken]
         public ActionResult ReplyPost(long annuncioId, string testo, long? rispostaId, long? trattativaId)
@@ -178,5 +192,83 @@ namespace MyWebApplication.Controllers
         }
 
 
+
+
+
+        [AllowAnonymous]
+        public ActionResult GetSubCategoria(long categoriaId)
+        {
+            Debug.WriteLine("GetSubCategoria: " + categoriaId);
+
+            List<MyManagerCSharp.Models.MyItem> items = manager.getComboCategoria(categoriaId);
+
+            return Json(items, JsonRequestBehavior.AllowGet); 
+
+        }
+
+
+
+        public ActionResult Create(Models.CreateModel model)
+        {
+            //Debug.WriteLine(String.Format("Categoria: {0}", model.categoria));
+            //Debug.WriteLine(String.Format("Tipo annuncio: {0}", model.autore));
+            //< option value = "1000000" > Libri e Riviste +1000000 </ option >
+            model.comboCategorie = manager.getComboCategoria(1000000);
+
+            model.comboRegioni = regioniProvinceComuniManager.getComboRegioni();
+
+            model.libro = new trova_libro.manager.Models.Libro();
+
+            return View(model);
+        }
+
+
+
+        [Authorize]
+        [ActionName("Create")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CreatePost(Models.CreateModel model)
+        {
+            if (model.libro.categoriaId == null)
+            {
+                ModelState.AddModelError("", "La categoria è un campo obbligatorio");
+            }
+
+            if (model.libro.titolo == null)
+            {
+                ModelState.AddModelError("", "Il titolo è un campo obbligatorio");
+            }
+
+            if (model.libro.tipo == null)
+            {
+                ModelState.AddModelError("", "Il tipo di annuncio è un campo obbligatorio");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                model.comboCategorie = manager.getComboCategoria(1000000);
+                model.comboRegioni = regioniProvinceComuniManager.getComboRegioni();
+                return View(model);
+            }
+
+            Debug.WriteLine("Nota: " + model.libro.nota);
+
+
+            manager.mOpenConnection();
+
+            try
+            {
+                manager.insertAnnuncio(model.libro, MySessionData.UserId);
+            }
+            finally
+            {
+                manager.mCloseConnection();
+            }
+
+
+
+            return View("CreateCompleted");
+        }
     }
 }

@@ -1,0 +1,34 @@
+﻿@model MyManagerCSharp.ManagerDB.Days
+
+@{
+
+    bool IS_ENABLED = true;
+    if (ViewData["ENABLED"] != null && bool.Parse(ViewData["ENABLED"].ToString()) == false   ){
+        IS_ENABLED = false;
+    }
+
+    string name = "Days";
+    if (ViewData["name"] != null )
+    {
+        name = ViewData["name"].ToString();
+    }
+}
+
+<select name="@name" id="@name" data-mini="true" data-inline="true" @(IS_ENABLED?"":"disabled")>
+    <option value="@((int)MyManagerCSharp.ManagerDB.Days.Tutti)"                            @((Model == MyManagerCSharp.ManagerDB.Days.Tutti) ? "selected" : "")>Tutti</option>
+    <option value="@((int)MyManagerCSharp.ManagerDB.Days.Oggi)"                             @((Model == MyManagerCSharp.ManagerDB.Days.Oggi) ? "selected" : "")>Oggi</option>
+    <option value="@((int)MyManagerCSharp.ManagerDB.Days.Ieri)"                             @((Model == MyManagerCSharp.ManagerDB.Days.Ieri) ? "selected" : "")>Ieri</option>
+    <option value="@((int)MyManagerCSharp.ManagerDB.Days.Settimana_corrente)"               @((Model == MyManagerCSharp.ManagerDB.Days.Settimana_corrente) ? "selected" : "")>Settimana corrente</option>
+    <option value="@((int)MyManagerCSharp.ManagerDB.Days.Settimana_precedente)"             @((Model == MyManagerCSharp.ManagerDB.Days.Settimana_precedente) ? "selected" : "")>Settimana precedente</option>
+    <option value="@((int)MyManagerCSharp.ManagerDB.Days.Ultimi_7_giorni )"                 @((Model == MyManagerCSharp.ManagerDB.Days.Ultimi_7_giorni) ? "selected" : "")>Ultimi 7 giorni</option>     
+    <option value="@((int)MyManagerCSharp.ManagerDB.Days.Mese_corrente)"                    @((Model == MyManagerCSharp.ManagerDB.Days.Mese_corrente) ? "selected" : "")>Mese corrente</option>
+    <option value="@((int)MyManagerCSharp.ManagerDB.Days.Mese_precedente)"                  @((Model == MyManagerCSharp.ManagerDB.Days.Mese_precedente) ? "selected" : "")>Mese precedente</option>
+    <option value="@((int)MyManagerCSharp.ManagerDB.Days.Ultimi_30_giorni  )"               @((Model == MyManagerCSharp.ManagerDB.Days.Ultimi_30_giorni) ? "selected" : "")>Ultimi 30 giorni</option>     
+    <option value="@((int)MyManagerCSharp.ManagerDB.Days.Primo_semestre_anno_corrente)"     @((Model == MyManagerCSharp.ManagerDB.Days.Primo_semestre_anno_corrente) ? "selected" : "")>Primo semestre anno corrente</option>
+    <option value="@((int)MyManagerCSharp.ManagerDB.Days.Primo_semestre_anno_precedente)"   @((Model == MyManagerCSharp.ManagerDB.Days.Primo_semestre_anno_precedente) ? "selected" : "")>Primo semestre anno precedente</option>
+    <option value="@((int)MyManagerCSharp.ManagerDB.Days.Secondo_semestre_anno_corrente)"   @((Model == MyManagerCSharp.ManagerDB.Days.Secondo_semestre_anno_corrente) ? "selected" : "")>Secondo semestre anno corrente</option>
+    <option value="@((int)MyManagerCSharp.ManagerDB.Days.Secondo_semestre_anno_precedente)" @((Model == MyManagerCSharp.ManagerDB.Days.Secondo_semestre_anno_precedente) ? "selected" : "")>Secondo semestre anno precedente</option>
+    <option value="@((int)MyManagerCSharp.ManagerDB.Days.Ultimo_semestre)"                  @((Model == MyManagerCSharp.ManagerDB.Days.Ultimo_semestre) ? "selected" : "")>Ultimo semestre</option>
+    <option value="@((int)MyManagerCSharp.ManagerDB.Days.Anno_corrente)"                    @((Model == MyManagerCSharp.ManagerDB.Days.Anno_corrente) ? "selected" : "")>Anno corrente</option>
+    <option value="@((int)MyManagerCSharp.ManagerDB.Days.Anno_precedente)"                  @((Model == MyManagerCSharp.ManagerDB.Days.Anno_precedente) ? "selected" : "")>Anno precedente</option>
+</select>

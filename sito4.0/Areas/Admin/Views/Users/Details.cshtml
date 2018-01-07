@@ -1,7 +1,7 @@
 ﻿@model MyWebApplication.Areas.Admin.Models.MyUserModel
 @{
     ViewBag.Title = "Dettaglio utente: " + ((String.IsNullOrEmpty(Model.Utente.login)) ? "N/A" : Model.Utente.login);
-    Layout = "~/Areas/Admin/Views/Shared/MasterPageAdminMobile.cshtml";
+    Layout = "~/Areas/Admin/Views/Shared/MasterPageAdmin.cshtml";
 }
 
 
@@ -97,22 +97,23 @@
 </script>
 
 
-
-
 <h2>Utente: @Model.Utente.login (id: @Model.Utente.userId)</h2>
 
-<div data-role="tabs" id="tabs">
-    <div data-role="navbar">
-        <ul>
-            <li><a href="#tabs-1" data-theme="@MyConstantsAdmin.TAB_NAVBAR_BUTTON_THEME">Account</a></li>
-            <li><a href="#tabs-2" data-theme="@MyConstantsAdmin.TAB_NAVBAR_BUTTON_THEME">Anagrafica</a></li>
-            <li><a href="#tabs-3" data-theme="@MyConstantsAdmin.TAB_NAVBAR_BUTTON_THEME">Gruppi</a></li>
-            <li><a href="#tabs-4" data-theme="@MyConstantsAdmin.TAB_NAVBAR_BUTTON_THEME">Ruoli</a></li>
-            <li><a id="TabAccessi" href="#tabs-5" data-theme="@MyConstantsAdmin.TAB_NAVBAR_BUTTON_THEME">Accessi</a></li>
-        </ul>
-    </div>
 
-    <div id="tabs-1" class="ui-body ui-body-a">
+<!-- Nav tabs -->
+<ul class="nav nav-tabs" role="tablist">
+    <li role="presentation" class="active"><a href="#tabs-1" aria-controls="home" role="tab" data-toggle="tab">Account</a></li>
+    <li role="presentation"><a href="#tabs-2" aria-controls="profile" role="tab" data-toggle="tab">Anagrafica</a></li>
+    <li role="presentation"><a href="#tabs-3" aria-controls="messages" role="tab" data-toggle="tab">Gruppi</a></li>
+    <li role="presentation"><a href="#tabs-4" aria-controls="settings" role="tab" data-toggle="tab">Ruoli</a></li>
+    <li role="presentation"><a id="TabAccessi" href="#tabs-5" aria-controls="settings" role="tab" data-toggle="tab">Accessi</a></li>
+</ul>
+
+
+
+<div class="tab-content">
+
+    <div id="tabs-1" role="tabpanel" class="tab-pane active">
         @{Html.RenderPartial("TabInfoAccount", Model.Utente);}
         <br />
         <br />
@@ -145,7 +146,7 @@
     </div>
 
 
-    <div id="tabs-2" class="ui-body ui-body-a">
+    <div id="tabs-2" role="tabpanel" class="tab-pane">
         @{Html.RenderPartial("TabInfoAnagrafica", Model.Utente);}
 
         <br />
@@ -199,7 +200,7 @@
     </div>
 
 
-    <div id="tabs-3" class="ui-body ui-body-a">
+    <div id="tabs-3" role="tabpanel" class="tab-pane">
         @if (Model.Utente.Gruppi == null || Model.Utente.Gruppi.Count() == 0)
         {
             <h3>Nessun gruppo associato</h3>
@@ -278,7 +279,7 @@
     </div>
 
 
-    <div id="tabs-4" class="ui-body ui-body-a">
+    <div id="tabs-4" role="tabpanel" class="tab-pane">
         @if (Model.Utente.Ruoli == null || Model.Utente.Ruoli.Count() == 0)
         {
             <h3>Nessun ruolo associato</h3>
@@ -296,7 +297,7 @@
     </div>
 
 
-    <div id="tabs-5" class="ui-body ui-body-a">
+    <div id="tabs-5" role="tabpanel" class="tab-pane">
 
 
         <div class="ui-field-contain">
@@ -306,7 +307,10 @@
 
 
         <div id="DivLoginByUser">
-            @{ Html.RenderPartial("~/Views/Widget/RGraphV2.cshtml", new MyManagerCSharp.RGraph.Models.WidgetRGraph() { RGraph = Model.Reports }); }
+            @{
+                // Html.RenderPartial("~/Views/Widget/RGraphV2.cshtml", new MyManagerCSharp.RGraph.Models.WidgetRGraph() { RGraph = Model.Reports });
+
+            }}
         </div>
 
 
@@ -321,14 +325,14 @@
 
 
 
-<div data-role="controlgrup" data-type="horizontal">
-    <a href="@Url.Action("Index", "Users")" class="ui-btn-inline ui-btn ui-corner-all ui-mini @MyConstantsAdmin.BUTTON_THEME_UI">Torna alla lista</a>
-    <a href="@Url.Action("Edit", "Users", new { id = Model.Utente.userId })" class="ui-btn ui-icon-edit ui-btn-icon-left ui-btn-inline ui-corner-all ui-mini @MyConstantsAdmin.BUTTON_THEME_UI">Modifica</a>
-    <a href="@Url.Action("Delete", "Users", new { id = Model.Utente.userId })" class="ui-btn ui-icon-delete ui-btn-icon-left ui-btn-inline ui-corner-all ui-mini @MyConstantsAdmin.BUTTON_THEME_UI">Elimina</a>
-</div>
-
-
-<div data-role="panel" id="MyPanel" data-display="overlay" data-position="right">
-    <div id="DivLoginByUserDetails">
+    <div data-role="controlgrup" data-type="horizontal">
+        <a href="@Url.Action("Index", "Users")" class="ui-btn-inline ui-btn ui-corner-all ui-mini @MyConstantsAdmin.BUTTON_THEME_UI">Torna alla lista</a>
+        <a href="@Url.Action("Edit", "Users", new { id = Model.Utente.userId })" class="ui-btn ui-icon-edit ui-btn-icon-left ui-btn-inline ui-corner-all ui-mini @MyConstantsAdmin.BUTTON_THEME_UI">Modifica</a>
+        <a href="@Url.Action("Delete", "Users", new { id = Model.Utente.userId })" class="ui-btn ui-icon-delete ui-btn-icon-left ui-btn-inline ui-corner-all ui-mini @MyConstantsAdmin.BUTTON_THEME_UI">Elimina</a>
     </div>
-</div>
+
+
+    <div data-role="panel" id="MyPanel" data-display="overlay" data-position="right">
+        <div id="DivLoginByUserDetails">
+        </div>
+    </div>

@@ -9,177 +9,150 @@
 @using (Html.BeginForm("Register", "Account", FormMethod.Post))
 {
     @Html.AntiForgeryToken()
-    @Html.ValidationSummary(false, "Attenzione")
 
-    <div class="row acc-wizard">
 
-        <div class="col-md-3">
-            <ol class="acc-wizard-sidebar">
-                <li class="acc-wizard-todo acc-wizard-completed"><a href="#step0">Inizio</a></li>
-                <li class="acc-wizard-todo"><a href="#step1">Dati obbligatori</a></li>
-                <li class="acc-wizard-todo"><a href="#step2">Dati facoltativi</a></li>
-                <li class="acc-wizard-todo"><a href="#step3">Condizioni del servizio</a></li>
-                <li class="acc-wizard-todo"><a href="#step4">Fine</a></li>
-            </ol>
+
+    <div class="card mb-3">
+        <div class="card-header">
+            Inizio
         </div>
-
-        <div class="col-md-9">
-
-            <div id="accordion" class="panel-group">
-
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">
-                            <a data-toggle="collapse" data-parent="#accordion" href="#step0" aria-expanded="true" aria-controls="step0">
-                                Inizio
-                            </a>
-                        </h4>
-                    </div>
-                    <div class="panel-collapse collapse in" id="step0" aria-expanded="true">
-                        <div class="panel-body">
-                            La registrazione al servizio si articola in 3 fasi:
-                            <ul>
-                                <li>compilazione dei dati personali, accettazione delle condizioni e termini del servizio e consenso ai sensi del Codice in materia di protezione dei dati personali;</li>
-                                <li>ricezione di un'e-mail di conferma dei dati inseriti;</li>
-                                <li>ricezione di una seconda email con una password generata dal sistema.</li>
-
-                            </ul>
+        <div class="card-body">
+            La registrazione al servizio si articola in 3 fasi:
+            <ul>
+                <li>compilazione dei dati personali, accettazione delle condizioni e termini del servizio e consenso ai sensi del Codice in materia di protezione dei dati personali;</li>
+                <li>ricezione di un'e-mail di conferma dei dati inseriti;</li>
+                <li>ricezione di una seconda email con una password generata dal sistema.</li>
+            </ul>
 
 
-                            Gentile utente la registrazione ai servizi di Trova-libro consente di accere alle aree riservate del sito.
+            Gentile utente la registrazione ai servizi di Trova-libro consente di accere alle aree riservate del sito.
 
-                            Consenso ai sensi del D. Lgs. 196/03
+            Consenso ai sensi del D. Lgs. 196/03
 
-                            Prima di completare la registrazione, leggi la nota informativa, sulle norme che tutelano la privacy e decidi se rilasciare il consenso al trattamento dei dati personali.
+            Prima di completare la registrazione, leggi la nota informativa, sulle norme che tutelano la privacy e decidi se rilasciare il consenso al trattamento dei dati personali.
 
-                            Se lo farai, non solo potrai accedere ai servizi offerti da questo portale, ma potrai anche ricevere informazioni personalizzate nella tua casella di posta elettronica ed essere sempre aggiornato su tutti i nostri servizi e su eventuali nuove offerte e promozioni.
-
-
-                            <div class="acc-wizard-step">
-                                <button class="btn btn-primary" type="submit">Inizia</button>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">
-                            <a data-toggle="collapse" data-parent="#accordion" href="#step1" aria-expanded="true" aria-controls="step1">
-                                Dati obbligatori
-                            </a>
-                        </h4>
-                    </div>
-                    <div class="panel-collapse collapse in" id="step1" aria-expanded="true">
-                        <div class="panel-body">
-
-
-                            @Html.Partial("_MyValidationSummary", ViewData.ModelState)
-
-
-                            <div class="form-group">
-                                <label for="nome">Nome:</label>
-                                <input type="text" class="form-control" value="@Model.nome" id="nome" name="nome" placeholder="Nome">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="cognome">Cognome:</label>
-                                <input type="text" class="form-control" value="@Model.cognome" id="cognome" name="cognome" placeholder="Cognome">
-                            </div>
-
-
-                            <div class="form-group">
-                                <label for="login">Login:</label>
-                                <input type="text" class="form-control" value="@Model.login" id="login" name="login" placeholder="Scegli una login" />
-                            </div>
-
-                            <div class="form-group">
-                                <label for="email">Email:</label>
-                                <input type="email" class="form-control" value="@Model.email" id="email" name="email" placeholder="Il tuo indirizzo email attuale" />
-                            </div>
-
-                            
-                            <div class="acc-wizard-step">
-                                <button class="btn" type="reset">Indietro</button>
-                                <button class="btn btn-primary" type="submit">Next Step</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">
-                            <a data-toggle="collapse" data-parent="#accordion" href="#step2" aria-expanded="true" aria-controls="step2">
-                                Dati facoltativi
-                            </a>
-                        </h4>
-                    </div>
-                    <div class="panel-collapse collapse in" id="step2" aria-expanded="true">
-                        <div class="panel-body">
-                            Dati facoltativi
-
-                            <div class="acc-wizard-step">
-                                <button class="btn" type="reset">Indietro</button>
-                                <button class="btn btn-primary" type="submit">Next Step</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">
-                            <a data-toggle="collapse" data-parent="#accordion" href="#step3" aria-expanded="true" aria-controls="step3">
-                                Condizioni del servizio
-                            </a>
-                        </h4>
-                    </div>
-                    <div class="panel-collapse collapse in" id="step3" aria-expanded="true">
-                        <div class="panel-body">
-                            <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
-                                <legend>Informativa sulla privacy</legend>
-
-                                <div>@(new HtmlString(ViewData["TestoPrivacy"].ToString()))</div>
-
-                                <input type="radio" name="privacy" id="privacy-si" value="SI">
-                                <label for="privacy-si">Accetto</label>
-                                <input type="radio" name="privacy" id="privacy-no" value="NO">
-                                <label for="privacy-no">Non accetto</label>
-                            </fieldset>
-
-                            <div class="acc-wizard-step">
-                                <button class="btn" type="reset">Indietro</button>
-                                <button class="btn btn-primary" type="submit">Next Step</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">
-                            <a data-toggle="collapse" data-parent="#accordion" href="#step4" aria-expanded="true" aria-controls="step4">
-                                Fine
-                            </a>
-                        </h4>
-                    </div>
-                    <div class="panel-collapse collapse in" id="step4" aria-expanded="true">
-                        <div class="panel-body">
-
-                            
-                            <div class="acc-wizard-step">
-                                <button class="btn" type="reset">Indietro</button>
-                                <button class="btn btn-primary" type="button" onclick="buttonSalvaOnClick()">Salva</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            Se lo farai, non solo potrai accedere ai servizi offerti da questo portale, ma potrai anche ricevere informazioni personalizzate nella tua casella di posta elettronica ed essere sempre aggiornato su tutti i nostri servizi e su eventuali nuove offerte e promozioni.
 
         </div>
     </div>
+
+    <div class="card mb-3">
+        <div class="card-header">
+            Dati obbligatori
+        </div>
+        <div class="card-body">
+            @Html.Partial("_MyValidationSummary", ViewData.ModelState)
+
+
+            <div class="form-group">
+                <label for="nome">Nome*:</label>
+                <input type="text" class="form-control" value="@Model.nome" id="nome" name="nome" placeholder="Nome">
+            </div>
+
+            <div class="form-group">
+                <label for="cognome">Cognome*:</label>
+                <input type="text" class="form-control" value="@Model.cognome" id="cognome" name="cognome" placeholder="Cognome">
+            </div>
+
+
+            <div class="form-group">
+                <label for="login">Login*:</label>
+                <input type="text" class="form-control" value="@Model.login" id="login" name="login" placeholder="Scegli una login" />
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email*:</label>
+                <input type="email" class="form-control" value="@Model.email" id="email" name="email" placeholder="Il tuo indirizzo email attuale" />
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <div class="card mb-3">
+        <div class="card-header">
+            Dati facoltativi
+        </div>
+        <div class="card-body">
+            <div class="form-group">
+                <label for="nome">Sesso:</label>
+
+                <label class="radio-inline">
+                    <input name="sesso" id="radio-sesso-M" value="M" @(Model.sesso == "M" ? "checked" : "") type="radio"> M
+                </label>
+
+                <label class="radio-inline">
+                    <input name="sesso" id="radio-sesso-F" value="F" @(Model.sesso == "F" ? "checked" : "") type="radio"> F
+                </label>
+
+            </div>
+
+            <div class="form-group">
+                <label for="telefono">Telefono:</label>
+                <input type="text" class="form-control" value="@Model.telefono" name="telefono" placeholder="Nome">
+            </div>
+
+            <div class="form-group">
+                <label for="nome">HTTP:</label>
+                <input type="text" class="form-control" value="@Model.http" name="http" placeholder="HTTP">
+            </div>
+
+            <div class="form-group">
+                <label for="indirizzo">Indirizzo:</label>
+                <input type="text" class="form-control" value="@Model.indirizzo" name="indirizzo" placeholder="Indirizzo">
+            </div>
+
+            <div class="form-group">
+                <label for="numeroCivico">N° civico:</label>
+                <input type="text" class="form-control" value="@Model.numeroCivico" name="numeroCivico" placeholder="Numero civico">
+            </div>
+
+
+            <div class="form-group">
+                <label for="cap">C.A.P.:</label>
+                <input type="text" class="form-control" value="@Model.cap" name="cap" placeholder="C.A.P.">
+            </div>
+
+            <div class="form-group">
+                <label for="citta">Città:</label>
+                <input type="text" class="form-control" value="@Model.citta" name="citta" placeholder="Città">
+            </div>
+
+
+            <div class="form-group">
+                <label for="provincia">Provincia:</label>
+                <input type="text" class="form-control" value="@Model.provincia" name="provincia" placeholder="Provincia">
+            </div>
+        </div>
+    </div>
+
+
+    <div class="card">
+        <div class="card-header">
+            Condizioni del servizio
+        </div>
+        <div class="card-body">
+            <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
+                <legend>Informativa sulla privacy</legend>
+
+                <div>@(new HtmlString(ViewData["TestoPrivacy"].ToString()))</div>
+
+                <input type="radio" name="privacy" id="privacy-si" value="SI">
+                <label for="privacy-si">Accetto</label>
+                <input type="radio" name="privacy" id="privacy-no" value="NO">
+                <label for="privacy-no">Non accetto</label>
+            </fieldset>
+
+            <button class="btn" type="reset">Indietro</button>
+            <button class="btn btn-primary" type="button" onclick="buttonSalvaOnClick()">Salva</button>
+        </div>
+    </div>
+
+
+
+
+
 
 
 }
@@ -187,13 +160,52 @@
 
 
 <script>
-    $(document).ready(function () {
-        console.log("LOAD ACC-WIZARD");
-        $(".acc-wizard").accwizard();
-    });
+
 
     function buttonSalvaOnClick() {
         console.log("buttonSalvaOnClick");
+        let check = true;
+
+        if ($("#nome").val().trim() === "") {
+            console.log("nome is null");
+            $("#nome").parent().addClass("has-error");
+            check = false;
+        } else {
+            $("#nome").parent().removeClass("has-error");
+        }
+
+
+        if ($("#cognome").val().trim() === "") {
+            console.log("cognome is null");
+            $("#cognome").parent().addClass("has-error");
+            check = false;
+        } else {
+            $("#cognome").parent().removeClass("has-error");
+        }
+
+        if ($("#login").val().trim() === "") {
+            console.log("nome is null");
+            $("#login").parent().addClass("has-error");
+            check = false;
+        } else {
+            $("#login").parent().removeClass("has-error");
+        }
+
+        if ($("#email").val().trim() === "") {
+            console.log("email is null");
+            $("#email").parent().addClass("has-error");
+            check = false;
+        } else {
+            $("#email").parent().removeClass("has-error");
+        }
+
+
+
+
+        if (check === false) {
+            return;
+        }
+
         $("form").submit();
     }
 

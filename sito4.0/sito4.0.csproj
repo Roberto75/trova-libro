@@ -870,6 +870,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LibriController.cs" />
+    <Compile Include="Controllers\MyAuthorizeAttribute.cs" />
     <Compile Include="Controllers\MyBaseController.cs" />
     <Compile Include="Controllers\RegioneProvinciaComuneController.cs" />
     <Compile Include="Controllers\ThumbnailController.cs" />
@@ -877,6 +878,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountModels.cs" />
+    <Compile Include="Models\CreateModel.cs" />
     <Compile Include="Models\GalleryModel.cs" />
     <Compile Include="Models\ModelRegioneProvinciaComune.cs" />
     <Compile Include="Models\ReplyModel.cs" />
@@ -943,6 +945,9 @@
     <Content Include="Views\Shared\_MyValidationSummary.cshtml" />
     <Content Include="Content\lightbox\js\lightbox-plus-jquery.min.map" />
     <Content Include="Content\lightbox\js\lightbox.min.map" />
+    <Content Include="Views\Account\RegisterCompleted.cshtml" />
+    <Content Include="Views\Libri\Create.cshtml" />
+    <Content Include="Views\Libri\CreateCompleted.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
