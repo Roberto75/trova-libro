@@ -1,0 +1,196 @@
+﻿@model MyWebApplication.Models.UpdateModel
+@{
+    ViewBag.Title = "MyAnnuncio";
+    Layout = "~/Views/Shared/_MasterPageMobile.cshtml";
+}
+
+<h2>Dettaglio del mio annuncio</h2>
+
+
+<p>In questa pagina puoi modificare il testo del tuo annuncio, aggiungere delle <b>photo</b>  e visualizzare le trattative in corso.</p>
+
+
+
+
+
+<ul class="nav nav-tabs" id="myTab" role="tablist">
+    <li class="nav-item">
+        <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Home</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Profile</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Contact</a>
+    </li>
+</ul>
+<div class="tab-content">
+    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">a...</div>
+    <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">b...</div>
+    <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">c...</div>
+</div>
+
+
+
+<ul class="nav nav-tabs" id="myTab" role="tablist">
+    <li class="nav-item"><a href="#tab-1" id="tab-1-tab" class="nav-link active" role="tab" data-toggle="tab" aria-controls="tab-1" aria-selected="true">Info</a></li>
+    <li class="nav-item"><a href="#tab-2" id="tab-2-tab" class="nav-link" role="tab" data-toggle="tab" aria-controls="tab-2" aria-selected="false">Click & Prezzo</a></li>
+    <li class="nav-item"><a href="#tab-3" id="tab-3-tab" class="nav-link" role="tab" data-toggle="tab" aria-controls="tab-3" aria-selected="false">Trattative</a></li>
+    <li class="nav-item"><a href="#tab-4" id="tab-4-tab" class="nav-link" role="tab" data-toggle="tab" aria-controls="tab-4" aria-selected="false">Descrizione</a></li>
+    <li class="nav-item"><a href="#tab-5" id="tab-5-tab" class="nav-link" role="tab" data-toggle="tab" aria-controls="tab-5" aria-selected="false">Photo</a></li>
+</ul>
+
+
+<div class="tab-content" id="myTabContent">
+
+    <div id="tab-1" class="tab-pane fade show active" role="tabpanel" aria-labelledby="tab-1-tab">
+        @{Html.RenderPartial("_TabInfoLibro", Model.libro);}
+    </div>
+
+    <div id="tab-2" class="tab-pane fade" role="tabpanel" aria-labelledby="tab-2">
+        <h3>Statistiche sui click </h3>
+        <p>In questa pagina puoi monitare il numero di volte che viene visualizzato il tuo annuncio.</p>
+        <p>Hai la possibilità di azzerare il contatore parziale.</p>
+
+        <ul data-role="listview" data-count-theme="c" data-inset="true">
+            <li data-icon="false"><a href="#">Contatore Totale <span class="ui-li-count">@Model.libro.countClick</span></a></li>
+            <li data-icon="false"><a href="#">Contatore Parziale <span id="contatoreParziale" class="ui-li-count">@Model.libro.countClickParziale</span></a></li>
+            <li data-icon="false"><a href="#">L&#39;ultimo click è stato eseguito il : <span class="ui-li-count">@Model.libro.dateLastClick.ToShortDateString()</span></a></li>
+        </ul>
+
+        @using (Html.BeginForm("ResetContatore", "Libri", FormMethod.Post, new { id = "MyFormResetContatore" }))
+        {
+        @Html.AntiForgeryToken()
+        <input type="hidden" name="annuncioId" value="@Model.libro.annuncioId" />
+        <input type="button" value="Reset del contatore parziale" data-inline="true" data-mini="true" onclick="javascript: MyAsyncReset();" />
+        }
+
+
+        <h3>Aggiorna il prezzo</h3>
+        <p>In questa sezione hai la possibilià di <b>aggiornare il prezzo</b> del tuo annuncio.</p>
+        <p>Questa modifica viene notificata solo gli utenti in trattativa, tramite un messaggio email.</p>
+        @using (Html.BeginForm("UpdatePrezzo", "Libri", FormMethod.Post, new { id = "MyFormUpdatePrezzo" }))
+        {
+        @Html.AntiForgeryToken()
+
+        <label>Prezzo attuale € @Model.libro.prezzo.ToString("N2")</label>
+
+
+        <div data-role="fieldcontain">
+            <label for="nuovoPrezzo">Nuovo valore (nel seguente formato: 12345,00) €:</label>
+            <input type="number" id="nuovoPrezzo" name="nuovoPrezzo" pattern="[0-9]+([,\.][0-9]+)?" required="required" step="0.01" min="0" value="@Model.libro.prezzo.ToString("N2").Replace(".", "").Replace(",", ".")" />
+        </div>
+
+        <input type="hidden" name="annuncioId" value="@Model.libro.annuncioId" />
+        <input type="submit" value="Modifica il prezzo" data-inline="true" data-mini="true" onclick="return updatePrezzo();" />
+        }
+    </div>
+
+    <div id="tab-3" class="tab-pane fade" role="tabpanel" aria-labelledby="tab-3-tab">
+        <h3>Trattative in corso con altri utenti</h3>
+    </div>
+
+    <div id="tab-4" class="tab-pane fade" role="tabpanel" aria-labelledby="tab-4-tab">
+        <p>La modifica del testo del annuncio viene notificata a tutti gli utenti in trattativa, tramite un messaggio email.</p>
+
+
+        @using (Html.BeginForm("UpdateNota", "Libro", FormMethod.Post, new { id = "MyFormUpdateNota" }))
+            {
+        @Html.AntiForgeryToken()
+        <textarea name="nota" id="nota">@Model.libro.nota  </textarea>
+
+        <input type="hidden" name="annuncioId" value="@Model.libro.annuncioId" />
+        <input type="submit" value="Modifica la nota" data-inline="true" data-mini="true" onclick="return confirm('Tutti gli utenti in trattativa con questo annuncio verranno notificati della modifica tramite un messaggio email. Confermare la modifica?')" />
+        }
+
+    </div>
+
+    <div id="tab-5" class="tab-pane fade" role="tabpanel" aria-labelledby="tab-5-tab">
+        <h3>Photo</h3>
+
+
+        <p>Clicca sul bottone per aggiungere una nuova immagine: </p>
+        <p>
+            Le immagini con dimensione maggiore di @MyWebApplication.Controllers.LibriController.MaxWidthImage x @MyWebApplication.Controllers.LibriController.MaxHeightImage (WxH) verranno automaticamente ridimensionate.
+            <br />
+            Sono ammessi file con estenzione Gif, Jpeg e Png.
+        </p>
+
+
+
+        <div id="MyGalleryEdit">
+            @{
+                MyWebApplication.Models.GalleryModel modelGallery = new MyWebApplication.Models.GalleryModel();
+                modelGallery.photos = Model.photos;
+                modelGallery.externalId = Model.libro.annuncioId;
+
+                Html.RenderPartial("~/Views/Shared/GalleryEdit.cshtml", modelGallery);
+            }
+        </div>
+
+    </div>
+</div>
+
+
+
+<script src="http://tinymce.cachefly.net/4.0/tinymce.min.js"></script>
+<script type="text/javascript">
+    tinymce.init({
+        mode: "exact",
+        elements: "nota",
+        encoding: "xml"
+    });
+</script>
+
+
+
+<div data-role="controlgrup" data-type="horizontal" data-mini="true">
+    <a href="@Url.Action("MyAnnunci", "Immobiliare")" data-role="button" data-inline="true">Torna all'elenco</a>
+</div>
+
+
+
+<script type="text/javascript">
+
+    function MyAsyncReset() {
+
+        if (confirm("Confermare l'azzeramento del contatore parziale?")) {
+            //alert("MyAsyncReset");
+            var data = $('#MyFormResetContatore').serialize();
+
+            $.post('@Url.Action("ResetContatore", "Libri")', data, function (risposta) {
+                //alert("Risposta: " + risposta.esito);
+                if (risposta.esito == "Success") {
+                    // alert("Risposta: " + risposta.esito);
+                    $("#contatoreParziale").text("0");
+                }
+            });
+        }
+    }
+
+
+    function updatePrezzo() {
+        // alert("updatePrezzo" + isNaN(parseFloat($("#nuovoPrezzo").val())));
+
+        if (isNaN(parseFloat($("#nuovoPrezzo").val()))) {
+            alert("Fomato non corretto. Es: 1234,00");
+            return false;
+        }
+
+        var num;
+        num = parseFloat($("#nuovoPrezzo").val()).toFixed(2);
+
+
+        var messaggio;
+        messaggio = "Nuovo importo: " + num.replace(".", ",") + '\n\r';
+
+        if (!confirm(messaggio + 'Tutti gli utenti in trattativa con questo annuncio verranno notificati della modifica tramite un messaggio email. Confermare la modifica?')) {
+            return false;
+        }
+
+        $("#nuovoPrezzo").val(num);
+
+        return true;
+    }
+</script>
+

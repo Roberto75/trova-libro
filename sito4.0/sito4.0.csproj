@@ -881,8 +881,10 @@
     <Compile Include="Models\CreateModel.cs" />
     <Compile Include="Models\GalleryModel.cs" />
     <Compile Include="Models\ModelRegioneProvinciaComune.cs" />
+    <Compile Include="Models\ModelTrattativa.cs" />
     <Compile Include="Models\ReplyModel.cs" />
     <Compile Include="Models\TestModels.cs" />
+    <Compile Include="Models\UpdateModel.cs" />
     <Compile Include="MyConstants.cs" />
     <Compile Include="MyConstantsAdmin.cs" />
     <Compile Include="MyHelper.cs" />
@@ -948,6 +950,10 @@
     <Content Include="Views\Account\RegisterCompleted.cshtml" />
     <Content Include="Views\Libri\Create.cshtml" />
     <Content Include="Views\Libri\CreateCompleted.cshtml" />
+    <Content Include="Views\Libri\Delete.cshtml" />
+    <Content Include="Views\Libri\Trattativa.cshtml" />
+    <Content Include="Views\Libri\MyAnnuncio.cshtml" />
+    <Content Include="Views\Libri\_TabInfoLibro.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

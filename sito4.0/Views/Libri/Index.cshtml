@@ -10,58 +10,55 @@
 
 }
 
-<h2>Ricerca</h2>
-
+<h1>Ricerca</h1>
 
 
 <form action="@Url.Action("Index", "Libri")" method="post" class="form-horizontal" id="MyForm">
 
     <div class="form-group">
-        <label for="data" class="col-sm-2 control-label">Data inserimento</label>
+        <label for="data" class="control-label">Data inserimento</label>
+        <div class="form-check form-check-inline">
+            <input type="radio" class="form-check-input" name="days" id="radio-oggi" value="@((int)MyManagerCSharp.ManagerDB.Days.Oggi)" @((Model.days == MyManagerCSharp.ManagerDB.Days.Oggi) ? "checked" : "") />
+            <label class="form-check-label" for="radio-oggi">Oggi</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input type="radio" class="form-check-input" name="days" id="radio-7-giorni" value="@((int)MyManagerCSharp.ManagerDB.Days.Ultimi_7_giorni)" @((Model.days == MyManagerCSharp.ManagerDB.Days.Ultimi_7_giorni) ? "checked" : "") />
+            <label class="form-check-label" for="radio-7-giorni">Ultima settimana</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input type="radio" class="form-check-input" name="days" id="radio-30-giorni" value="@((int)MyManagerCSharp.ManagerDB.Days.Ultimi_30_giorni)" @((Model.days == MyManagerCSharp.ManagerDB.Days.Ultimi_30_giorni) ? "checked" : "") />
+            <label class="form-check-label" for="radio-30-giorni"> Ultimo mese</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input type="radio" class="form-check-input" name="days" id="radio-tutti" value="@((int)MyManagerCSharp.ManagerDB.Days.Tutti)" @((Model.days == MyManagerCSharp.ManagerDB.Days.Tutti) ? "checked" : "") />
+            <label class="form-check-label" for="radio-tutti">Tutti</label>
+        </div>
+    </div>
 
-        <div class="col-sm-10">
-            <div class="radio-inline">
-                <input type="radio" name="days" value="@((int)MyManagerCSharp.ManagerDB.Days.Oggi)" @((Model.days == MyManagerCSharp.ManagerDB.Days.Oggi) ? "checked" : "") />
-                Oggi
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="titolo">Titolo</label>
+                <input type="text" class="form-control" name="filter.titolo" value="@Model.filter.titolo">
             </div>
-
-            <div class="radio-inline">
-                <input type="radio" name="days" value="@((int)MyManagerCSharp.ManagerDB.Days.Ultimi_7_giorni)" @((Model.days == MyManagerCSharp.ManagerDB.Days.Ultimi_7_giorni) ? "checked" : "") />
-                Ultima settimana
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="titolo" >Autore</label>
+                <input type="text" class="form-control" name="filter.autore" value="@Model.filter.autore">
             </div>
-
-            <div class="radio-inline">
-                <input type="radio" name="days" value="@((int)MyManagerCSharp.ManagerDB.Days.Ultimi_30_giorni)" @((Model.days == MyManagerCSharp.ManagerDB.Days.Ultimi_30_giorni) ? "checked" : "") />
-                Ultimo mese
-            </div>
-
-            <div class="radio-inline">
-                <input type="radio" name="days" value="@((int)MyManagerCSharp.ManagerDB.Days.Tutti)" @((Model.days == MyManagerCSharp.ManagerDB.Days.Tutti) ? "checked" : "") />
-                Tutti
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="isbn" >ISBN</label>
+                <input type="text" class="form-control" name="filter.isbn" value="@Model.filter.isbn">
             </div>
         </div>
     </div>
 
 
-
-    <div class="form-group">
-        <label for="titolo" class="col-sm-2 control-label">Titolo</label>
-        <div class="col-sm-10">
-            <input type="text" class="form-control" name="filter.titolo" value="@Model.filter.titolo">
-        </div>
-    </div>
-
-    <div class="form-group">
-        <label for="titolo" class="col-sm-2 control-label">Autore</label>
-        <div class="col-sm-4">
-            <input type="text" class="form-control" name="filter.autore" value="@Model.filter.autore">
-        </div>
-
-        <label for="titolo" class="col-sm-2 control-label">ISBN</label>
-        <div class="col-sm-4">
-            <input type="text" class="form-control" name="filter.isbn" value="@Model.filter.isbn">
-        </div>
-    </div>
+  
 
     <button type="submit" class="btn btn-default">Ricerca</button>
 

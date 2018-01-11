@@ -11,12 +11,6 @@ namespace trova_libro.manager.Models
     public class Libro
     {
 
-        public enum Tipo
-        {
-            Vendo = 1,
-            Compro = 2,
-            Scambio = 3
-        }
 
 
 
@@ -68,14 +62,19 @@ namespace trova_libro.manager.Models
 
 
         // le imposto a null altrimeti mi diventa un filtro obbligatorio nella RICERCA
-        public Tipo? tipo { get; set ; }
+        public Annunci.AnnuncioManager.TipoAnnuncio? tipo { get; set; }
 
         public string categoria { get; set; }
         public int? categoriaId { get; set; }
-        
+
+        public DateTime dateLastClick { get; set; }
+        public DateTime dateStartClickParziale { get; set; }
+        public long countClick { get; set; }
+        public long countClickParziale { get; set; }
+
         public Libro()
         {
-
+            this.annuncioId = -1;
         }
 
         public Libro(System.Data.DataRow row, SelectFileds mode)
@@ -102,7 +101,16 @@ namespace trova_libro.manager.Models
             categoria = (row["categoria"] is DBNull) ? "" : row["categoria"].ToString();
             categoriaId = int.Parse(row["categoria_id"].ToString());
 
-            tipo = (Tipo)int.Parse(row["tipo"].ToString());
+            if (!(row["tipo"] is DBNull))
+            {
+                tipo = (Annunci.AnnuncioManager.TipoAnnuncio)int.Parse(row["tipo"].ToString());
+            }
+            else
+            {
+                Debug.WriteLine("Tip IS NULL");
+            }
+
+
 
             if (mode == SelectFileds.Full)
             {
@@ -119,10 +127,10 @@ namespace trova_libro.manager.Models
                 nota = (row["DESCRIZIONE"] is DBNull) ? "" : row["DESCRIZIONE"].ToString();
 
 
-                /*   dateLastClick = (row["DATE_LAST_CLICK"] is DBNull) ? DateTime.MinValue : DateTime.Parse(row["DATE_LAST_CLICK"].ToString());
-                   dateStartClickParziale = (row["date_start_click_parziale"] is DBNull) ? DateTime.MinValue : DateTime.Parse(row["date_start_click_parziale"].ToString());
-                   countClick = long.Parse(row["COUNT_CLICK"].ToString());
-                   countClickParziale = long.Parse(row["COUNT_CLICK_PARZIALE"].ToString());*/
+                dateLastClick = (row["DATE_LAST_CLICK"] is DBNull) ? DateTime.MinValue : DateTime.Parse(row["DATE_LAST_CLICK"].ToString());
+                dateStartClickParziale = (row["date_start_click_parziale"] is DBNull) ? DateTime.MinValue : DateTime.Parse(row["date_start_click_parziale"].ToString());
+                countClick = long.Parse(row["COUNT_CLICK"].ToString());
+                countClickParziale = long.Parse(row["COUNT_CLICK_PARZIALE"].ToString());
             }
 
         }

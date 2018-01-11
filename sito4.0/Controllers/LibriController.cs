@@ -8,9 +8,16 @@ using System.Web.Mvc;
 namespace MyWebApplication.Controllers
 {
     [Authorize]
-    public class LibriController : Controller
+    public class LibriController : MyBaseController
     {
         protected MyManagerCSharp.MySessionData MySessionData;
+
+        public const int MaxWidthImage = 500;
+        public const int MaxHeightImage = 500;
+
+        public const int WidthThumbnail = 200;
+        public const int HeightThumbnail = 200;
+
 
         private trova_libro.manager.LibriManager manager = new trova_libro.manager.LibriManager("mercatino");
 
@@ -45,13 +52,103 @@ namespace MyWebApplication.Controllers
 
         public ActionResult MyAnnunci()
         {
-            return View();
+            manager.mOpenConnection();
+
+            List<trova_libro.manager.Models.Libro> risultato;
+            System.Collections.Hashtable hashtableRisposte = new System.Collections.Hashtable();
+
+            try
+            {
+
+                //if (User.Identity is System.Web.Security.FormsIdentity)
+                //{
+                //    risultato = manager.getListAnnunci((User.Identity as System.Web.Security.FormsIdentity)..UserId);
+                //}
+
+                //if (User.Identity is MyUsers.MyCustomIdentity)
+                //{
+                //    risultato = manager.getListAnnunci((User.Identity as MyUsers.MyCustomIdentity).UserId);
+                //}
+
+
+                risultato = manager.getListAnnunci(MySessionData.UserId);
+
+                Annunci.AnnuncioManager annuncioManager = new Annunci.AnnuncioManager(manager.mGetConnection());
+                long numeroRisposte;
+                foreach (trova_libro.manager.Models.Libro i in risultato)
+                {
+
+                    numeroRisposte = annuncioManager.getNumeroRisposteOfAnnuncio(i.annuncioId, MySessionData.UserId);
+                    hashtableRisposte.Add(i.annuncioId, numeroRisposte);
+                }
+            }
+            finally
+            {
+                manager.mCloseConnection();
+            }
+
+            ViewData["hashtableRisposte"] = hashtableRisposte;
+            return View(risultato);
         }
 
         public ActionResult MyTrattative()
         {
-            return View();
+            manager.mOpenConnection();
+
+            List<Annunci.Models.Trattativa> risultato;
+
+            try
+            {
+                risultato = manager.getListTrattative(MySessionData.UserId, Annunci.Models.Trattativa.TipoTrattativa.Libro);
+            }
+            finally
+            {
+                manager.mCloseConnection();
+            }
+
+
+            return View(risultato);
         }
+
+
+        [Authorize]
+        public ActionResult Trattativa(long? id)
+        {
+            Debug.WriteLine("trattativaId: " + id);
+
+
+            Models.ModelTrattativa model = new Models.ModelTrattativa();
+
+
+
+            manager.mOpenConnection();
+
+            Annunci.Models.Trattativa risultato;
+
+            try
+            {
+                risultato = manager.getTrattativa((long)id);
+
+                if (risultato != null)
+                {
+                    manager.setRisposteFromTrattativa(risultato);
+                }
+
+                model.trattativa = risultato;
+
+               model.libro = manager.getLibro(risultato.annuncioId);
+
+            }
+            finally
+            {
+                manager.mCloseConnection();
+            }
+
+
+            return View(model);
+        }
+
+
 
         [AllowAnonymous]
         public ActionResult Details(long id)
@@ -270,5 +367,109 @@ namespace MyWebApplication.Controllers
 
             return View("CreateCompleted");
         }
+
+        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Delete(long? annuncioId)
+        {
+            if (annuncioId != null)
+            {
+                Debug.WriteLine("Delete MyAnnuncio: " + annuncioId);
+                ViewData["Tipo"] = "Annuncio";
+                ViewData["MyId"] = annuncioId;
+
+
+                ViewBag.Title = "Trova-libro: Cancellazione annuncio";
+            }
+            return View();
+        }
+
+
+        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteExecute(long? MyId)
+        {
+
+            if (MyId == null)
+            {
+                throw new MyManagerCSharp.MyException(MyManagerCSharp.MyException.ErrorNumber.ParametroNull, "DeleteExecute");
+            }
+
+            Debug.WriteLine("MyAnnuncioId: " + MyId);
+
+            try
+            {
+                manager.mOpenConnection();
+
+                manager.deleteAnnuncioLogic((long)MyId, Annunci.AnnuncioManager.StatoAnnuncio.Da_cancellare, Server.MapPath("~"));
+
+            }
+            finally
+            {
+                manager.mCloseConnection();
+            }
+            
+            return RedirectToAction("MyAnnunci");
+        }
+
+
+
+
+
+        public ActionResult MyAnnuncio(long id)
+        {
+            Debug.WriteLine("MyAnnuncioId: " + id);
+
+            Models.UpdateModel model;
+            model = new Models.UpdateModel();
+
+            trova_libro.manager.Models.Libro libro = null;
+            manager.mOpenConnection();
+            try
+            {
+                libro = manager.getLibro(id);
+
+                if (libro == null)
+                {
+                    return HttpNotFound();
+                }
+
+                if (libro.userId != MySessionData.UserId)
+                {
+                    return RedirectToAction("NotAuthorized", "Home");
+                }
+
+                // PHOTO
+                Annunci.PhotoManager photoManager = new Annunci.PhotoManager(manager.mGetConnection());
+
+                List<Annunci.Models.MyPhoto> photos;
+                photos = photoManager.getMyPhotosIsNotPlanimetria(id);
+
+                Debug.WriteLine("Trovate {0} immagini", photos.Count);
+
+                if (Request.IsAjaxRequest())
+                {
+                    Models.GalleryModel modelGallery = new Models.GalleryModel();
+                    modelGallery.externalId = libro.annuncioId;
+                    modelGallery.photos = photos;
+                    return PartialView("GalleryEdit", modelGallery);
+                }
+
+                model.photos = photos;
+            }
+            finally
+            {
+                manager.mCloseConnection();
+            }
+
+            model.libro = libro;
+            return View(model);
+        }
+
+
+
+
     }
 }

@@ -8,7 +8,7 @@
 <div id="Gallery">
 
     <ul data-role="listview" data-split-icon="delete" data-split-theme="d" data-inset="true">
-        @foreach (MyManagerCSharp.MyObject.MyPhoto p in Model.photos)
+        @foreach (Annunci.Models.MyPhoto p in Model.photos)
         {
             System.Diagnostics.Debug.WriteLine("Path : " + Server.MapPath(p.Path));
 

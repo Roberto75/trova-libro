@@ -1,21 +1,119 @@
-﻿
+﻿@model List<trova_libro.manager.Models.Libro>
 @{
     ViewBag.Title = "MyAnnunci";
     Layout = "~/Views/Shared/_MasterPageMobile.cshtml";
 }
 
-<h2>MyAnnunci</h2>
+<h2>I miei annunci</h2>
+
+<p>Clicca qui per inserire un <a class="btn btn-secondary" href="@Url.Action("Create" )" role="button">Nuovo annuncio<i class="fa fa-plus fa-fw"></i></a></p>
+
+<p>
+    In questa pagina sono elencati gli annunci che hai pubblicato.<br />
+    Per ogni annuncio è indicato il <b>numero di risposte</b> che hai ricevuto.<br />
+    Clicca sul dettaglio dell'annuncio per vedere le trattative in corso con le relative risposte.
+</p>
+
+<p>
+    Se desiderei <b>cancellare un annuncio</b> clicca su <img src="../admin/images/elimina_16x16.gif" alt="Elimina" />
+    <br />
+    Se desideri aggiungere altre immagini oppure modificare il testo del messaggio clicca su <img src="../admin/images/search1_16x16.gif" alt="Dettagli" /> per aprire il dettaglio dell'annuncio
+</p>
 
 
 
+@if (Model.Count == 0)
+{
+    <h2>Non hai inserito nessun annuncio.</h2>
+    <p>Accedi all pagina di <a href="@Url.Action("Create")">inserimento annuncio</a> per crearne uno.</p>
+
+}
+else
+{
+    <table id="MyTable" class="ui-responsive table-stroke">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Categoria</th>
+                <th>Data inserimento</th>
+                <th>Tipo</th>
+                <th>Titolo</th>
+                <th>Prezzo</th>
+                <th>Risposte</th>
+                <th>Modifica</th>
+                <th>Cancella</th>
+            </tr>
+        </thead>
+        <tbody>
 
 
-<p>Clicca qui per inserire un <a class="btn btn-secondary" href="@Url.Action("Create", "Libri")" role="button">Nuovo annuncio<i class="fa fa-plus fa-fw"></i></a></p>
+            @foreach (trova_libro.manager.Models.Libro i in Model)
+            {
+
+                <tr>
+                    <td>
+                        @if (((long)(ViewData["hashtableRisposte"] as System.Collections.Hashtable)[i.annuncioId]) > 0)
+                        {
+                            <img src="@Url.Content("~/Content/Images/shared/green2_16x16.png")" alt="Ci sono delle risposte per l'annuncio" />
+                        }
+                        else
+                        {
+                            <img src="@Url.Content("~/Content/Images/shared/empty.gif")" alt="Non ci sono risposte per l'annuncio" />
+                        }
+
+                    </td>
+                    <td>@i.categoria</td>
+                    <td>@i.dataInserimento.ToShortDateString()</td>
+                    <td>@i.tipo</td>
+                    <td>@i.titolo</td>
+                    <td>@i.prezzo.ToString("C") </td>
+                    <td>@((ViewData["hashtableRisposte"] as System.Collections.Hashtable)[i.annuncioId])</td>
+                    <td><a href="@(Url.Action("MyAnnuncio") + "/" + i.annuncioId)" data-role="button" data-iconpos="notext" data-inline="true" data-theme="b" data-icon="edit">Edit</a></td>
+                    <td><a href="javascript:deleteRow('@i.annuncioId');" data-role="button" data-iconpos="notext" data-inline="true" data-theme="b" data-icon="delete">Delete</a></td>
+                </tr>
+
+            }
+        </tbody>
+    </table>
+
+}
 
 
-Accedi all pagina di inserimento annuncio per creare un nuovo annuncio da inserire nell'archivio di Trova-Libro.
+@using (Html.BeginForm("Delete", "Libri", FormMethod.Post, new { id = "MyForm" }))
+{
+    @Html.AntiForgeryToken()
+    <input type="hidden" id="annuncioId" name="annuncioId" />
+}
+
+
+<script type="text/javascript">
+    function deleteRow(id) {
+        // alert("deleteRow: " + id);
 
 
 
+        //<td><a href="javascript:deleteRow('i.immobileId');" data-role="button" data-iconpos="notext" data-inline="true" data-theme="b" data-icon="delete">Delete</a></td>
 
-Non hai inserito nessun annuncio.
+
+        //$("#popupDialogConfirm").dialog({
+        //    resizable: false,
+        //    height: 140,
+        //    modal: true,
+        //    buttons: {
+        //        "Delete selected toon": function () {
+        //            alert("ff");
+        //           // $(this).dialog("close");
+        //        },
+        //        Cancel: function () {
+        //            $(this).dialog("close");
+        //        }
+        //    }
+        //});
+        //$.mobile.changePage("#myDialog");
+        //if (window.confirm("Confermare l'operazione")) {
+        $("#annuncioId").val(id);
+        $("#MyForm").submit();
+        //}
+
+    }
+</script>

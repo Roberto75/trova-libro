@@ -27,6 +27,62 @@ public class MyHelper
 
     }
 
+    public static HtmlString getProfileImage(string ServerRootPath, string login, long customerId)
+    {
+        return MyHelper.getProfileImage(ServerRootPath, login, customerId, -1);
+    }
+
+    public static HtmlString getProfileImage(string ServerRootPath, string login, long customerId, long annuncioId)
+    {
+
+        string pathImage;
+        pathImage = "/public/UserFiles/" + login + "/photo.gif";
+
+        string temp;
+
+        //System.Diagnostics.Debug.WriteLine(String.Format ("Login: {0} CustomerId: {1}", login , customerId ));
+
+        if (!System.IO.File.Exists(ServerRootPath + pathImage))
+        {
+
+            if (customerId == -1)
+            {
+                pathImage = "/Content/Images/immobiliare/_privato.gif";
+                //pathImage = "~/Content/themes/base/images/immobiliare/_privato.gif";
+            }
+            else
+            {
+                pathImage = "/Content/Images/immobiliare/_agenzia.gif";
+                //pathImage = "~/Content/themes/base/images/immobiliare/_agenzia.gif";
+            }
+        }
+
+        string toolTip;
+        if (customerId == -1)
+        {
+            toolTip = "Utente privato: " + login;
+        }
+        else
+        {
+            toolTip = "Agenzia immobiliare: " + login;
+        }
+
+        //pathImage = System.Web.Mvc.UrlHelper.GenerateContentUrl(pathImage, Context);
+
+        //temp = String.Format("<img src=\"{0}\" title=\"{1}\" />", pathImage, toolTip);
+
+
+        temp = String.Format("<img src=\"{0}\" title=\"{1}\" height=\"80\" width=\"80\" /></a>", pathImage, toolTip);
+
+        if (annuncioId != -1)
+        {
+
+            temp = String.Format("<a href=\"\\Immobiliare\\Details\\{0}\">{1}</a>", annuncioId, temp);
+        }
+
+
+        return new HtmlString(temp);
+    }
 
 
 

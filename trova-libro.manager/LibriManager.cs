@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace trova_libro.manager
 {
-    public class LibriManager : Annunci.AnnuncioManager
+    public class LibriManager : AnnuncioManager
     {
 
 
@@ -40,13 +40,12 @@ namespace trova_libro.manager
             risultato = new List<Models.Libro>();
 
             mStrSQL = _sqlElencoLibri;
-            mStrSQL += " WHERE ANNUNCIO.date_deleted Is Null ";
-
+       
             System.Data.Common.DbCommand command;
             command = mConnection.CreateCommand();
 
 
-            string strWHERE = "";
+            string strWHERE = " WHERE ANNUNCIO.date_deleted Is Null";
 
             if (model.filter != null)
             {
@@ -55,7 +54,7 @@ namespace trova_libro.manager
                 Debug.WriteLine("Autore: " + model.filter.autore);
                 Debug.WriteLine("Isbn: " + model.filter.isbn);
 
-                if (model.filter.regioneId != -1 && model.filter.regioneId != 0)
+                if (model.filter.regioneId != null && model.filter.regioneId != -1 && model.filter.regioneId != 0)
                 {
                     strWHERE += " AND regione_id = " + model.filter.regioneId;
                 }
@@ -109,6 +108,8 @@ namespace trova_libro.manager
 
 
             }
+
+            strWHERE += getWhereConditionByDate("ANNUNCIO.date_added", model.days);
 
             if (!String.IsNullOrEmpty(strWHERE))
             {
@@ -175,6 +176,12 @@ namespace trova_libro.manager
             if (mDt.Rows.Count == 0)
             {
                 return null;
+            }
+
+
+            if (mDt.Rows.Count > 1)
+            {
+                throw new MyManagerCSharp.MyException("id > 0");
             }
 
             Models.Libro libro = new Models.Libro(mDt.Rows[0], Models.Libro.SelectFileds.Full);
@@ -308,11 +315,11 @@ namespace trova_libro.manager
                 mAddParameter(command, "@FK_USER_ID", userId);
             }
 
-            /*
+            
             mStrSQL += ",TIPO ";
             strSQLParametri += ", @TIPO ";
-            mAddParameter(command, "@TIPO", libro.immobile.ToString());
-            */
+            mAddParameter(command, "@TIPO", (int)libro.tipo);
+            
             if (!String.IsNullOrEmpty(libro.nota))
             {
                 mStrSQL += ",DESCRIZIONE ";
@@ -409,6 +416,43 @@ namespace trova_libro.manager
 
             return mGetIdentity();
         }
+
+
+
+
+
+        public List<Models.Libro> getListAnnunci(long userId)
+        {
+            List<Models.Libro> risultato;
+            risultato = new List<Models.Libro>();
+
+            //Debug
+            //userId = 567809036;
+
+            //strSQL = "SELECT UTENTI.my_login, UTENTI.user_id, ANNUNCIO.annuncio_id, FORMAT(ANNUNCIO.date_added,""dd-MM-yyyy"") AS date_added, ANNUNCIO.tipo, ANNUNCIO.nome AS nome, ANNUNCIO.prezzo, categorie.nome AS categoria, Switch(tipo=1,'Vendo',tipo=2,'Compro',tipo=3,'Scambio') AS tipo_desc, categorie.categoria_id " & _
+            //" FROM categorie INNER JOIN (ANNUNCIO LEFT JOIN UTENTI ON ANNUNCIO.fk_user_id=UTENTI.user_id) ON categorie.categoria_id=ANNUNCIO.fk_categoria_id " & _
+            //" WHERE ANNUNCIO.date_deleted Is Null And ANNUNCIO.fk_user_id= " & CType(Session("SessionData"), MyManager.SessionData).getUserId
+
+            mStrSQL = _sqlElencoLibri;
+            mStrSQL += " WHERE ANNUNCIO.date_deleted Is Null   And ANNUNCIO.fk_user_id= " + userId;
+            mStrSQL += " ORDER BY ANNUNCIO.date_added DESC";
+            mDt = mFillDataTable(mStrSQL);
+
+            Models.Libro libro;
+
+            foreach (DataRow row in mDt.Rows)
+            {
+                libro = new Models.Libro(row, Models.Libro.SelectFileds.Lista);
+                risultato.Add(libro);
+            }
+
+            return risultato;
+
+        }
+
+
+
+      
 
     }
 }
