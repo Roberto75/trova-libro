@@ -47,8 +47,8 @@ public class MyHelper
 
             if (customerId == -1)
             {
-                pathImage = "/Content/Images/immobiliare/_privato.gif";
-                //pathImage = "~/Content/themes/base/images/immobiliare/_privato.gif";
+                //pathImage = "/Content/Images/immobiliare/_privato.gif";
+                pathImage = "/Content/Images/shared/anonymous.gif";
             }
             else
             {

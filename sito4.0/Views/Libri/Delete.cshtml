@@ -40,13 +40,9 @@
     <textarea name="nota"></textarea>
 
 
-    <div data-role="controlgrup" data-type="horizontal" data-mini="true">
-
-        <a href="@Url.Action("MyAnnunci", "Immobiliare")" data-role="button" data-inline="true">Torna all'elenco dei tuoi annunci</a>
-               
-
-        <input type="submit" value="Conferma" data-inline="true" />
+    <div>
+        <a class="btn btn-secondary" href="@Url.Action("MyAnnunci", "Libri")" role="button">Annulla</a>
+        <button class="btn btn-primary" type="submit">Conferma</button>
     </div>
-
 
 }

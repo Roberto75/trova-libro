@@ -2,54 +2,40 @@
 @model trova_libro.manager.Models.Libro
 
 
-
-<div class="ui-grid-c">
-    <div class="ui-block-a">
-        <div class="ui-bar ui-bar-d">Data inserimento</div>
-        <div class="ui-bar ui-bar-d">Tipo</div>
-        <div class="ui-bar ui-bar-d">Titolo</div>
-        <div class="ui-bar ui-bar-d">Prezzo</div>
-    </div>
-    <div class="ui-block-b">
-        <div class="ui-bar ui-bar-b">@Model.dataInserimento.ToShortDateString()</div>
-        <div class="ui-bar ui-bar-b">@Model.tipo</div>
-        <div class="ui-bar ui-bar-b">@Model.titolo</div>
-        <div class="ui-bar ui-bar-b">@Model.prezzo.ToString("C")</div>
-    </div>
-    <div class="ui-block-c">
-        <div class="ui-bar ui-bar-d">Utente</div>
-        <div class="ui-bar ui-bar-d">Categoria</div>
-        <div class="ui-bar ui-bar-d">ISBN</div>
-    </div>
-    <div class="ui-block-d">
-        <div class="ui-bar ui-bar-b">@Model.login</div>
-        <div class="ui-bar ui-bar-b">@Model.categoria</div>
-        <div class="ui-bar ui-bar-b">@MyHelper.decodeNull(Model.isbn))</div>
-    </div>
-</div>
+<dl class="row">
+    <dt class="col-sm-3 col-6">Data inserimento</dt>
+    <dd class="col-sm-3 col-6">@Model.dataInserimento.ToString("dd/MM/yyyy")</dd>
+    <dt class="col-sm-3 col-6">Utente</dt>
+    <dd class="col-sm-3 col-6">@Model.login</dd>
 
 
+    <dt class="col-sm-3 col-6">Tipo annuncio</dt>
+    <dd class="col-sm-3 col-6">@Model.tipo</dd>
+    <dt class="col-sm-3 col-6">Categoria</dt>
+    <dd class="col-sm-3 col-6">@Model.categoria</dd>
 
 
+    <dt class="col-sm-3 col-6">Titolo</dt>
+    <dd class="col-sm-3 col-6">@Model.titolo</dd>
+    <dt class="col-sm-3 col-6">Autore</dt>
+    <dd class="col-sm-3 col-6">@MyHelper.decodeNull(Model.autore)</dd>
 
-<br />
 
-<div class="ui-grid-c">
-    <div class="ui-block-a">
-        <div class="ui-bar ui-bar-d">Regione - Provincia</div>
-        <div class="ui-bar ui-bar-d">Zona/Quartiere</div>
-    </div>
-    <div class="ui-block-b">
-        <div class="ui-bar ui-bar-b"></div>
-        <div class="ui-bar ui-bar-b"></div>
-    </div>
-    <div class="ui-block-c">
-        <div class="ui-bar ui-bar-d">CAP</div>
-        <div class="ui-bar ui-bar-d">Indirizzo</div>
-    </div>
-    <div class="ui-block-d">
-        <div class="ui-bar ui-bar-b"></div>
-        <div class="ui-bar ui-bar-b"></div>
-    </div>
-</div>
+    <dt class="col-sm-3 col-6">Casa editrice</dt>
+    <dd class="col-sm-3 col-6">@MyHelper.decodeNull(Model.casaEditrice)</dd>
+    <dt class="col-sm-3 col-6">Prezzo</dt>
+    <dd class="col-sm-3 col-6">@Model.prezzo.ToString("C")</dd>
+
+    <dt class="col-sm-3 col-6">ISBN</dt>
+    <dd class="col-sm-3 col-6">@MyHelper.decodeNull(Model.isbn)</dd>
+    <dt class="col-sm-3 col-6">Regione</dt>
+    <dd class="col-sm-3 col-6">@MyHelper.decodeNull(Model.regione)</dd>
+
+    <dt class="col-sm-3 col-6">Provincia</dt>
+    <dd class="col-sm-3 col-6">@MyHelper.decodeNull(Model.provincia)</dd>
+    <dt class="col-sm-3 col-6">Comune</dt>
+    <dd class="col-sm-3 col-6">@MyHelper.decodeNull(Model.comune)</dd>
+
+</dl>
+
 

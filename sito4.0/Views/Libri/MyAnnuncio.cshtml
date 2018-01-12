@@ -10,28 +10,6 @@
 <p>In questa pagina puoi modificare il testo del tuo annuncio, aggiungere delle <b>photo</b>  e visualizzare le trattative in corso.</p>
 
 
-
-
-
-<ul class="nav nav-tabs" id="myTab" role="tablist">
-    <li class="nav-item">
-        <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Home</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Profile</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Contact</a>
-    </li>
-</ul>
-<div class="tab-content">
-    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">a...</div>
-    <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">b...</div>
-    <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">c...</div>
-</div>
-
-
-
 <ul class="nav nav-tabs" id="myTab" role="tablist">
     <li class="nav-item"><a href="#tab-1" id="tab-1-tab" class="nav-link active" role="tab" data-toggle="tab" aria-controls="tab-1" aria-selected="true">Info</a></li>
     <li class="nav-item"><a href="#tab-2" id="tab-2-tab" class="nav-link" role="tab" data-toggle="tab" aria-controls="tab-2" aria-selected="false">Click & Prezzo</a></li>
@@ -41,7 +19,7 @@
 </ul>
 
 
-<div class="tab-content" id="myTabContent">
+<div class="tab-content mb-3" id="myTabContent">
 
     <div id="tab-1" class="tab-pane fade show active" role="tabpanel" aria-labelledby="tab-1-tab">
         @{Html.RenderPartial("_TabInfoLibro", Model.libro);}
@@ -143,10 +121,10 @@
 </script>
 
 
-
-<div data-role="controlgrup" data-type="horizontal" data-mini="true">
-    <a href="@Url.Action("MyAnnunci", "Immobiliare")" data-role="button" data-inline="true">Torna all'elenco</a>
+<div>
+    <a class="btn btn-secondary" href="@Url.Action("MyAnnunci", "Libri")" role="button">Torna all'elenco</a>
 </div>
+
 
 
 

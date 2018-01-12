@@ -7,86 +7,32 @@
 <p class="lead">Dettaglio annuncio</p>
 
 <!-- Nav tabs -->
-<ul class="nav nav-tabs" role="tablist">
-    <li role="presentation" class="active"><a href="#info" aria-controls="info" role="tab" data-toggle="tab">Info</a></li>
-    <li role="presentation"><a href="#descrizione" aria-controls="descrizione" role="tab" data-toggle="tab">Descrizione</a></li>
-    <li role="presentation"><a href="#photo" aria-controls="photo" role="tab" data-toggle="tab">Photo</a></li>
+
+<ul class="nav nav-tabs" id="myTab" role="tablist">
+    <li class="nav-item"><a href="#info" id="info-tab" class="nav-link active" role="tab" data-toggle="tab" aria-controls="info" aria-selected="true">Info</a></li>
+    <li class="nav-item"><a href="#descrizione" id="descrizione-tab" class="nav-link" role="tab" data-toggle="tab" aria-controls="descrizione" aria-selected="false">Descrizione</a></li>
+    <li class="nav-item"><a href="#photo" id="photo-tab" class="nav-link" role="tab" data-toggle="tab" aria-controls="photo" aria-selected="false">Photo</a></li>
 </ul>
 
+
 <!-- Tab panes -->
-<div class="tab-content">
-    <div role="tabpanel" class="tab-pane active" id="info">
-    
+<div class="tab-content mb-3">
 
-        <div class="row">
-            <div class="col-xs-4"><strong>Data inserimento:</strong></div>
-            <div class="col-xs-8">@Model.dataInserimento.ToString("dd/MM/yyyy")</div>
-        </div>
-
-        <div class="row">
-            <div class="col-xs-4">Utente:</div>
-            <div class="col-xs-8">@Model.login</div>
-        </div>
-
-        <div class="row">
-            <div class="col-xs-4">Tipo annuncio:</div>
-            <div class="col-xs-8">@Model.tipo</div>
-        </div>
-
-        <div class="row">
-            <div class="col-xs-4">Categoria:</div>
-            <div class="col-xs-8">@Model.categoria</div>
-        </div>
-
-
-        <div class="row">
-            <div class="col-xs-4">Titolo:</div>
-            <div class="col-xs-8">@Model.titolo</div>
-        </div>
-
-
-        <div class="row">
-            <div class="col-xs-4">Autore:</div>
-            <div class="col-xs-8">@Model.autore</div>
-        </div>
-
-        <div class="row">
-            <div class="col-xs-4">Casa editrice:</div>
-            <div class="col-xs-8">@Model.casaEditrice</div>
-        </div>
-
-        <div class="row">
-            <div class="col-xs-4">Prezzo:</div>
-            <div class="col-xs-8">@Model.prezzo</div>
-        </div>
-
-        <div class="row">
-            <div class="col-xs-4">ISBN:</div>
-            <div class="col-xs-8">@Model.isbn</div>
-        </div>
-
-        <div class="row">
-            <div class="col-xs-4">Regione-Provincia:</div>
-            <div class="col-xs-8">@Model.regione - @Model.provincia</div>
-        </div>
-
-
+    <div id="info" class="tab-pane fade show active" role="tabpanel" aria-labelledby="info-tab">
+        @{Html.RenderPartial("_TabInfoLibro", Model);}
     </div>
-    <div role="tabpanel" class="tab-pane" id="descrizione">
 
+    <div id="descrizione" class="tab-pane fade" role="tabpanel" aria-labelledby="descrizione-tab">
         <blockquote>@Html.Raw(Model.nota)</blockquote>
         <p style="white-space: pre-line">@Html.Raw(Model.nota)</p>
         <code>@Html.Raw(Model.nota)</code>
-
     </div>
-    <div role="tabpanel" class="tab-pane" id="photo">
 
+    <div id="photo" class="tab-pane fade" role="tabpanel" aria-labelledby="photo-tab">
         <a href="@Url.Content("~/Content/images/Number-1-icon.png")" data -lightbox="roadtrip">Image #1</a>
         <a href="@Url.Content("~/Content/images/Number-2-icon.png")" data -lightbox="roadtrip">Image #2</a>
         <a href="@Url.Content("~/Content/images/Number-3-icon.png")" data -lightbox="roadtrip">Image #3</a>
         <a href="@Url.Content("~/Content/images/Number-4-icon.png")" data -lightbox="roadtrip">Image #4</a>
-        
-
     </div>
 </div>
 
@@ -100,7 +46,7 @@
 <br />
 <div class="row">
     <div class="col-xs-12">
-        <a class="btn btn-default" href="@Url.Action("Index", "Libri")">Pagina di ricerca</a>
+        <a class="btn btn-secondary" href="@Url.Action("Index", "Libri")">Pagina di ricerca</a>
         <a class="btn btn-primary text-right" href="@Url.Action("Reply", "Libri", new { annuncioId = Model.annuncioId })">Rispondi</a>
 
     </div>

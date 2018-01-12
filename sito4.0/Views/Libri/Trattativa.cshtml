@@ -6,48 +6,9 @@
 
 <h2>Trattativa</h2>
 
-<div class="ui-grid-c">
-    <div class="ui-block-a">
-        <div class="ui-bar ui-bar-b">Data inserimento</div>
-        <div class="ui-bar ui-bar-b">Tipo</div>
-        <div class="ui-bar ui-bar-b">Titolo</div>
-        <div class="ui-bar ui-bar-b">Prezzo</div>
-    </div>
-    <div class="ui-block-b">
-        <div class="ui-bar ui-bar-c">@Model.libro.dataInserimento.ToShortDateString()</div>
-        <div class="ui-bar ui-bar-c">@Model.libro.tipo</div>
-        <div class="ui-bar ui-bar-c">@Model.libro.titolo</div>
-        <div class="ui-bar ui-bar-c">@Model.libro.prezzo.ToString("C")</div>
-    </div>
-    <div class="ui-block-c">
-        <div class="ui-bar ui-bar-b">Utente</div>
-        <div class="ui-bar ui-bar-b">Categoria</div>
-        <div class="ui-bar ui-bar-b">ISBN</div>
-    </div>
-    <div class="ui-block-d">
-        <div class="ui-bar ui-bar-c">@Model.libro.login</div>
-        <div class="ui-bar ui-bar-c">@Model.libro.categoria</div>
-        <div class="ui-bar ui-bar-c">@Model.libro.isbn</div>
-    </div>
-</div>
 
-<br />
+@{Html.RenderPartial("_TabInfoLibro", Model.libro);}
 
-<div class="ui-grid-c">
-    <div class="ui-block-a">
-        <div class="ui-bar ui-bar-b">Regione - Provincia</div>
-        
-    </div>
-    <div class="ui-block-b">
-        <div class="ui-bar ui-bar-c">@Model.libro.regione - @Model.libro.provincia</div>
-    </div>
-    <div class="ui-block-c">
-        <div class="ui-bar ui-bar-b">Casa editrice</div>
-    </div>
-    <div class="ui-block-d">
-        <div class="ui-bar ui-bar-c">@MyHelper.decodeNull(Model.libro.casaEditrice)</div>
-    </div>
-</div>
 
 <br />
 
@@ -55,38 +16,37 @@
 
     @foreach (Annunci.Models.Risposta r in Model.trattativa.risposte)
     {
-        <div class="MyTable">
-
-            <div class="MyHeader">
+        <div class="card mb-3 ">
+            <div class="card-header bg-success">
                 <span class="MyReplyId">@((r.refRispostaId == -1) ? "" : r.refRispostaId.ToString())</span>
                 <span class="MyDate">@r.dateAdded.ToString()</span>
             </div>
 
-
-            <div class="MyRow">
-                <div class="MyCell-A">
-                    <p>Utente: @r.login</p>
-                    @MyHelper.getProfileImage(Server.MapPath("~"), r.login, r.customerId)
-                </div>
-
-
-                <div class="MyCell-B">
-                    <div class="button">
-
-                        <a data-inline="true" data-role="button" href="@Url.Action("Reply", "Libri", new { annuncioId = r.annuncioId, trattativaId = r.trattativaId , rispostaId = r.rispostaId })">Reply</a>
-
-                        <a data-inline="true" data-role="button" href="@Url.Action("Reply", "Libri", new { annuncioId = r.annuncioId, trattativaId = r.trattativaId, quote =  r.rispostaId })">Quote</a>
-
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-3">
+                        <h6>Utente: @r.login</h6>
+                        @MyHelper.getProfileImage(Server.MapPath("~"), r.login, r.customerId)
                     </div>
-                    <div class="testo">@Html.Raw(r.testo)</div>
+
+                    <div class="col-9" style="border: 1px solid black">
+                        <div class="row float-right" style="border: 1px solid red">
+
+                            <a role="button" class="btn btn-primary btn-sm float-right" href="@Url.Action("Reply", "Libri", new { annuncioId = r.annuncioId, trattativaId = r.trattativaId , rispostaId = r.rispostaId })">Reply<i class="fas fa-reply fa-fw"></i></a>
+                            &nbsp;
+                            <a role="button" class="btn btn-primary btn-sm" href="@Url.Action("Reply", "Libri", new { annuncioId = r.annuncioId, trattativaId = r.trattativaId, quote =  r.rispostaId })">Quote<i class="fas fa-quote-right fa-fw"></i></a>
+
+                        </div>
+                        <div style="clear:both"></div>
+                        <div class="row float-none" style="border: 1px solid blue">
+                            <blockquote class="blockquote">@Html.Raw(r.testo)</blockquote>
+                        </div>
+                    </div>
                 </div>
             </div>
-
-
         </div>
     }
-
-
 </div>
 
-<a data-inline="true" data-role="button" href="@Url.Action("MyTrattative", "Libri")">Annulla</a>
+
+<a class="btn btn-secondary" href="@Url.Action("MyTrattative")">Annulla</a>

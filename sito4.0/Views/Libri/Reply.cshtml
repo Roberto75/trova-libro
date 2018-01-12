@@ -9,7 +9,7 @@
 <p>Al termine dell'operazione verrà inviato un messaggio di notifica al proprietario (@Model.annuncio.login) dell'annuncio.</p>
 
 
-@using (Html.BeginForm("Reply", "Immobiliare", FormMethod.Post, new { id = "MyForm" }))
+@using (Html.BeginForm("Reply", "Libri", FormMethod.Post, new { id = "MyForm" }))
 {
     @Html.AntiForgeryToken()
 
@@ -22,8 +22,8 @@
     <br />
 
     <div data-role="controlgrup" data-type="horizontal" data-mini="true">
-        <a href="@Url.Action("Index", "Libri")"  class="btn btn-default" >Torna all'elenco</a>
-        <a href="@Url.Action("Details", "Libri", new { id = Model.annuncioId })"  class="btn btn-default" >Torna all'annuncio</a>
+        <a href="@Url.Action("Index", "Libri")"  class="btn btn-info" >Torna all'elenco</a>
+        <a href="@Url.Action("Details", "Libri", new { id = Model.annuncioId })"  class="btn btn-secondary" >Torna all'annuncio</a>
 
         @if (Model.trattativaId != -1)
         {
