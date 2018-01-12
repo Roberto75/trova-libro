@@ -75,7 +75,7 @@
         @using (Html.BeginForm("UpdateNota", "Libro", FormMethod.Post, new { id = "MyFormUpdateNota" }))
             {
         @Html.AntiForgeryToken()
-        <textarea name="nota" id="nota">@Model.libro.nota  </textarea>
+        <textarea name="nota" id="nota">@Model.libro.nota</textarea>
 
         <input type="hidden" name="annuncioId" value="@Model.libro.annuncioId" />
         <input type="submit" value="Modifica la nota" data-inline="true" data-mini="true" onclick="return confirm('Tutti gli utenti in trattativa con questo annuncio verranno notificati della modifica tramite un messaggio email. Confermare la modifica?')" />
@@ -110,8 +110,6 @@
 </div>
 
 
-
-<script src="http://tinymce.cachefly.net/4.0/tinymce.min.js"></script>
 <script type="text/javascript">
     tinymce.init({
         mode: "exact",
