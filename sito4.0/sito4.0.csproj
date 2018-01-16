@@ -930,8 +930,8 @@
     <Content Include="Areas\Admin\Views\Users\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Users\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Users\SID.cshtml" />
-    <Content Include="Areas\Admin\Views\Users\TabInfoAccount.cshtml" />
-    <Content Include="Areas\Admin\Views\Users\TabInfoAnagrafica.cshtml" />
+    <Content Include="Areas\Admin\Views\Users\_TabInfoAccount.cshtml" />
+    <Content Include="Areas\Admin\Views\Users\_TabInfoAnagrafica.cshtml" />
     <Content Include="Areas\Admin\Views\Groups\Create.cshtml" />
     <Content Include="Areas\Admin\Views\Groups\Delete.cshtml" />
     <Content Include="Areas\Admin\Views\Groups\DeleteUser.cshtml" />
@@ -954,6 +954,7 @@
     <Content Include="Views\Libri\Trattativa.cshtml" />
     <Content Include="Views\Libri\MyAnnuncio.cshtml" />
     <Content Include="Views\Libri\_TabInfoLibro.cshtml" />
+    <Content Include="Views\Account\ResetPasswordCompleted.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -976,10 +977,6 @@
     <ProjectReference Include="..\..\..\MyFramework4.5\MyUsers\MyUsers.csproj">
       <Project>{de537bc0-c7b3-4f38-9de2-5757d6d3999e}</Project>
       <Name>MyUsers</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\trova-libro.manager\trova-libro.manager.csproj">
-      <Project>{cee27564-2c50-49a8-b388-9963c6776f83}</Project>
-      <Name>trova-libro.manager</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

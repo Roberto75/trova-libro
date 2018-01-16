@@ -40,13 +40,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="LibriManager.cs" />
-    <Compile Include="Models\Libro.cs" />
-    <Compile Include="Models\PagedLibro.cs" />
-    <Compile Include="Models\SearchLibri.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Models\" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\MyFramework4.5\MyAnnunciManager\MyAnnunci.csproj">
       <Project>{5c5c908f-04c5-49a5-b9f2-6cfc686981c6}</Project>

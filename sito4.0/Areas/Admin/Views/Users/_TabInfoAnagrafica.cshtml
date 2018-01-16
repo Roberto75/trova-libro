@@ -1,0 +1,40 @@
+﻿@model MyUsers.Models.MyUser
+
+<dl class="row">
+    <dt class="col-sm-3 col-6">Cliente</dt>
+    <dd class="col-sm-3 col-6">@((Model.Customer == null || String.IsNullOrEmpty(Model.Customer.ragioneSociale)) ? "N/A" : Model.Customer.ragioneSociale)</dd>
+    <dt class="col-sm-3 col-6">Codice fiscale</dt>
+    <dd class="col-sm-3 col-6">@MyHelper.decodeNull(Model.codiceFiscale)</dd>
+
+    <dt class="col-sm-3 col-6">Data di nascita</dt>
+    <dd class="col-sm-3 col-6">@MyHelper.decodeNull(Model.dataDiNascita)</dd>
+    <dt class="col-sm-3 col-6">Sesso</dt>
+    <dd class="col-sm-3 col-6">@MyHelper.decodeNull(Model.sesso)</dd>
+    
+    <dt class="col-sm-3 col-6">Telefono</dt>
+    <dd class="col-sm-3 col-6">@MyHelper.decodeNull(Model.telefono)</dd>
+    <dt class="col-sm-3 col-6">Mobile</dt>
+    <dd class="col-sm-3 col-6">@MyHelper.decodeNull(Model.mobile)</dd>
+    
+    <dt class="col-sm-3 col-6">HTTP</dt>
+    <dd class="col-sm-3 col-6">@MyHelper.decodeNull(Model.http)</dd>
+    <dt class="col-sm-3 col-6">FAX</dt>
+    <dd class="col-sm-3 col-6">@MyHelper.decodeNull(Model.fax)</dd>
+    
+    <dt class="col-sm-3 col-6">Indirizzo</dt>
+    <dd class="col-sm-3 col-6">@MyHelper.decodeNull(Model.indirizzo)</dd>
+    <dt class="col-sm-3 col-6">Numero civico</dt>
+    <dd class="col-sm-3 col-6">@MyHelper.decodeNull(Model.numero_civico)</dd>
+    
+    <dt class="col-sm-3 col-6">Cap</dt>
+    <dd class="col-sm-3 col-6">@MyHelper.decodeNull(Model.cap)</dd>
+    <dt class="col-sm-3 col-6">Regione</dt>
+    <dd class="col-sm-3 col-6">@MyHelper.decodeNull(Model.regione)</dd>
+    
+    <dt class="col-sm-3 col-6">Provincia</dt>
+    <dd class="col-sm-3 col-6">@MyHelper.decodeNull(Model.provincia)</dd>
+    <dt class="col-sm-3 col-6">Comune</dt>
+    <dd class="col-sm-3 col-6">@MyHelper.decodeNull(Model.comune)</dd>
+
+</dl>
+

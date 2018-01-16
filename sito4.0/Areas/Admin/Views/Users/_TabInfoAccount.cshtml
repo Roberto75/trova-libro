@@ -1,0 +1,104 @@
+﻿@model MyUsers.Models.MyUser
+
+
+<dl class="row">
+    <dt class="col-sm-3 col-6">Login</dt>
+    <dd class="col-sm-3 col-6">@MyHelper.decodeNull(Model.login)</dd>
+    <dt class="col-sm-3 col-6">Email</dt>
+    <dd class="col-sm-3 col-6">
+        @if (String.IsNullOrEmpty(Model.email))
+            {
+            @:N/A
+            }
+            else
+            {
+            <a data-role="none" href="mailto:@Model.email">@Model.email</a>
+        }
+    </dd>
+
+
+
+    <dt class="col-sm-3 col-6">Nome</dt>
+    <dd class="col-sm-3 col-6">@MyHelper.decodeNull(Model.nome)</dd>
+    <dt class="col-sm-3 col-6">Cognome</dt>
+    <dd class="col-sm-3 col-6">@MyHelper.decodeNull(Model.cognome)</dd>
+
+
+
+
+    <dt class="col-sm-3 col-6">Profilo</dt>
+    <dd class="col-sm-3 col-6">
+        @{
+            string temp;
+
+            if (Model.Profili == null || Model.Profili.Count == 0)
+            {
+                temp = "N/A";
+            }
+            else
+            {
+                temp = "";
+                foreach (MyUsers.Models.MyProfile p in Model.Profili)
+                {
+                    temp += p.nome;
+                }
+            }
+        }
+        @temp
+
+    </dd>
+    <dt class="col-sm-3 col-6">Attivo</dt>
+    <dd class="col-sm-3 col-6">@Model.isEnabled.ToString()</dd>
+
+    @if (Model.SID != null)
+    {
+        <dt class="col-sm-3 col-6">SID</dt>
+        <dd class="col-sm-3 col-6"><a href="@Url.Action("SID", "Users", new { sid = Model.SID.ToString() })" data-role="none">@(Model.SID.ToString())</a></dd>
+    }
+
+
+</dl>
+
+
+<hr />
+
+
+
+
+<dl class="row">
+    <dt class="col-sm-3 col-6">Date added</dt>
+    <dd class="col-sm-3 col-6">@Model.dateAdded</dd>
+    <dt class="col-sm-3 col-6">Date modified</dt>
+    <dd class="col-sm-3 col-6">@Model.dateModified</dd>
+
+
+    <dt class="col-sm-3 col-6">Date expire</dt>
+    <dd class="col-sm-3 col-6">@MyHelper.decodeNull(@Model.dateExpire)</dd>
+    <dt class="col-sm-3 col-6">Date expire password</dt>
+    <dd class="col-sm-3 col-6">@MyHelper.decodeNull(Model.dateExpirePassword)</dd>
+
+
+    <dt class="col-sm-3 col-6">Date activation account</dt>
+    <dd class="col-sm-3 col-6">@MyHelper.decodeNull(@Model.dateActivationAccount)</dd>
+</dl>
+
+
+<hr />
+
+<dl class="row">
+    <dt class="col-sm-3 col-6">Login success</dt>
+    <dd class="col-sm-3 col-6">@Model.loginSuccess</dd>
+    <dt class="col-sm-3 col-6">Login failed</dt>
+    <dd class="col-sm-3 col-6">@Model.loginFailed</dd>
+
+    <dt class="col-sm-3 col-6">Date last login</dt>
+    <dd class="col-sm-3 col-6">@MyHelper.decodeNull(Model.dateLastLogin)</dd>
+
+</dl>
+
+
+
+
+
+
+

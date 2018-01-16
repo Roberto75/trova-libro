@@ -12,7 +12,7 @@
 {
     @Html.AntiForgeryToken()
 
-    
+    <div style="max-width: 500px;">
         <div class="form-group">
             <label for="UserName">Username:</label>
             <input class="form-control" placeholder="Enter username" type="text" name="UserName" id="UserName" required value="@Model.UserName">
@@ -25,7 +25,7 @@
 
         <input type="submit" class="btn btn-primary" value="Login" />
 
-    
+    </div>
 
-    <input type="hidden" name="returnUrl" value="@ViewBag.ReturnUrl" />
+        <input type="hidden" name="returnUrl" value="@ViewBag.ReturnUrl" />
 }

@@ -19,7 +19,7 @@ namespace MyWebApplication.Controllers
         public const int HeightThumbnail = 200;
 
 
-        private trova_libro.manager.LibriManager manager = new trova_libro.manager.LibriManager("mercatino");
+        private Annunci.Libri.LibriManager manager = new Annunci.Libri.LibriManager("mercatino");
 
         private MyManagerCSharp.RegioniProvinceComuniManager regioniProvinceComuniManager = new MyManagerCSharp.RegioniProvinceComuniManager("RegioniProvinceComuni");
 
@@ -34,7 +34,7 @@ namespace MyWebApplication.Controllers
         }
 
         [AllowAnonymous]
-        public ActionResult Index(trova_libro.manager.Models.SearchLibri model)
+        public ActionResult Index(Annunci.Libri.Models.SearchLibri model)
         {
 
             manager.mOpenConnection();
@@ -54,7 +54,7 @@ namespace MyWebApplication.Controllers
         {
             manager.mOpenConnection();
 
-            List<trova_libro.manager.Models.Libro> risultato;
+            List<Annunci.Libri.Models.Libro> risultato;
             System.Collections.Hashtable hashtableRisposte = new System.Collections.Hashtable();
 
             try
@@ -75,7 +75,7 @@ namespace MyWebApplication.Controllers
 
                 Annunci.AnnuncioManager annuncioManager = new Annunci.AnnuncioManager(manager.mGetConnection());
                 long numeroRisposte;
-                foreach (trova_libro.manager.Models.Libro i in risultato)
+                foreach ( Annunci.Libri.Models.Libro i in risultato)
                 {
 
                     numeroRisposte = annuncioManager.getNumeroRisposteOfAnnuncio(i.annuncioId, MySessionData.UserId);
@@ -153,7 +153,7 @@ namespace MyWebApplication.Controllers
         [AllowAnonymous]
         public ActionResult Details(long id)
         {
-            trova_libro.manager.Models.Libro libro;
+            Annunci.Libri.Models.Libro libro;
 
             manager.mOpenConnection();
             try
@@ -198,7 +198,7 @@ namespace MyWebApplication.Controllers
             {
                 manager.mOpenConnection();
 
-                trova_libro.manager.Models.Libro libro;
+                Annunci.Libri.Models.Libro libro;
                 libro = manager.getLibro(annuncioId);
 
                 model.annuncio = libro;
@@ -314,7 +314,7 @@ namespace MyWebApplication.Controllers
 
             model.comboRegioni = regioniProvinceComuniManager.getComboRegioni();
 
-            model.libro = new trova_libro.manager.Models.Libro();
+            model.libro = new Annunci.Libri.Models.Libro();
 
             return View(model);
         }
@@ -425,7 +425,7 @@ namespace MyWebApplication.Controllers
             Models.UpdateModel model;
             model = new Models.UpdateModel();
 
-            trova_libro.manager.Models.Libro libro = null;
+            Annunci.Libri.Models.Libro libro = null;
             manager.mOpenConnection();
             try
             {
@@ -468,7 +468,60 @@ namespace MyWebApplication.Controllers
             return View(model);
         }
 
+        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [ValidateInput(false)]
+        public ActionResult UpdateNota(long? annuncioId, string nota)
+        {
+            if (annuncioId == null)
+            {
+                throw new MyManagerCSharp.MyException(MyManagerCSharp.MyException.ErrorNumber.ParametroNull, "UpdateNota");
+            }
 
+            nota = HttpUtility.HtmlDecode(nota);
+            Debug.WriteLine("UpdateNota: " + annuncioId + " Nota: " + nota);
+
+            try
+            {
+
+                manager.mOpenConnection();
+
+                if (manager.updateAnnuncioDescrizione((long)annuncioId, nota, false) > 0)
+                {
+
+                    System.Data.DataTable dt;
+                    dt = manager.getEmailUtentiInTrattativa((long)annuncioId);
+
+
+                    if (dt.Rows.Count > 0)
+                    {
+
+                        Annunci.Libri.Models.Libro i;
+                        i = manager.getLibro((long)annuncioId);
+
+                        Annunci.Libri.LibriMailMessageManager mail = new Annunci.Libri.LibriMailMessageManager(System.Configuration.ConfigurationManager.AppSettings["application.name"], System.Configuration.ConfigurationManager.AppSettings["application.url"]);
+                        mail.Subject = System.Configuration.ConfigurationManager.AppSettings["application.name"] + " - Modifica annuncio";
+                        mail.Body = mail.getBodyModificaTestoAnnuncio((long)annuncioId, i.categoria.ToString() + " - " + i.annuncioId.ToString());
+
+                        foreach (System.Data.DataRow row in dt.Rows)
+                        {
+                            mail.Bcc(row["email"].ToString());
+                        }
+                        //'MY-DEBUGG
+                        mail.Bcc(System.Configuration.ConfigurationManager.AppSettings["mail.To.Ccn"]);
+
+                        mail.send();
+                    }
+                }
+            }
+            finally
+            {
+                manager.mCloseConnection();
+            }
+
+            return RedirectToAction("MyAnnuncio", new { id = annuncioId });
+        }
 
 
     }

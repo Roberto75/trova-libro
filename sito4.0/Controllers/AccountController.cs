@@ -12,8 +12,7 @@ using MyWebApplication.Models;
 
 namespace MyWebApplication.Controllers
 {
-    //[Authorize]
-
+    [Authorize]
     public class AccountController : MyBaseController
     {
 
@@ -41,7 +40,7 @@ namespace MyWebApplication.Controllers
 
 
         // This action handles the form POST and the upload
-        [Authorize]
+        
         [HttpPost]
         public ActionResult Upload(HttpPostedFileBase file)
         {
@@ -112,8 +111,6 @@ namespace MyWebApplication.Controllers
 
 
         //[InitializeSimpleMembership]
-
-        [Authorize]
         public ActionResult Manage(UserProfile model)
         {
 
@@ -169,7 +166,7 @@ namespace MyWebApplication.Controllers
 
 
 
-        //[AllowAnonymous]
+        [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
             ViewBag.ReturnUrl = returnUrl;
@@ -314,6 +311,7 @@ namespace MyWebApplication.Controllers
 
         //[HttpPost]
         //[ValidateAntiForgeryToken]
+        [AllowAnonymous]
         public ActionResult LogOff()
         {
             //WebSecurity.Logout();
@@ -331,7 +329,7 @@ namespace MyWebApplication.Controllers
 
 
 
-
+        [AllowAnonymous]
         public ActionResult ResetPassword()
         {
             ResetPasswordModel model = new ResetPasswordModel();
@@ -406,18 +404,21 @@ namespace MyWebApplication.Controllers
             }
 
 
-            return RedirectToAction("Index", "Home");
+            //return RedirectToAction("Index", "Home");
+            //return View("ResetPasswordCompleted", "Account", u.email);
+            //return View("ResetPasswordCompleted", "Account");
+            return View("ResetPasswordCompleted", (object) u.email);
         }
 
 
-        [Authorize]
+        
         public ActionResult ChangePassword()
         {
             ChangePasswordModel model = new ChangePasswordModel();
             return View(model);
         }
 
-        [Authorize]
+        
         [HttpPost]
         public ActionResult ChangePassword(ChangePasswordModel model)
         {

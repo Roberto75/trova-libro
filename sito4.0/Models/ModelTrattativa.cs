@@ -8,7 +8,7 @@ namespace MyWebApplication.Models
     public class ModelTrattativa
     {
         public Annunci.Models.Trattativa trattativa;
-        public trova_libro.manager.Models.Libro libro;
+        public Annunci.Libri.Models.Libro libro;
 
     }
 }

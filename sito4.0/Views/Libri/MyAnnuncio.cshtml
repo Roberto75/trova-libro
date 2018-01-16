@@ -78,7 +78,7 @@
         <textarea name="nota" id="nota">@Model.libro.nota</textarea>
 
         <input type="hidden" name="annuncioId" value="@Model.libro.annuncioId" />
-        <input type="submit" value="Modifica la nota" data-inline="true" data-mini="true" onclick="return confirm('Tutti gli utenti in trattativa con questo annuncio verranno notificati della modifica tramite un messaggio email. Confermare la modifica?')" />
+        <input type="submit" value="Modifica la nota" class="btn btn-secondary" onclick="return confirm('Tutti gli utenti in trattativa con questo annuncio verranno notificati della modifica tramite un messaggio email. Confermare la modifica?')" />
         }
 
     </div>
@@ -120,7 +120,7 @@
 
 
 <div>
-    <a class="btn btn-secondary" href="@Url.Action("MyAnnunci", "Libri")" role="button">Torna all'elenco</a>
+    <a class="btn btn-primary" href="@Url.Action("MyAnnunci", "Libri")" role="button">Torna all'elenco</a>
 </div>
 
 

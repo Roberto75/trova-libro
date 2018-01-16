@@ -4,11 +4,16 @@
     Layout = "~/Views/Shared/_MasterPageMobile.cshtml";
 }
 
-<h2>RegisterCompleted</h2>
+<h2>Registrazione</h2>
 
-<p>Registrazione conclusa con successo</p>
+<p>La procedura di registrazione si è conclusa con successo.  <img src="@Url.Content("~/Content/Images/Shared/ok.png")" border="0" alt="Passed" style="margin-top:1em;margin-left:1em;" /></p>
 
-<p>A breve reciverai due email</p>
+<p>A breve riceverai due email</p>
 
-<li>una prima email di conferma dei dati registrati</li>
-<li>e una seconda email con una password generata dal sistema</li>
+<ol>
+    <li>una prima email di conferma dei dati registrati</li>
+    <li>e una seconda email con una password generata dal sistema</li>
+</ol>
+
+
+<p>Clicca qui per accedere alla pagina di <a href="@Url.Action("Login", "Account")">login</a></p>

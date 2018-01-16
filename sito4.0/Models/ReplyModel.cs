@@ -11,7 +11,7 @@ namespace MyWebApplication.Models
         public long trattativaId { get; set; }
         public long rispostaId { get; set; }
 
-        public trova_libro.manager.Models.Libro annuncio { get; set; }
+        public Annunci.Libri.Models.Libro annuncio { get; set; }
 
         public string testo { get; set; }
     }
