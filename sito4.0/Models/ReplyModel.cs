@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace MyWebApplication.Models
 {
@@ -12,7 +13,7 @@ namespace MyWebApplication.Models
         public long rispostaId { get; set; }
 
         public Annunci.Libri.Models.Libro annuncio { get; set; }
-
+        [AllowHtml]
         public string testo { get; set; }
     }
 }

@@ -880,6 +880,7 @@
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\CreateModel.cs" />
     <Compile Include="Models\GalleryModel.cs" />
+    <Compile Include="Models\JsonMessageModel.cs" />
     <Compile Include="Models\ModelRegioneProvinciaComune.cs" />
     <Compile Include="Models\ModelTrattativa.cs" />
     <Compile Include="Models\ReplyModel.cs" />
@@ -955,6 +956,9 @@
     <Content Include="Views\Libri\MyAnnuncio.cshtml" />
     <Content Include="Views\Libri\_TabInfoLibro.cshtml" />
     <Content Include="Views\Account\ResetPasswordCompleted.cshtml" />
+    <Content Include="Views\Libri\_TabellaTrattative.cshtml" />
+    <Content Include="Views\Home\FAQ.cshtml" />
+    <Content Include="Views\Home\Donazione.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

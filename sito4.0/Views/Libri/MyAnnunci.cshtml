@@ -1,6 +1,9 @@
 ﻿@model List<Annunci.Libri.Models.Libro>
 @{
-    ViewBag.Title = "MyAnnunci";
+    ViewBag.Title = "Trova libro: I miei annunci";
+    ViewBag.Description = "Con Trova-libro puoi vendere e comprare libri usati e testi universitari. Il servizio è gratuito e senza costi di intermediazione";
+    ViewBag.Keywords = "libro usato, libri usati, libro, usati, usato, università, universitari, compro libri usati, vendo libri usati, cerco libri usati, scambio, annunci, vendo libri, cerco libri, compro vendo libri, vendo libri ";
+
     Layout = "~/Views/Shared/_MasterPageMobile.cshtml";
 }
 
@@ -38,7 +41,7 @@ else
                 <th>Titolo</th>
                 <th>Prezzo</th>
                 <th>Risposte</th>
-                <th>Modifica</th>
+                <th>Info</th>
                 <th>Cancella</th>
             </tr>
         </thead>
@@ -66,7 +69,7 @@ else
                     <td>@i.titolo</td>
                     <td>@i.prezzo.ToString("C") </td>
                     <td>@((ViewData["hashtableRisposte"] as System.Collections.Hashtable)[i.annuncioId])</td>
-                    <td><a href="@(Url.Action("MyAnnuncio") + "/" + i.annuncioId)" ><i class="fa fa-edit"></i></a></td>
+                    <td><a href="@(Url.Action("MyAnnuncio") + "/" + i.annuncioId)" ><i class="fa fa-info"></i></a></td>
                     <td><a href="javascript:deleteRow('@i.annuncioId');" ><i class="fa fa-trash"></i></a></td>
                 </tr>
 

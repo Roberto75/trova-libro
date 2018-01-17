@@ -102,24 +102,27 @@
                         <option value="@item.Value" @(item.Value == Model.libro.regioneId.ToString() ? "selected" : "")>@item.Text</option>
                     }
                 </select>
+                <input type="hidden" id="regione" name="libro.regione" />
             </div>
         </div>
 
         <div class="col-md-4">
             <div class="form-group">
                 <label for="comboProvincia">Provincia</label>
-                <select class="form-control mb-3" id="comboProvincia">
+                <select class="form-control mb-3" id="comboProvincia" name="libro.provinciaId">
                     <option value="">---</option>
                 </select>
+                <input type="hidden" id="provincia" name="libro.provincia" />
             </div>
         </div>
 
         <div class="col-md-4">
             <div class="form-group">
                 <label for="comboComune">Comune</label>
-                <select class="form-control mb-3" id="comboComune">
+                <select class="form-control mb-3" id="comboComune" name="libro.comuneId">
                     <option value="">---</option>
                 </select>
+                <input type="hidden" id="comune" name="libro.comune" />
             </div>
 
         </div>
@@ -136,7 +139,7 @@
 
 
     <a class="btn btn-secondary" href="@Url.Action("MyAnnunci", "Libri")" role="button">Annulla</a>
-        <button class="btn btn-primary" type="button" onclick="buttonSalvaOnClick()">Salva</button>
+    <button class="btn btn-primary" type="button" onclick="buttonSalvaOnClick()">Salva</button>
 }
 
 
@@ -145,12 +148,10 @@
     $(document).ready(function () {
         $("#comboCategoria").on("change", comboCategoriaOnChange);
         $("#comboRegione").on("change", comboRegioneOnChange);
+        $("#comboProvincia").on("change", comboProvinciaOnChange);
 
-        tinymce.init({
-            mode: "exact",
-            elements: "nota",
-            encoding: "xml"
-        });
+        //tinymce.init({ mode: "exact", elements: "nota", encoding: "xml" });
+        $('#nota').summernote({ tabsize: 2, height: 100 });
     });
 
 
@@ -170,6 +171,11 @@
             $('#comboProvincia').append($('<option/>', { value: "", text: "---" }));
             $('#comboProvincia').val("---").change();
 
+            $('#comboComune').empty();
+            $('#comboComune').append($('<option/>', { value: "", text: "---" }));
+            $('#comboComune').val("---").change();
+
+
             $.each(dati, function (index, item) {
                 //console.log(item.Value)
                 $('#comboProvincia').append($('<option/>', { value: item.value, text: item.text }));
@@ -178,6 +184,28 @@
         });
     }
 
+    function comboProvinciaOnChange(e) {
+        console.log("comboProvinciaOnChange", e);
+        //let selected = $(this).find("option:selected").val();
+        let selectedValue = $(this).val();
+        //var selectedText = $(this).find(":selected").text();
+        console.log("comboProvinciaOnChange selectedValue:" + selectedValue);
+
+
+        $.getJSON('@Url.Action("GetComuni", "RegioneProvinciaComune")', { provinciaId: selectedValue }, function (dati) {
+
+
+            $('#comboComune').empty();
+            $('#comboComune').append($('<option/>', { value: "", text: "---" }));
+            $('#comboComune').val("---").change();
+
+            $.each(dati, function (index, item) {
+                //console.log(item.Value)
+                $('#comboComune').append($('<option/>', { value: item.value, text: item.text }));
+            });
+
+        });
+    }
 
     function comboCategoriaOnChange(e) {
         console.log("comboCategoriaOnChange", e);
@@ -208,12 +236,30 @@
         console.log("buttonSalvaOnClick");
         let check = true;
 
-
-
-
         if (check === false) {
             return;
         }
+
+        comboProvincia
+        //let selectedValue = $("#comboRegione").val();
+        let selectedText;
+        if ($("#comboRegione").val() !== '') {
+            selectedText = $("#comboRegione").find(":selected").text();
+            $("#regione").val(selectedText);
+
+        }
+
+        if ($("#comboProvincia").val() !== '') {
+            selectedText = $("#comboProvincia").find(":selected").text();
+            $("#provincia").val(selectedText);
+        }
+
+        if ($("#comboComune").val() !== '') {
+            selectedText = $("#comboComune").find(":selected").text();
+            $("#comune").val(selectedText);
+        }
+
+
 
         $("form").submit();
     }

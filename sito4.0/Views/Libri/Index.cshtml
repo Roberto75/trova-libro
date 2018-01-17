@@ -1,14 +1,14 @@
 ﻿@model Annunci.Libri.Models.SearchLibri
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Trova libro: Cercare e vendere libri usati";
+    ViewBag.Description = "Trova-libro ti offre la possibilità di vendere, comprare e cercare gratuitamente libri usati con estrema velocità e semplicità mettendoti direttamente in contatto con il venditore";
+    ViewBag.Keywords = "acquisto libri usati, libri usati, trova libri, testi universitari usati,compro libri, vendo libri, comprovendolibriusati, compro e vendo libri , libro.it, vendere libri usati, compro vendo libri, libri universitari usati, comprovendolibri";
+
     Layout = "~/Views/Shared/_MasterPageMobile.cshtml";
 
     WebGrid wGrid = new WebGrid(null, rowsPerPage: Model.PageSize, defaultSort: Model.Sort, canPage: false);
     wGrid.Bind(Model.Libri, rowCount: Model.TotalRows, autoSortAndPage: false);
-
 }
-
-<h1>Ricerca</h1>
 
 
 <form action="@Url.Action("Index", "Libri")" method="post" class="form-horizontal" id="MyForm">
@@ -43,20 +43,20 @@
         </div>
         <div class="col-md-4">
             <div class="form-group">
-                <label for="titolo" >Autore</label>
+                <label for="titolo">Autore</label>
                 <input type="text" class="form-control" name="filter.autore" value="@Model.filter.autore">
             </div>
         </div>
         <div class="col-md-4">
             <div class="form-group">
-                <label for="isbn" >ISBN</label>
+                <label for="isbn">ISBN</label>
                 <input type="text" class="form-control" name="filter.isbn" value="@Model.filter.isbn">
             </div>
         </div>
     </div>
 
 
-  
+
 
     <button type="submit" class="btn btn-default">Ricerca</button>
 

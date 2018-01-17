@@ -1,6 +1,5 @@
 ﻿@model MyWebApplication.Models.UpdateModel
 @{
-    ViewBag.Title = "MyAnnuncio";
     Layout = "~/Views/Shared/_MasterPageMobile.cshtml";
 }
 
@@ -65,28 +64,27 @@
     </div>
 
     <div id="tab-3" class="tab-pane fade" role="tabpanel" aria-labelledby="tab-3-tab">
-        <h3>Trattative in corso con altri utenti</h3>
+        @{Html.RenderPartial("_TabellaTrattative", Model.trattative);}
     </div>
 
     <div id="tab-4" class="tab-pane fade" role="tabpanel" aria-labelledby="tab-4-tab">
         <p>La modifica del testo del annuncio viene notificata a tutti gli utenti in trattativa, tramite un messaggio email.</p>
 
 
-        @using (Html.BeginForm("UpdateNota", "Libro", FormMethod.Post, new { id = "MyFormUpdateNota" }))
+        @using (Html.BeginForm("UpdateNota", "Libri", FormMethod.Post, new { id = "MyFormUpdateNota" }))
             {
-        @Html.AntiForgeryToken()
-        <textarea name="nota" id="nota">@Model.libro.nota</textarea>
+            @Html.AntiForgeryToken()
+            <textarea name="nota" id="nota">@Model.libro.nota</textarea>
 
-        <input type="hidden" name="annuncioId" value="@Model.libro.annuncioId" />
-        <input type="submit" value="Modifica la nota" class="btn btn-secondary" onclick="return confirm('Tutti gli utenti in trattativa con questo annuncio verranno notificati della modifica tramite un messaggio email. Confermare la modifica?')" />
+            <br />
+            <input type="hidden" name="annuncioId" value="@Model.libro.annuncioId" />
+            <input type="submit" value="Modifica la nota" class="btn btn-secondary float-right" onclick="return confirm('Tutti gli utenti in trattativa con questo annuncio verranno notificati della modifica tramite un messaggio email. Confermare la modifica?')" />
         }
 
     </div>
 
     <div id="tab-5" class="tab-pane fade" role="tabpanel" aria-labelledby="tab-5-tab">
-        <h3>Photo</h3>
-
-
+      
         <p>Clicca sul bottone per aggiungere una nuova immagine: </p>
         <p>
             Le immagini con dimensione maggiore di @MyWebApplication.Controllers.LibriController.MaxWidthImage x @MyWebApplication.Controllers.LibriController.MaxHeightImage (WxH) verranno automaticamente ridimensionate.
@@ -111,11 +109,8 @@
 
 
 <script type="text/javascript">
-    tinymce.init({
-        mode: "exact",
-        elements: "nota",
-        encoding: "xml"
-    });
+    //tinymce.init({ mode: "exact", elements: "nota", encoding: "xml" });
+    $('#nota').summernote({ tabsize: 2, height: 200 });
 </script>
 
 

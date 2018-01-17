@@ -37,6 +37,7 @@ namespace MyWebApplication.Controllers
         public ActionResult Index(Annunci.Libri.Models.SearchLibri model)
         {
 
+
             manager.mOpenConnection();
             try
             {
@@ -75,7 +76,7 @@ namespace MyWebApplication.Controllers
 
                 Annunci.AnnuncioManager annuncioManager = new Annunci.AnnuncioManager(manager.mGetConnection());
                 long numeroRisposte;
-                foreach ( Annunci.Libri.Models.Libro i in risultato)
+                foreach (Annunci.Libri.Models.Libro i in risultato)
                 {
 
                     numeroRisposte = annuncioManager.getNumeroRisposteOfAnnuncio(i.annuncioId, MySessionData.UserId);
@@ -136,7 +137,13 @@ namespace MyWebApplication.Controllers
 
                 model.trattativa = risultato;
 
-               model.libro = manager.getLibro(risultato.annuncioId);
+                model.libro = manager.getLibro(risultato.annuncioId);
+
+                if (model.libro == null)
+                {
+                    //vuol dire che l'annuncio è stato rimosso ... 
+
+                }
 
             }
             finally
@@ -165,6 +172,16 @@ namespace MyWebApplication.Controllers
                 manager.mCloseConnection();
             }
 
+            string temp = "";
+
+            temp = String.IsNullOrEmpty(libro.titolo) ? "" : libro.titolo;
+            temp += String.IsNullOrEmpty(libro.autore) ? "" : "," + libro.autore;
+            temp += String.IsNullOrEmpty(libro.isbn) ? "" : ", ISBN " + libro.isbn;
+
+            ViewBag.Title = String.Format("{0} libro {1}", libro.tipo, temp);
+            ViewBag.Description = String.Format("{0}, libro usato, {1}", libro.tipo, temp);
+            ViewBag.Keywords = String.Format("{0}, libro, libro usato, {1}", libro.tipo, temp);
+            
             return View(libro);
         }
 
@@ -236,6 +253,7 @@ namespace MyWebApplication.Controllers
 
 
         [HttpPost, ActionName("Reply")]
+        [ValidateInput(false)]
         [ValidateAntiForgeryToken]
         public ActionResult ReplyPost(long annuncioId, string testo, long? rispostaId, long? trattativaId)
         {
@@ -282,10 +300,8 @@ namespace MyWebApplication.Controllers
                 }
             }
 
-
-
-
-            return RedirectToAction("Details", new { id = annuncioId });
+            //return RedirectToAction("Details", new { id = annuncioId });
+            return RedirectToAction("MyTrattative");
         }
 
 
@@ -299,7 +315,7 @@ namespace MyWebApplication.Controllers
 
             List<MyManagerCSharp.Models.MyItem> items = manager.getComboCategoria(categoriaId);
 
-            return Json(items, JsonRequestBehavior.AllowGet); 
+            return Json(items, JsonRequestBehavior.AllowGet);
 
         }
 
@@ -410,7 +426,7 @@ namespace MyWebApplication.Controllers
             {
                 manager.mCloseConnection();
             }
-            
+
             return RedirectToAction("MyAnnunci");
         }
 
@@ -422,23 +438,34 @@ namespace MyWebApplication.Controllers
         {
             Debug.WriteLine("MyAnnuncioId: " + id);
 
+            System.Collections.Hashtable hashtableRisposte = new System.Collections.Hashtable();
+
             Models.UpdateModel model;
             model = new Models.UpdateModel();
 
-            Annunci.Libri.Models.Libro libro = null;
+            
             manager.mOpenConnection();
             try
             {
-                libro = manager.getLibro(id);
+                model.libro = manager.getLibro(id);
 
-                if (libro == null)
+                if (model.libro == null)
                 {
                     return HttpNotFound();
                 }
 
-                if (libro.userId != MySessionData.UserId)
+                if (model.libro.userId != MySessionData.UserId)
                 {
                     return RedirectToAction("NotAuthorized", "Home");
+                }
+
+                //Trattative in corso 
+                model.trattative = manager.getTrattativeOnMyAnnuncio(MySessionData.UserId, id);
+                long numeroRisposte;
+                foreach (Annunci.Models.Trattativa t in model.trattative)
+                {
+                    numeroRisposte = manager.getNumeroRisposteOfTrattativa(t.trattativaId, MySessionData.UserId);
+                    hashtableRisposte.Add(t.trattativaId, numeroRisposte);
                 }
 
                 // PHOTO
@@ -452,7 +479,7 @@ namespace MyWebApplication.Controllers
                 if (Request.IsAjaxRequest())
                 {
                     Models.GalleryModel modelGallery = new Models.GalleryModel();
-                    modelGallery.externalId = libro.annuncioId;
+                    modelGallery.externalId = model.libro.annuncioId;
                     modelGallery.photos = photos;
                     return PartialView("GalleryEdit", modelGallery);
                 }
@@ -464,7 +491,19 @@ namespace MyWebApplication.Controllers
                 manager.mCloseConnection();
             }
 
-            model.libro = libro;
+            
+            ViewData["hashtableRisposte"] = hashtableRisposte;
+
+            string temp = "";
+
+            temp = String.IsNullOrEmpty(model.libro.titolo) ? "" : model.libro.titolo;
+            temp += String.IsNullOrEmpty(model.libro.autore) ? "" : "," + model.libro.autore;
+            temp += String.IsNullOrEmpty(model.libro.isbn) ? "" : ", ISBN " + model.libro.isbn;
+
+            ViewBag.Title = String.Format("Il mio annuncio: {0} {1}", model.libro.tipo, temp);
+            ViewBag.Description = String.Format("{0}, libro usato, {1}", model.libro.tipo, temp);
+            ViewBag.Keywords = String.Format("{0}, libro, libro usato, {1}", model.libro.tipo, temp);
+
             return View(model);
         }
 
@@ -521,6 +560,179 @@ namespace MyWebApplication.Controllers
             }
 
             return RedirectToAction("MyAnnuncio", new { id = annuncioId });
+        }
+
+
+
+        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteTrattativa(long trattativaId)
+        {
+
+            try
+            {
+                manager.mOpenConnection();
+
+                manager.deleteTrattativa(trattativaId);
+            }
+            finally
+            {
+                manager.mCloseConnection();
+            }
+
+            return RedirectToAction("MyTrattative");
+        }
+
+
+
+        [Authorize]
+        [HttpPost]
+        public JsonResult AddImage(long? annuncioId, HttpPostedFileBase MyFile)
+        {
+            if (annuncioId == null)
+            {
+                throw new MyManagerCSharp.MyException(MyManagerCSharp.MyException.ErrorNumber.ParametroNull, "DeleteExecute");
+            }
+
+            Debug.WriteLine("AddImage: " + annuncioId + " " + Request["MyFile"]);
+
+            Models.JsonMessageModel model = new Models.JsonMessageModel();
+
+            if (MyFile == null)
+            {
+                model.esito = "Failed";
+                model.messaggio = "Selezionare un file";
+                return Json(model);
+            }
+
+
+
+            //// Verify that the user selected a file
+            //if (MyFile != null && MyFile.ContentLength > 0)
+            //{
+            //    //Verifico l'estenzione
+            //    string  temp ;
+            //    temp = MyFile.FileName;
+
+            //    if (! temp.EndsWith(".gif") &&  !temp.EndsWith(".jpg") && ! temp.EndsWith(".jpeg") && ! temp.EndsWith(".png")) {
+            //        ModelState.AddModelError("", "Sono ammessi solo file con estenzione .gif, .jpg oppure .png");
+            //        return RedirectToAction("MyAnnuncio", new { id = annuncioId });
+            //    }
+            //}
+
+
+            string folder;
+            folder = System.Configuration.ConfigurationManager.AppSettings["mercatino.images.folder"];
+            if (!System.IO.Directory.Exists(Server.MapPath(folder)))
+            {
+                System.IO.Directory.CreateDirectory(Server.MapPath(folder));
+            }
+            folder = folder + annuncioId + "/";
+            if (!System.IO.Directory.Exists(Server.MapPath(folder)))
+            {
+                System.IO.Directory.CreateDirectory(Server.MapPath(folder));
+            }
+
+
+            System.Drawing.Image myImage = null;
+
+            try
+            {
+
+                myImage = System.Drawing.Image.FromStream(MyFile.InputStream);
+            }
+            catch (Exception e)
+            {
+                //NON si tratta di un'immagine!
+                model.esito = "Failed";
+                model.messaggio = "Il file selezionato NON contiene un'immagine";
+                return Json(model);
+            }
+
+
+            if (myImage.Height > MaxHeightImage)
+            {
+                myImage = Annunci.PhotoManager.resizeImageHeight(myImage, MaxHeightImage);
+            }
+
+            if (myImage.Width > MaxWidthImage)
+            {
+                myImage = Annunci.PhotoManager.resizeImageWidth(myImage, MaxWidthImage);
+            }
+
+            //Salvo l'immagine originale su file system
+            string pathFile;
+            pathFile = folder + System.IO.Path.GetFileName(MyFile.FileName);
+            myImage.Save(Server.MapPath(pathFile));
+
+            //'creo la thumbnail con altezza massima di 120px ... mantenendo le proporzioni 
+            System.Drawing.Image thumbnail;
+            thumbnail = Annunci.PhotoManager.resizeImageHeight(myImage, HeightThumbnail);
+            pathFile = folder + "thumbnail_" + System.IO.Path.GetFileName(MyFile.FileName);
+            thumbnail.Save(Server.MapPath(pathFile));
+
+
+            //'inserimento su DB!
+            Annunci.PhotoManager m = new Annunci.PhotoManager(manager.mGetConnection());
+
+            try
+            {
+                m.mOpenConnection();
+
+                //If _isPlanimetria Then
+                //    _manager.insertPhoto(folder & IO.Path.GetFileName(AsyncFileUpload1.FileName), "PLANIMETRIA", _externalId, CType(Session("SessionData"), MyManager.SessionData).getUserId)
+                //Else
+                //    _manager.insertPhoto(folder & IO.Path.GetFileName(AsyncFileUpload1.FileName), "", _externalId, CType(Session("SessionData"), MyManager.SessionData).getUserId)
+                //End If
+
+                m.insertPhoto(folder + System.IO.Path.GetFileName(MyFile.FileName), "", (long)annuncioId, MySessionData.UserId);
+
+
+
+            }
+            finally
+            {
+                m.mCloseConnection();
+            }
+
+
+
+
+
+            model.esito = "Success";
+            model.messaggio = "Operazione conlusa con successo";
+            return Json(model);
+        }
+
+
+        [HttpPost]
+        public JsonResult DeleteImage(long? id)
+        {
+            if (id == null)
+            {
+                throw new ArgumentNullException("id");
+            }
+
+            Debug.WriteLine(String.Format("ExternalId: {0}", id));
+
+            Annunci.PhotoManager m = new Annunci.PhotoManager(manager.mGetConnection());
+
+            try
+            {
+                m.mOpenConnection();
+                m.deletePhoto((long)id, Server.MapPath("~"));
+            }
+            finally
+            {
+                m.mCloseConnection();
+            }
+
+
+            MyWebApplication.Models.JsonMessageModel model = new Models.JsonMessageModel();
+            model.esito = "Success";
+            model.messaggio = "Operazione conlusa con successo";
+            return Json(model);
         }
 
 

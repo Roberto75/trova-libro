@@ -1,6 +1,9 @@
 ﻿@model MyWebApplication.Models.RegisterModel
 @{
-    ViewBag.Title = "Register";
+    ViewBag.Title = "Trova libro: registrazione";
+    ViewBag.Description = "Crea un nuovo accout per accedere ai servizi di trova-libro";
+    ViewBag.Keywords = "registrazione, creazione account, login, acceso al sito, password , recupero password ";
+
     Layout = "~/Views/Shared/_MasterPageMobile.cshtml";
 }
 
@@ -9,8 +12,6 @@
 @using (Html.BeginForm("Register", "Account", FormMethod.Post))
 {
     @Html.AntiForgeryToken()
-
-
 
     <div class="card mb-3">
         <div class="card-header">
@@ -144,23 +145,14 @@
                 <label for="privacy-no">Non accetto</label>
             </fieldset>
 
-            <button class="btn" type="reset">Indietro</button>
+            <a class="btn btn-secondary" href="@Url.Action("Index","Home")">Annulla</a>
             <button class="btn btn-primary" type="button" onclick="buttonSalvaOnClick()">Salva</button>
         </div>
     </div>
-
-
-
-
-
-
-
 }
 
 
-
 <script>
-
 
     function buttonSalvaOnClick() {
         console.log("buttonSalvaOnClick");
@@ -198,8 +190,6 @@
         } else {
             $("#email").parent().removeClass("has-error");
         }
-
-
 
 
         if (check === false) {

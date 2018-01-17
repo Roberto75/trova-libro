@@ -1,0 +1,42 @@
+﻿
+@{
+    ViewBag.Title = "Trova libro: F.A.Q. le domande pù frequenti";
+    ViewBag.Description = "Con Trova-libro puoi vendere e comprare libri usati e testi universitari. Il servizio è gratuito e senza costi di intermediazione";
+    ViewBag.Keywords = "libro usato, libri usati, libro, usati, usato, università, universitari, compro libri usati, vendo libri usati, cerco libri usati, scambio, annunci, vendo libri, cerco libri, compro vendo libri, vendo libri ";
+
+    Layout = "~/Views/Shared/_MasterPageMobile.cshtml";
+}
+
+<h2>F.A.Q.</h2>
+<h3>Le domande più frequenti</h3>
+
+@{
+
+    System.IO.MemoryStream risultatoMemoryStream;
+    risultatoMemoryStream = new MemoryStream();
+
+    System.Xml.Xsl.XslCompiledTransform xslt;
+    xslt = new System.Xml.Xsl.XslCompiledTransform();
+    //System.Xml.XmlReader reader = System.Xml.XmlReader.Create(System.IO.File.ReadAllText(Server.MapPath("~/Content/xsl/menuTop.xsl")));
+    //xslt.Load(reader);
+
+    xslt.Load(Server.MapPath("~/Content/xsl/faq.xsl"));
+
+    System.Xml.Xsl.XsltArgumentList args = new System.Xml.Xsl.XsltArgumentList();
+
+
+    xslt.Transform(Server.MapPath("~/Content/xml/faq.xml"), args, risultatoMemoryStream);
+    risultatoMemoryStream.Flush();
+
+
+    string risultato;
+
+    // System.Text.Encoding encoding = System.Text.Encoding.UTF8;
+    //risultato = System.Text.Encoding.UTF8.GetString(risultatoMemoryStream.ToArray());
+    risultato = System.Text.Encoding.Default.GetString(risultatoMemoryStream.ToArray());
+    //risultato = System.Text.Encoding.ASCII.GetString(risultatoMemoryStream.ToArray());
+
+    HtmlString risultatoHTML = new HtmlString(risultato);
+}
+
+@risultatoHTML

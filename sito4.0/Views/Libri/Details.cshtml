@@ -1,6 +1,5 @@
-﻿@model trova_libro.manager.Models.Libro
+﻿@model Annunci.Libri.Models.Libro
 @{
-    ViewBag.Title = "Details";
     Layout = "~/Views/Shared/_MasterPageMobile.cshtml";
 }
 
@@ -24,8 +23,6 @@
 
     <div id="descrizione" class="tab-pane fade" role="tabpanel" aria-labelledby="descrizione-tab">
         <blockquote>@Html.Raw(Model.nota)</blockquote>
-        <p style="white-space: pre-line">@Html.Raw(Model.nota)</p>
-        <code>@Html.Raw(Model.nota)</code>
     </div>
 
     <div id="photo" class="tab-pane fade" role="tabpanel" aria-labelledby="photo-tab">

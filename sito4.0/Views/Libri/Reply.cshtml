@@ -17,20 +17,30 @@
     <input type="hidden" name="trattativaId" value="@Model.trattativaId" />
     <input type="hidden" name="rispostaId" value="@Model.rispostaId" />
 
-    <textarea class="form-control" name="testo" rows="5">@Model.testo</textarea>
+    <textarea  id="nota" name="testo">@Model.testo</textarea>
 
     <br />
 
     <div data-role="controlgrup" data-type="horizontal" data-mini="true">
-        <a href="@Url.Action("Index", "Libri")"  class="btn btn-info" >Torna all'elenco</a>
-        <a href="@Url.Action("Details", "Libri", new { id = Model.annuncioId })"  class="btn btn-secondary" >Torna all'annuncio</a>
+        <a href="@Url.Action("Index", "Libri")" class="btn btn-info">Torna all'elenco</a>
+        <a href="@Url.Action("Details", "Libri", new { id = Model.annuncioId })" class="btn btn-secondary">Torna all'annuncio</a>
 
         @if (Model.trattativaId != -1)
         {
-            <a href="@Url.Action("Trattativa", "Libri", new { id = Model.trattativaId })"  class="btn btn-warning">Torna alla trattativa</a>
+            <a href="@Url.Action("Trattativa", "Libri", new { id = Model.trattativaId })" class="btn btn-warning">Torna alla trattativa</a>
         }
-        <input type="submit" value="Reply"  class="btn btn-primary" />
+        <input type="submit" value="Reply" class="btn btn-primary" />
     </div>
 }
 
 
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        //tinymce.init({            mode: "exact",            elements: "nota",            encoding: "xml"        });
+
+        $('#nota').summernote({ tabsize: 2, height: 100 });
+
+    });
+
+</script>

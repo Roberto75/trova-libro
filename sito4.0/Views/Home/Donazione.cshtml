@@ -1,0 +1,48 @@
+﻿
+@{
+    ViewBag.Title = "Trova libro: donazione";
+    ViewBag.Description = "Con Trova-libro puoi vendere e comprare libri usati e testi universitari. Il servizio è gratuito e senza costi di intermediazione";
+    ViewBag.Keywords = "libro usato, libri usati, libro, usati, usato, università, universitari, compro libri usati, vendo libri usati, cerco libri usati, scambio, annunci, vendo libri, cerco libri, compro vendo libri, vendo libri ";
+    
+    Layout = "~/Views/Shared/_MasterPageMobile.cshtml";
+}
+
+<h2>Donazione</h2>
+
+<p>Il sito di <b>Trova-libro</b> è nato nel 2004 da un gruppo di studenti universitari.</p>
+
+
+<img src="@Url.Content("~/Content/Images/donate1.gif")" style="float:right; margin-right :50px" alt="donazione" />
+<p>In tutti questi anni abbiamo osservato con piacere un crescente utilizzo del sito.</p>
+<p>Abbiamo cercato di fornire un servizio <b>semplice</b> e <b>gratuito</b> e senza l'inserimento di banner pubblicitari.</p>
+
+<p style="text-decoration: underline">Fai una donazione, grande o piccola che sia.</p>
+<p>Il tuo contributo ci aiuterà a mantenere il servizio gratuito e a ripagare le spese di gestione del dominio e dello spazio web.</p>
+
+<p>GRAZIE <br />dallo staff di Trova-Libro</p>
+
+
+<br />
+<h2>DONAZIONE CON PAYPAL</h2>
+
+<b>PayPal</b> è la società del gruppo eBay che consente a chiunque possieda un indirizzo email di inviare e ricevere pagamenti online in modo facile, veloce e sicuro.</p>
+
+
+<p>
+    Visita il sito di <a href="http://www.paypal.it/" target="_blank">PayPal</a> per avere una descrizione dettagliata del suo funzionamento.
+</p>
+
+
+<p style="text-decoration: underline">
+    Per effettuare la donazione con PayPal, clicca sul pulsante 'Donazione'.
+</p>
+
+<br />
+<center >
+    <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+        <input type="hidden" name="cmd" value="_s-xclick">
+        <input type="hidden" name="hosted_button_id" value="DHA69H73NGJSY">
+        <input type="image" src="https://www.paypalobjects.com/it_IT/IT/i/btn/btn_donateCC_LG.gif" style="cursor:pointer" border="0" name="submit" alt="PayPal è il metodo rapido e sicuro per pagare e farsi pagare online.">
+        <img alt="" border="0" src="https://www.paypalobjects.com/it_IT/i/scr/pixel.gif" width="1" height="1">
+    </form>
+</center>

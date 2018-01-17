@@ -10,5 +10,6 @@ namespace MyWebApplication.Models
         public Annunci.Libri.Models.Libro libro;
 
         public List<Annunci.Models.MyPhoto> photos;
+        public List<Annunci.Models.Trattativa> trattative;
     }
 }
