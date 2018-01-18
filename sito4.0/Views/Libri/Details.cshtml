@@ -1,6 +1,8 @@
-﻿@model Annunci.Libri.Models.Libro
+﻿@model MyWebApplication.Models.DetailsModel
 @{
     Layout = "~/Views/Shared/_MasterPageMobile.cshtml";
+    System.IO.FileInfo fi;
+    string temp;
 }
 
 <p class="lead">Dettaglio annuncio</p>
@@ -15,27 +17,84 @@
 
 
 <!-- Tab panes -->
-<div class="tab-content mb-3">
+<div class="tab-content mb-3 mt-3">
 
     <div id="info" class="tab-pane fade show active" role="tabpanel" aria-labelledby="info-tab">
-        @{Html.RenderPartial("_TabInfoLibro", Model);}
+        @{Html.RenderPartial("_TabInfoLibro", Model.libro);}
     </div>
 
     <div id="descrizione" class="tab-pane fade" role="tabpanel" aria-labelledby="descrizione-tab">
-        <blockquote>@Html.Raw(Model.nota)</blockquote>
+        <blockquote>@Html.Raw(Model.libro.nota)</blockquote>
     </div>
 
     <div id="photo" class="tab-pane fade" role="tabpanel" aria-labelledby="photo-tab">
-        <a href="@Url.Content("~/Content/images/Number-1-icon.png")" data -lightbox="roadtrip">Image #1</a>
-        <a href="@Url.Content("~/Content/images/Number-2-icon.png")" data -lightbox="roadtrip">Image #2</a>
-        <a href="@Url.Content("~/Content/images/Number-3-icon.png")" data -lightbox="roadtrip">Image #3</a>
-        <a href="@Url.Content("~/Content/images/Number-4-icon.png")" data -lightbox="roadtrip">Image #4</a>
+
+
+        @if (Model.photos == null || Model.photos.Count == 0)
+            {
+            <p>Immagini non disponibili</p>
+        }
+        else
+        {
+            foreach (Annunci.Models.MyPhoto p in Model.photos)
+            {
+
+                System.Diagnostics.Debug.WriteLine("Path : " + Server.MapPath(p.Path));
+
+                if (p.Path.StartsWith("http:"))
+                {
+                    <a href="@p.Path" data-lightbox="gallery">
+                        <img src="@p.Path" alt="@p.Note" />
+                    </a>
+                }
+                else
+                {
+                    fi = new System.IO.FileInfo(Server.MapPath(p.Path));
+                    if (fi.Exists)
+                    {
+                        //verifico che ci sia la thumbnail
+                        if (System.IO.File.Exists(fi.DirectoryName + System.IO.Path.DirectorySeparatorChar + "thumbnail_" + fi.Name))
+                        {
+                            temp = p.Path.Replace(fi.Name, "thumbnail_" + fi.Name);
+                        }
+                        else
+                        {
+                            temp = p.Path;
+                        }
+
+                        <a href="@Url.Content(p.Path)" data-lightbox="gallery">
+                            <img src="@Url.Content(temp)" alt="@p.Note" />
+                        </a>
+                    }
+                    else
+                    {
+                        <a href="@Url.Content(p.Path)" data-lightbox="gallery">
+                            <img src="@Url.Content("~/Content/Images/Shared/unavailable.jpg")" alt="Immagine non disponibile" width="120" height="120" />
+                        </a>
+
+
+
+                    }
+
+                }
+            }
+        }
+        <!--
+        <a href="@Url.Content("~/Content/images/Number-1-icon.png")" data-lightbox="roadtrip">Image #1</a>
+        <a href="@Url.Content("~/Content/images/Number-2-icon.png")" data-lightbox="roadtrip">Image #2</a>
+        <a href="@Url.Content("~/Content/images/Number-3-icon.png")" data-lightbox="roadtrip">Image #3</a>
+        <a href="@Url.Content("~/Content/images/Number-4-icon.png")" data-lightbox="roadtrip">Image #4</a>
+            -->
+
     </div>
+
+
+
+
 </div>
 
-
-
 <br />
+
 <div>
     Se sei interessatto a questo annuncio clicca su "Rispondi" per mandare un un messaggio all'inserzionista.
 </div>
@@ -44,7 +103,6 @@
 <div class="row">
     <div class="col-xs-12">
         <a class="btn btn-secondary" href="@Url.Action("Index", "Libri")">Pagina di ricerca</a>
-        <a class="btn btn-primary text-right" href="@Url.Action("Reply", "Libri", new { annuncioId = Model.annuncioId })">Rispondi</a>
-
+        <a class="btn btn-primary text-right" href="@Url.Action("Reply", "Libri", new { annuncioId = Model.libro.annuncioId })">Rispondi</a>
     </div>
 </div>

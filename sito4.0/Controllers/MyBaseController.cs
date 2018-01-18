@@ -12,6 +12,18 @@ namespace MyWebApplication.Controllers
     public class MyBaseController : System.Web.Mvc.Controller
     {
 
+        protected MyManagerCSharp.MySessionData MySessionData;
+
+
+        protected override void Initialize(System.Web.Routing.RequestContext requestContext)
+        {
+            base.Initialize(requestContext);
+
+            if (Session["MySessionData"] != null)
+            {
+                MySessionData = (Session["MySessionData"] as MyManagerCSharp.MySessionData);
+            }
+        }
 
         protected override void OnAuthorization(System.Web.Mvc.AuthorizationContext filterContext)
         {

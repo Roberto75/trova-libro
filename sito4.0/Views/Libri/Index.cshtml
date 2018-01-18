@@ -10,6 +10,7 @@
     wGrid.Bind(Model.Libri, rowCount: Model.TotalRows, autoSortAndPage: false);
 }
 
+<h2>Ricerca</h2>
 
 <form action="@Url.Action("Index", "Libri")" method="post" class="form-horizontal" id="MyForm">
 
@@ -63,7 +64,7 @@
 
     @if (Model.TotalRows == 0)
     {
-        <h3>Non è stata trovata nessuna vulnerabilità. Modificare i filtri di ricerca.</h3>
+        <h3>Non è stato trovato nessun libro. Modificare i filtri di ricerca.</h3>
     }
     else
     {

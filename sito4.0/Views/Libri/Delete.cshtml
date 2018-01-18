@@ -1,24 +1,18 @@
-﻿
+﻿@model Annunci.Libri.Models.Libro
 @{
     ViewBag.Title = "Delete";
     Layout = "~/Views/Shared/_MasterPageMobile.cshtml";
 }
 
 <h1>Cancellazione annuncio</h1>
-
-<p>Confermare la cancellazione per l'annuncio: <b><%=_titolo %> </b></p>
-
+<p>Confermare la cancellazione per l'annuncio: <b>@Model.titolo</b></p>
 <br />
-
 <p>Le seguenti informazioni NON verrano inviate all'utente ma rimarranno nel sistema per scopi statistici.</p>
-
 
 
 @using (Html.BeginForm("DeleteExecute", "Libri", FormMethod.Post, new { id = "MyForm" }))
 {
     @Html.AntiForgeryToken()
-
-
 
     <p>
         Specificare il motivo della cancellazione:  <select id="causale" name="causale" data-mini="true" data-inline="true">
@@ -32,17 +26,14 @@
     <br />
 
 
-    <input type="hidden" name="MyId" value="@ViewData["MyId"]" />
-    <input type="hidden" name="Tipo" value="@ViewData["Tipo"]" />
-
+    <input type="hidden" name="MyId" value="@Model.annuncioId" />
+    <input type="hidden" name="Tipo" value="" />
 
     <h2>Note aggiuntive</h2>
-    <textarea name="nota"></textarea>
+    <textarea class="form-control" name="nota" rows="3"></textarea>
 
 
-    <div>
-        <a class="btn btn-secondary" href="@Url.Action("MyAnnunci", "Libri")" role="button">Annulla</a>
-        <button class="btn btn-primary" type="submit">Conferma</button>
-    </div>
+    <a class="btn btn-secondary" href="@Url.Action("MyAnnunci", "Libri")" role="button">Annulla</a>
+    <button class="btn btn-primary" type="submit">Conferma</button>
 
 }

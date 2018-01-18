@@ -1,8 +1,17 @@
-﻿
+﻿@model MyWebApplication.Models.ManageModel
 @{
-    ViewBag.Title = "Manage";
+    ViewBag.Title = "Trova libro: il tuo profilo";
+    ViewBag.Description = "Crea un nuovo accout per accedere ai servizi di trova-libro";
+    ViewBag.Keywords = "registrazione, creazione account, login, acceso al sito, password , recupero password ";
+
     Layout = "~/Views/Shared/_MasterPageMobile.cshtml";
 }
 
-<h2>Manage</h2>
+<h2>Il tuo profilo</h2>
+<p>Benvenuto, @Model.NomeCognome</p>
+<p>
+    il tuo ultimo accesso è del @Model.datePreviousLogin.Value.ToShortDateString() alle ore @Model.datePreviousLogin.Value.ToShortTimeString()
+</p>
 
+
+<p>Clicca qui per <a href="@Url.Action("ChangePassword")">modificare la tua password</a></p>

@@ -9,8 +9,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyManagerCSharp", "..\..\My
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyUsers", "..\..\MyFramework4.5\MyUsers\MyUsers.csproj", "{DE537BC0-C7B3-4F38-9DE2-5757D6D3999E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "trova-libro.manager", "trova-libro.manager\trova-libro.manager.csproj", "{CEE27564-2C50-49A8-B388-9963C6776F83}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyAnnunci", "..\..\MyFramework4.5\MyAnnunciManager\MyAnnunci.csproj", "{5C5C908F-04C5-49A5-B9F2-6CFC686981C6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestProject", "UnitTestProject\UnitTestProject.csproj", "{B6B4FF14-ADA6-4BD2-926D-A7F90CED2B66}"
@@ -43,12 +41,6 @@ Global
 		{DE537BC0-C7B3-4F38-9DE2-5757D6D3999E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DE537BC0-C7B3-4F38-9DE2-5757D6D3999E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{DE537BC0-C7B3-4F38-9DE2-5757D6D3999E}.Release|x86.ActiveCfg = Release|Any CPU
-		{CEE27564-2C50-49A8-B388-9963C6776F83}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CEE27564-2C50-49A8-B388-9963C6776F83}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CEE27564-2C50-49A8-B388-9963C6776F83}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{CEE27564-2C50-49A8-B388-9963C6776F83}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CEE27564-2C50-49A8-B388-9963C6776F83}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CEE27564-2C50-49A8-B388-9963C6776F83}.Release|x86.ActiveCfg = Release|Any CPU
 		{5C5C908F-04C5-49A5-B9F2-6CFC686981C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5C5C908F-04C5-49A5-B9F2-6CFC686981C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5C5C908F-04C5-49A5-B9F2-6CFC686981C6}.Debug|x86.ActiveCfg = Debug|Any CPU

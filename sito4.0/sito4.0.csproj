@@ -703,16 +703,16 @@
     <Content Include="Content\Images\workflow.jpg" />
     <Content Include="Content\Images\zoom1_16x16.gif" />
     <Content Include="Content\js\acc-wizard.min.js" />
-    <Content Include="Content\lightbox\css\lightbox.css" />
-    <Content Include="Content\lightbox\css\lightbox.min.css" />
-    <Content Include="Content\lightbox\images\close.png" />
-    <Content Include="Content\lightbox\images\loading.gif" />
-    <Content Include="Content\lightbox\images\next.png" />
-    <Content Include="Content\lightbox\images\prev.png" />
-    <Content Include="Content\lightbox\js\lightbox-plus-jquery.js" />
-    <Content Include="Content\lightbox\js\lightbox-plus-jquery.min.js" />
-    <Content Include="Content\lightbox\js\lightbox.js" />
-    <Content Include="Content\lightbox\js\lightbox.min.js" />
+    <Content Include="Content\lightbox-2.10.0\css\lightbox.css" />
+    <Content Include="Content\lightbox-2.10.0\css\lightbox.min.css" />
+    <Content Include="Content\lightbox-2.10.0\images\close.png" />
+    <Content Include="Content\lightbox-2.10.0\images\loading.gif" />
+    <Content Include="Content\lightbox-2.10.0\images\next.png" />
+    <Content Include="Content\lightbox-2.10.0\images\prev.png" />
+    <Content Include="Content\lightbox-2.10.0\js\lightbox-plus-jquery.js" />
+    <Content Include="Content\lightbox-2.10.0\js\lightbox-plus-jquery.min.js" />
+    <Content Include="Content\lightbox-2.10.0\js\lightbox.js" />
+    <Content Include="Content\lightbox-2.10.0\js\lightbox.min.js" />
     <Content Include="Content\Style\acc-wizard.min.css" />
     <Content Include="Content\Style\Admin.css" />
     <Content Include="Content\Style\lightbox.css" />
@@ -821,6 +821,9 @@
     <Content Include="Content\Style\themes\jquery.mobile.icons.min.css" />
     <Content Include="Content\Style\themes\MyTheme.css" />
     <Content Include="Content\Style\themes\MyTheme.min.css" />
+    <Content Include="Content\tinymce-4.3.3\skins\lightgray\content.min.css" />
+    <Content Include="Content\tinymce-4.3.3\skins\lightgray\skin.min.css" />
+    <Content Include="Content\tinymce-4.3.3\tinymce.min.js" />
     <Content Include="Content\xml\faq.xml" />
     <Content Include="Content\xml\menuLeft.xml" />
     <Content Include="Content\xml\menuRight.xml" />
@@ -878,9 +881,12 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountModels.cs" />
+    <Compile Include="Models\ChangePasswordModel.cs" />
     <Compile Include="Models\CreateModel.cs" />
+    <Compile Include="Models\DetailsModel.cs" />
     <Compile Include="Models\GalleryModel.cs" />
     <Compile Include="Models\JsonMessageModel.cs" />
+    <Compile Include="Models\ManageModel.cs" />
     <Compile Include="Models\ModelRegioneProvinciaComune.cs" />
     <Compile Include="Models\ModelTrattativa.cs" />
     <Compile Include="Models\ReplyModel.cs" />
@@ -946,8 +952,6 @@
     <Content Include="Areas\Admin\Views\Logs\Summary.cshtml" />
     <Content Include="Areas\Admin\Views\Logs\_LogList.cshtml" />
     <Content Include="Views\Shared\_MyValidationSummary.cshtml" />
-    <Content Include="Content\lightbox\js\lightbox-plus-jquery.min.map" />
-    <Content Include="Content\lightbox\js\lightbox.min.map" />
     <Content Include="Views\Account\RegisterCompleted.cshtml" />
     <Content Include="Views\Libri\Create.cshtml" />
     <Content Include="Views\Libri\CreateCompleted.cshtml" />
@@ -959,6 +963,14 @@
     <Content Include="Views\Libri\_TabellaTrattative.cshtml" />
     <Content Include="Views\Home\FAQ.cshtml" />
     <Content Include="Views\Home\Donazione.cshtml" />
+    <Content Include="Content\lightbox-2.10.0\js\lightbox-plus-jquery.min.map" />
+    <Content Include="Content\lightbox-2.10.0\js\lightbox.min.map" />
+    <Content Include="Content\tinymce-4.3.3\skins\lightgray\fonts\tinymce.woff" />
+    <Content Include="Views\Shared\Widget\_SubWidget.cshtml" />
+    <Content Include="Views\Shared\Widget\_Widget.cshtml" />
+    <Content Include="Views\Shared\Widget\_WidgetContainer.cshtml" />
+    <Content Include="Views\Shared\_ComboData.cshtml" />
+    <Content Include="Views\Account\ChangePassword.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

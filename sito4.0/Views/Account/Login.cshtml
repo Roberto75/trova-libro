@@ -12,6 +12,9 @@
 <p>Inserisci le tue credenziali di accesso facendo attenzione ai caratteri maiuscoli e minuscoli.</p>
 
 <p>Se ti sei dimenticato la <b>password</b> clicca @Html.ActionLink("qui", "ResetPassword", "Account")</p>
+<p>Se ti sei dimenticato la <b>username</b> scrivici a <a href="mailto:@System.Configuration.ConfigurationManager.AppSettings["mail.webmaster"]">@System.Configuration.ConfigurationManager.AppSettings["mail.webmaster"]</a>
+      tramite la casella di posta che hai usato in fase di registrazione</p>
+
 
 <p>Se non ti sei ancora <b>registrato</b> clicca @Html.ActionLink("qui", "Register", "Account") </p>
 

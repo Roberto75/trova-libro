@@ -10,7 +10,7 @@ namespace MyWebApplication.Controllers
     [Authorize]
     public class LibriController : MyBaseController
     {
-        protected MyManagerCSharp.MySessionData MySessionData;
+
 
         public const int MaxWidthImage = 500;
         public const int MaxHeightImage = 500;
@@ -23,15 +23,6 @@ namespace MyWebApplication.Controllers
 
         private MyManagerCSharp.RegioniProvinceComuniManager regioniProvinceComuniManager = new MyManagerCSharp.RegioniProvinceComuniManager("RegioniProvinceComuni");
 
-        protected override void Initialize(System.Web.Routing.RequestContext requestContext)
-        {
-            base.Initialize(requestContext);
-
-            if (Session["MySessionData"] != null)
-            {
-                MySessionData = (Session["MySessionData"] as MyManagerCSharp.MySessionData);
-            }
-        }
 
         [AllowAnonymous]
         public ActionResult Index(Annunci.Libri.Models.SearchLibri model)
@@ -51,34 +42,19 @@ namespace MyWebApplication.Controllers
             return View(model);
         }
 
-        public ActionResult MyAnnunci()
+        public ActionResult MyAnnunci(Annunci.Libri.Models.SearchLibri model)
         {
-            manager.mOpenConnection();
-
-            List<Annunci.Libri.Models.Libro> risultato;
             System.Collections.Hashtable hashtableRisposte = new System.Collections.Hashtable();
-
             try
             {
+                manager.mOpenConnection();
 
-                //if (User.Identity is System.Web.Security.FormsIdentity)
-                //{
-                //    risultato = manager.getListAnnunci((User.Identity as System.Web.Security.FormsIdentity)..UserId);
-                //}
-
-                //if (User.Identity is MyUsers.MyCustomIdentity)
-                //{
-                //    risultato = manager.getListAnnunci((User.Identity as MyUsers.MyCustomIdentity).UserId);
-                //}
-
-
-                risultato = manager.getListAnnunci(MySessionData.UserId);
+                manager.getMyListAnnunci(MySessionData.UserId, model);
 
                 Annunci.AnnuncioManager annuncioManager = new Annunci.AnnuncioManager(manager.mGetConnection());
                 long numeroRisposte;
-                foreach (Annunci.Libri.Models.Libro i in risultato)
+                foreach (Annunci.Libri.Models.Libro i in model.Libri)
                 {
-
                     numeroRisposte = annuncioManager.getNumeroRisposteOfAnnuncio(i.annuncioId, MySessionData.UserId);
                     hashtableRisposte.Add(i.annuncioId, numeroRisposte);
                 }
@@ -89,7 +65,7 @@ namespace MyWebApplication.Controllers
             }
 
             ViewData["hashtableRisposte"] = hashtableRisposte;
-            return View(risultato);
+            return View(model);
         }
 
         public ActionResult MyTrattative()
@@ -160,12 +136,23 @@ namespace MyWebApplication.Controllers
         [AllowAnonymous]
         public ActionResult Details(long id)
         {
-            Annunci.Libri.Models.Libro libro;
+
+            Models.DetailsModel model = new Models.DetailsModel();
+
 
             manager.mOpenConnection();
             try
             {
-                libro = manager.getLibro(id);
+                model.libro = manager.getLibro(id);
+
+                if (model.libro == null)
+                {
+                    return HttpNotFound();
+                }
+
+                Annunci.PhotoManager photoManager = new Annunci.PhotoManager(manager.mGetConnection());
+                model.photos = photoManager.getMyPhotosIsNotPlanimetria(id);
+                Debug.WriteLine("Trovate {0} immagini", model.photos.Count);
             }
             finally
             {
@@ -174,15 +161,15 @@ namespace MyWebApplication.Controllers
 
             string temp = "";
 
-            temp = String.IsNullOrEmpty(libro.titolo) ? "" : libro.titolo;
-            temp += String.IsNullOrEmpty(libro.autore) ? "" : "," + libro.autore;
-            temp += String.IsNullOrEmpty(libro.isbn) ? "" : ", ISBN " + libro.isbn;
+            temp = String.IsNullOrEmpty(model.libro.titolo) ? "" : model.libro.titolo;
+            temp += String.IsNullOrEmpty(model.libro.autore) ? "" : "," + model.libro.autore;
+            temp += String.IsNullOrEmpty(model.libro.isbn) ? "" : ", ISBN " + model.libro.isbn;
 
-            ViewBag.Title = String.Format("{0} libro {1}", libro.tipo, temp);
-            ViewBag.Description = String.Format("{0}, libro usato, {1}", libro.tipo, temp);
-            ViewBag.Keywords = String.Format("{0}, libro, libro usato, {1}", libro.tipo, temp);
-            
-            return View(libro);
+            ViewBag.Title = String.Format("{0} libro {1}", model.libro.tipo, temp);
+            ViewBag.Description = String.Format("{0}, libro usato, {1}", model.libro.tipo, temp);
+            ViewBag.Keywords = String.Format("{0}, libro, libro usato, {1}", model.libro.tipo, temp);
+
+            return View(model);
         }
 
 
@@ -389,16 +376,37 @@ namespace MyWebApplication.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Delete(long? annuncioId)
         {
-            if (annuncioId != null)
+            if (annuncioId == null)
             {
-                Debug.WriteLine("Delete MyAnnuncio: " + annuncioId);
-                ViewData["Tipo"] = "Annuncio";
-                ViewData["MyId"] = annuncioId;
-
-
-                ViewBag.Title = "Trova-libro: Cancellazione annuncio";
+                return HttpNotFound();
             }
-            return View();
+            Debug.WriteLine("Delete MyAnnuncio: " + annuncioId);
+
+
+            try
+            {
+                manager.mOpenConnection();
+
+                Annunci.Libri.Models.Libro libro;
+                libro = manager.getLibro((long)annuncioId);
+                if (libro == null)
+                {
+                    return HttpNotFound();
+                }
+
+
+            }
+            finally
+            {
+                manager.mCloseConnection();
+            }
+
+
+
+            
+            ViewBag.Title = "Trova-libro: Cancellazione annuncio";
+
+            return View(libro);
         }
 
 
@@ -443,7 +451,7 @@ namespace MyWebApplication.Controllers
             Models.UpdateModel model;
             model = new Models.UpdateModel();
 
-            
+
             manager.mOpenConnection();
             try
             {
@@ -491,7 +499,7 @@ namespace MyWebApplication.Controllers
                 manager.mCloseConnection();
             }
 
-            
+
             ViewData["hashtableRisposte"] = hashtableRisposte;
 
             string temp = "";

@@ -40,7 +40,7 @@ namespace MyWebApplication.Controllers
 
 
         // This action handles the form POST and the upload
-        
+
         [HttpPost]
         public ActionResult Upload(HttpPostedFileBase file)
         {
@@ -110,16 +110,16 @@ namespace MyWebApplication.Controllers
 
 
 
-        //[InitializeSimpleMembership]
-        public ActionResult Manage(UserProfile model)
+        public ActionResult Manage()
         {
 
             manager.mOpenConnection();
+            Models.ManageModel model = new Models.ManageModel();
 
             MyUsers.Models.MyUser u = null;
             try
             {
-                u = manager.getUser((User.Identity as MyCustomIdentity).UserId);
+                u = manager.getUser(MySessionData.UserId);
 
                 if (u == null)
                 {
@@ -127,9 +127,16 @@ namespace MyWebApplication.Controllers
                 }
 
 
-                model.login = u.login;
-                model.customerId = (long)u.customerId;
+                model.Login = u.login;
+                model.Nome = u.nome;
+                model.Cognome = u.cognome;
 
+                if (u.customerId != null)
+                {
+                    model.customerId = (long)u.customerId;
+                }
+
+                model.datePreviousLogin = u.datePreviousLogin;
 
                 string pathImage;
                 pathImage = "~/public/UserFiles/" + u.login + "/photo.gif";
@@ -151,8 +158,6 @@ namespace MyWebApplication.Controllers
                 //29/08/2013 per la cache
                 pathImage += "?" + DateTime.Now.Ticks;
                 model.pathImageProfile = pathImage;
-
-
             }
             finally
             {
@@ -407,24 +412,29 @@ namespace MyWebApplication.Controllers
             //return RedirectToAction("Index", "Home");
             //return View("ResetPasswordCompleted", "Account", u.email);
             //return View("ResetPasswordCompleted", "Account");
-            return View("ResetPasswordCompleted", (object) u.email);
+            return View("ResetPasswordCompleted", (object)u.email);
         }
 
 
-        
+
         public ActionResult ChangePassword()
         {
             ChangePasswordModel model = new ChangePasswordModel();
+
+            model.carattariConsentiti = PasswordManager.PASSWORD_CHARS_SPECIAL;
+            model.catatteriVietati = PasswordManager.PASSWORD_CHARS_SPECIAL_DENY;
             return View(model);
         }
 
-        
+
         [HttpPost]
         public ActionResult ChangePassword(ChangePasswordModel model)
         {
             if (!ModelState.IsValid)
             {
                 //ModelState.AddModelError("", "Login o email errati");
+                model.carattariConsentiti = PasswordManager.PASSWORD_CHARS_SPECIAL;
+                model.catatteriVietati = PasswordManager.PASSWORD_CHARS_SPECIAL_DENY;
                 return View(model);
             }
 
@@ -442,6 +452,8 @@ namespace MyWebApplication.Controllers
                 if (test != (User.Identity as MyCustomIdentity).UserId)
                 {
                     ModelState.AddModelError("", "Verificare la password inserita");
+                    model.carattariConsentiti = PasswordManager.PASSWORD_CHARS_SPECIAL;
+                    model.catatteriVietati = PasswordManager.PASSWORD_CHARS_SPECIAL_DENY;
                     return View(model);
                 }
 
@@ -458,6 +470,8 @@ namespace MyWebApplication.Controllers
                 {
                     ModelState.AddModelError("", ex.Message);
                 }
+                model.carattariConsentiti = PasswordManager.PASSWORD_CHARS_SPECIAL;
+                model.catatteriVietati = PasswordManager.PASSWORD_CHARS_SPECIAL_DENY;
                 return View(model);
             }
             finally

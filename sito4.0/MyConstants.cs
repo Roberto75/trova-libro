@@ -28,10 +28,10 @@ public class MyConstants
     */
 
 
-    public const string TABLE_STYLE = "table table-hover table-striped table-bordered";
+    public const string TABLE_STYLE = "table table-hover table-striped ";
     public const string TABLE_ROW_STYLE = "";
     public const string TABLE_ALTERNATING_ROW_STYLE = "";
-    public const string TABLE_HEADER_STYLE = "";
+    public const string TABLE_HEADER_STYLE = "thead-light";
     public const string TABLE_FOOTER_STYLE = "";
 
 
