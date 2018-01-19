@@ -34,8 +34,8 @@ else
                 <th>Utente</th>
                 <th>Tipo</th>
                 <th>Prezzo</th>
-                <th>Info</th>
-                <th>Delete</th>
+                <th></th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -63,8 +63,8 @@ else
                     <td>@t.login</td>
                     <td>@t.tipoAnnuncio</td>
                     <td>@t.prezzo.ToString("C")</td>
-                    <td><a href="@(Url.Action("Trattativa", "Libri") + "/" + t.trattativaId)"><i class="fa fa-info"></i></a></td>
-                    <td><button type="button" onclick="deleteOnClick(@t.trattativaId)"><i class="fa fa-trash"></i></button></td>
+                    <td><a class="btn btn-info btn-sm" title="Detagli" href="@(Url.Action("Trattativa", "Libri") + "/" + t.trattativaId)"><i class="fa fa-info"></i></a></td>
+                    <td><button class="btn btn-info btn-sm" title="Cancella" type="button" onclick="deleteOnClick(@t.trattativaId)"><i class="fa fa-trash"></i></button></td>
                 </tr>
 
             }

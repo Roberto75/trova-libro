@@ -1,6 +1,6 @@
 ﻿@model MyWebApplication.Models.CreateModel
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Trova libro: nuovo annuncio";
     Layout = "~/Views/Shared/_MasterPageMobile.cshtml";
 }
 
@@ -11,6 +11,7 @@
 
 @using (Html.BeginForm("Create", "Libri", FormMethod.Post))
 {
+
     @Html.AntiForgeryToken()
 
 
@@ -42,106 +43,112 @@
         </div>
         <div class="col-md-4">
             <div class="form-group">
-                <label for="comboSubCategoria">Sub-categoria</label>
-                <select class="form-control mb-3" id="comboSubCategoria">
+                <label for="comboSubCategoria">Testi scolastici/universitari</label>
+                <select class="form-control mb-3" id="comboSubCategoria" name="libro.subCategoriaId">
                     <option value="">---</option>
-                </select>
-            </div>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-md-6">
-
-            <div class="form-group">
-                <label for="titolo">Titolo*:</label>
-                <input type="text" class="form-control" value="@Model.libro.titolo" id="titolo" name="libro.titolo" placeholder="Titolo">
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="form-group">
-                <label for="autore">Autore:</label>
-                <input type="text" class="form-control" value="@Model.libro.autore" id="autore" name="libro.autore" placeholder="Autore">
-            </div>
-
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-md-4">
-            <div class="form-group">
-                <label for="casaEditrice">Casa editrice:</label>
-                <input type="text" class="form-control" value="@Model.libro.casaEditrice" id="casaEditrice" name="libro.casaEditrice" placeholder="Casa editrice">
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="form-group">
-                <label for="isbn">ISBN:</label>
-                <input type="text" class="form-control" value="@Model.libro.isbn" id="isbn" name="libro.isbn" placeholder="ISBN">
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="form-group">
-                <label for="prezzo">Prezzo:</label>
-                <input type="number" class="form-control" value="@Model.libro.prezzo" id="prezzo" name="libro.prezzo" placeholder="Inserire il prezzo del libro in euro">
-            </div>
-        </div>
-    </div>
-
-
-
-    <div class="row">
-        <div class="col-md-4">
-
-            <div class="form-group">
-                <label for="comboRegione">Regione</label>
-                <select class="form-control mb-3" id="comboRegione" name="libro.regioneId">
-                    <option value="">---</option>
-                    @foreach (MyManagerCSharp.Models.MyItem item in Model.comboRegioni)
-                {
-                        <option value="@item.Value" @(item.Value == Model.libro.regioneId.ToString() ? "selected" : "")>@item.Text</option>
+                    @foreach (MyManagerCSharp.Models.MyItem item in Model.comboSubCategorie)
+                    {
+                        <option value="@item.Value" @(item.Value == Model.libro.subCategoriaId.ToString() ? "selected" : "")>@item.Text  (@item.Value)</option>
                     }
                 </select>
-                <input type="hidden" id="regione" name="libro.regione" />
-            </div>
-        </div>
-
-        <div class="col-md-4">
-            <div class="form-group">
-                <label for="comboProvincia">Provincia</label>
-                <select class="form-control mb-3" id="comboProvincia" name="libro.provinciaId">
-                    <option value="">---</option>
-                </select>
-                <input type="hidden" id="provincia" name="libro.provincia" />
-            </div>
-        </div>
-
-        <div class="col-md-4">
-            <div class="form-group">
-                <label for="comboComune">Comune</label>
-                <select class="form-control mb-3" id="comboComune" name="libro.comuneId">
-                    <option value="">---</option>
-                </select>
-                <input type="hidden" id="comune" name="libro.comune" />
-            </div>
-
-        </div>
-    </div>
-
-
-    <div class="row">
-        <div class="col-md-12">
-            <div class="form-group">
-                <textarea name="libro.nota" id="nota">@Model.libro.nota</textarea>
             </div>
         </div>
     </div>
 
+        <div class="row">
+            <div class="col-md-6">
 
-    <a class="btn btn-secondary" href="@Url.Action("MyAnnunci", "Libri")" role="button">Annulla</a>
-    <button class="btn btn-primary" type="button" onclick="buttonSalvaOnClick()">Salva</button>
+                <div class="form-group">
+                    <label for="titolo">Titolo*:</label>
+                    <input type="text" class="form-control" value="@Model.libro.titolo" id="titolo" name="libro.titolo" placeholder="Titolo">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="autore">Autore:</label>
+                    <input type="text" class="form-control" value="@Model.libro.autore" id="autore" name="libro.autore" placeholder="Autore">
+                </div>
+
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="casaEditrice">Casa editrice:</label>
+                    <input type="text" class="form-control" value="@Model.libro.casaEditrice" id="casaEditrice" name="libro.casaEditrice" placeholder="Casa editrice">
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="isbn">ISBN:</label>
+                    <input type="text" class="form-control" value="@Model.libro.isbn" id="isbn" name="libro.isbn" placeholder="ISBN">
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="prezzo">Prezzo:</label>
+                    <input type="number" class="form-control" value="@Model.libro.prezzo" id="prezzo" name="libro.prezzo" placeholder="Inserire il prezzo del libro in euro">
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="row">
+            <div class="col-md-4">
+
+                <div class="form-group">
+                    <label for="comboRegione">Regione</label>
+                    <select class="form-control mb-3" id="comboRegione" name="libro.regioneId">
+                        <option value="">---</option>
+                        @foreach (MyManagerCSharp.Models.MyItem item in Model.comboRegioni)
+                {
+                            <option value="@item.Value" @(item.Value == Model.libro.regioneId.ToString() ? "selected" : "")>@item.Text</option>
+                        }
+                    </select>
+                    <input type="hidden" id="regione" name="libro.regione" />
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="comboProvincia">Provincia</label>
+                    <select class="form-control mb-3" id="comboProvincia" name="libro.provinciaId">
+                        <option value="">---</option>
+                    </select>
+                    <input type="hidden" id="provincia" name="libro.provincia" />
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="comboComune">Comune</label>
+                    <select class="form-control mb-3" id="comboComune" name="libro.comuneId">
+                        <option value="">---</option>
+                    </select>
+                    <input type="hidden" id="comune" name="libro.comune" />
+                </div>
+
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <textarea name="libro.nota" id="nota">@Model.libro.nota</textarea>
+                </div>
+            </div>
+        </div>
+
+
+        <a class="btn btn-secondary" href="@Url.Action("MyAnnunci", "Libri")" role="button">Annulla</a>
+        <button class="btn btn-primary" type="button" onclick="buttonSalvaOnClick()">Salva</button>
 }
 
+@Html.Partial("_ComboCategoria")
+@Html.Partial("_ComboRegioneProvinciaComune")
 
 <script type="text/javascript">
 
@@ -154,83 +161,7 @@
         $('#nota').summernote({ tabsize: 2, height: 100 });
     });
 
-
-
-    function comboRegioneOnChange(e) {
-        console.log("comboRegioneOnChange", e);
-        //let selected = $(this).find("option:selected").val();
-        let selectedValue = $(this).val();
-        //var selectedText = $(this).find(":selected").text();
-        console.log("comboRegioneOnChange selectedValue:" + selectedValue);
-
-
-        $.getJSON('@Url.Action("GetProvince", "RegioneProvinciaComune")', { regioneId: selectedValue }, function (dati) {
-
-
-            $('#comboProvincia').empty();
-            $('#comboProvincia').append($('<option/>', { value: "", text: "---" }));
-            $('#comboProvincia').val("---").change();
-
-            $('#comboComune').empty();
-            $('#comboComune').append($('<option/>', { value: "", text: "---" }));
-            $('#comboComune').val("---").change();
-
-
-            $.each(dati, function (index, item) {
-                //console.log(item.Value)
-                $('#comboProvincia').append($('<option/>', { value: item.value, text: item.text }));
-            });
-
-        });
-    }
-
-    function comboProvinciaOnChange(e) {
-        console.log("comboProvinciaOnChange", e);
-        //let selected = $(this).find("option:selected").val();
-        let selectedValue = $(this).val();
-        //var selectedText = $(this).find(":selected").text();
-        console.log("comboProvinciaOnChange selectedValue:" + selectedValue);
-
-
-        $.getJSON('@Url.Action("GetComuni", "RegioneProvinciaComune")', { provinciaId: selectedValue }, function (dati) {
-
-
-            $('#comboComune').empty();
-            $('#comboComune').append($('<option/>', { value: "", text: "---" }));
-            $('#comboComune').val("---").change();
-
-            $.each(dati, function (index, item) {
-                //console.log(item.Value)
-                $('#comboComune').append($('<option/>', { value: item.value, text: item.text }));
-            });
-
-        });
-    }
-
-    function comboCategoriaOnChange(e) {
-        console.log("comboCategoriaOnChange", e);
-        //let selected = $(this).find("option:selected").val();
-        let selectedValue = $(this).val();
-        //var selectedText = $(this).find(":selected").text();
-        console.log("comboCategoriaOnChange selectedValue:" + selectedValue);
-
-
-        $.getJSON('@Url.Action("GetSubCategoria", "Libri")', { categoriaId: selectedValue }, function (dati) {
-
-
-            $('#comboSubCategoria').empty();
-            $('#comboSubCategoria').append($('<option/>', { value: "", text: "---" }));
-            $('#comboSubCategoria').val("---").change();
-
-            $.each(dati, function (index, item) {
-                //console.log(item.Value)
-                $('#comboSubCategoria').append($('<option/>', { value: item.Value, text: item.Text }));
-            });
-
-        });
-
-
-    }
+        
 
     function buttonSalvaOnClick() {
         console.log("buttonSalvaOnClick");

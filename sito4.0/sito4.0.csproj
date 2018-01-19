@@ -971,6 +971,8 @@
     <Content Include="Views\Shared\Widget\_WidgetContainer.cshtml" />
     <Content Include="Views\Shared\_ComboData.cshtml" />
     <Content Include="Views\Account\ChangePassword.cshtml" />
+    <Content Include="Views\Shared\_ComboCategoria.cshtml" />
+    <Content Include="Views\Shared\_ComboRegioneProvinciaComune.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

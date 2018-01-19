@@ -1,4 +1,4 @@
-﻿@if (Request.IsAuthenticated)
+﻿@if (Request.IsAuthenticated && Session["MySessionData"] != null)
 {
     <li class="nav-item">
         <a class="nav-link" href="@Url.Action("Manage", "Account")">@User.Identity.Name</a>

@@ -6,6 +6,7 @@ using System.Web;
 using System.Diagnostics;
 using MyUsers;
 using System.Web.Mvc;
+using System.Web.Security;
 
 namespace MyWebApplication.Controllers
 {
@@ -18,6 +19,12 @@ namespace MyWebApplication.Controllers
         protected override void Initialize(System.Web.Routing.RequestContext requestContext)
         {
             base.Initialize(requestContext);
+
+            if (User.Identity.IsAuthenticated && Session["MySessionData"] == null)
+            {
+                FormsAuthentication.SignOut();
+            }
+
 
             if (Session["MySessionData"] != null)
             {

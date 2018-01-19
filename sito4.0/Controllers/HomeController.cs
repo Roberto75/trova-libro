@@ -6,7 +6,8 @@ using System.Web.Mvc;
 
 namespace MyWebApplication.Controllers
 {
-    public class HomeController : Controller
+    [AllowAnonymous]
+    public class HomeController : MyBaseController
     {
        
         public ActionResult Index()

@@ -24,7 +24,9 @@
     </div>
 
     <div id="descrizione" class="tab-pane fade" role="tabpanel" aria-labelledby="descrizione-tab">
-        <blockquote>@Html.Raw(Model.libro.nota)</blockquote>
+        <div class="jumbotron">
+            <blockquote>@Html.Raw(Model.libro.nota)</blockquote>
+        </div>
     </div>
 
     <div id="photo" class="tab-pane fade" role="tabpanel" aria-labelledby="photo-tab">

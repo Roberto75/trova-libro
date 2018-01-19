@@ -6,13 +6,15 @@
 
 @if (!Model.IsValid)
 {
-    <div class="form-group has-error">
-        @foreach (var key in Model.Keys)
-        {
-            foreach (var err in Model[key].Errors)
+    <div class="alert alert-danger" role="alert">
+        <h4 class="alert-heading">Attenzione</h4>
+      
+            @foreach (var key in Model.Keys)
             {
-                @:<label class="control-label"> @key  @err.ErrorMessage</label> <br />
+                foreach (var err in Model[key].Errors)
+                {
+                    @:<p> @key  @err.ErrorMessage</p> 
                         }
+            }
+        </div>
         }
-    </div>
-}

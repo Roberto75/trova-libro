@@ -57,9 +57,49 @@
     </div>
 
 
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="tipo">Tipo di annuncio</label>
+                <select class="form-control mb-3" id="tipo" name="filter.tipo" value="@(Model.filter.tipo!= null?Model.filter.tipo.Value.ToString():"")">
+                    <option value="">---</option>
+                    <option value="1" @( Model.filter.tipo != null && (int)Model.filter.tipo == 1 ? "selected" : "")>Vendo</option>
+                    <option value="2" @( Model.filter.tipo != null && (int)Model.filter.tipo == 2 ? "selected" : "")>Compro</option>
+                    <option value="3" @( Model.filter.tipo != null && (int)Model.filter.tipo == 3 ? "selected" : "")>Scambio</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="comboCategoria">Categoria</label>
+                
+                <select class="form-control mb-3" id="comboCategoria" name="filter.categoriaId" >
+                    <option value="">---</option>
+                    @foreach (MyManagerCSharp.Models.MyItem item in Model.comboCategorie)
+                    {
+                        <option value="@item.Value" @(item.Value == Model.filter.categoriaId.ToString() ? "selected" : "")>@item.Text  (@item.Value)</option>
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="comboSubCategoria">Testi scolastici/universitari</label>
+                <select class="form-control mb-3" id="comboSubCategoria" name="filter.subCategoriaId" >
+                    <option value="">---</option>
+                    @foreach (MyManagerCSharp.Models.MyItem item in Model.comboSubCategorie)
+                    {
+                        <option value="@item.Value" @(item.Value == Model.filter.subCategoriaId.ToString() ? "selected" : "")>@item.Text  (@item.Value)</option>
+                    }
+                </select>
+            </div>
+        </div>
+    </div>
 
 
-    <button type="submit" class="btn btn-default">Ricerca</button>
+
+    <button type="reset" class="btn btn-default">Reset</button>
+    <button type="submit" class="btn btn-primary">Ricerca <i class="fa fa-search fa-fw"></i></button>
 
 
     @if (Model.TotalRows == 0)
@@ -85,9 +125,31 @@
                     wGrid.Column (columnName:"login", header :"Utente", canSort : true),
                     wGrid.Column (columnName:"tipo", header :"Tipo", canSort : true),
                     wGrid.Column (columnName:"prezzo", header :"Prezzo", canSort : true),
+                    wGrid.Column ("", header :"",
+                        format:@<text><a class="btn btn-info btn-sm" title="Detagli" href="@Url.Action("Details", "Libri", new { id = item.annuncioId })"><i class="fa fa-info"></i></a></text>
+                        , canSort : false)   ,
             })
 
             @{Html.RenderPartial("_Paging", Model);}
         </div>
                 }
 </form>
+
+
+
+@Html.Partial("_ComboCategoria")
+@Html.Partial("_ComboRegioneProvinciaComune")
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $("#comboCategoria").on("change", comboCategoriaOnChange);
+        $("#comboRegione").on("change", comboRegioneOnChange);
+        $("#comboProvincia").on("change", comboProvinciaOnChange);
+
+        setComboCategoria(@Model.filter.categoriaId);
+        setComboSubCategoria(@Model.filter.subCategoriaId);
+    });
+
+
+</script>

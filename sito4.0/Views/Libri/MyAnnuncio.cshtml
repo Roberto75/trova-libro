@@ -18,50 +18,62 @@
 </ul>
 
 
-<div class="tab-content mb-3" id="myTabContent">
+<div class="tab-content mb-3 mt-3" id="myTabContent">
 
     <div id="tab-1" class="tab-pane fade show active" role="tabpanel" aria-labelledby="tab-1-tab">
         @{Html.RenderPartial("_TabInfoLibro", Model.libro);}
     </div>
 
     <div id="tab-2" class="tab-pane fade" role="tabpanel" aria-labelledby="tab-2">
-        <h3>Statistiche sui click </h3>
-        <p>In questa pagina puoi monitare il numero di volte che viene visualizzato il tuo annuncio.</p>
-        <p>Hai la possibilità di azzerare il contatore parziale.</p>
-
-        <ul data-role="listview" data-count-theme="c" data-inset="true">
-            <li data-icon="false"><a href="#">Contatore Totale <span class="ui-li-count">@Model.libro.countClick</span></a></li>
-            <li data-icon="false"><a href="#">Contatore Parziale <span id="contatoreParziale" class="ui-li-count">@Model.libro.countClickParziale</span></a></li>
-            <li data-icon="false"><a href="#">L&#39;ultimo click è stato eseguito il : <span class="ui-li-count">@Model.libro.dateLastClick.ToShortDateString()</span></a></li>
-        </ul>
-
-        @using (Html.BeginForm("ResetContatore", "Libri", FormMethod.Post, new { id = "MyFormResetContatore" }))
-        {
-        @Html.AntiForgeryToken()
-        <input type="hidden" name="annuncioId" value="@Model.libro.annuncioId" />
-        <input type="button" value="Reset del contatore parziale" data-inline="true" data-mini="true" onclick="javascript: MyAsyncReset();" />
-        }
 
 
-        <h3>Aggiorna il prezzo</h3>
-        <p>In questa sezione hai la possibilià di <b>aggiornare il prezzo</b> del tuo annuncio.</p>
-        <p>Questa modifica viene notificata solo gli utenti in trattativa, tramite un messaggio email.</p>
-        @using (Html.BeginForm("UpdatePrezzo", "Libri", FormMethod.Post, new { id = "MyFormUpdatePrezzo" }))
-        {
-        @Html.AntiForgeryToken()
+        <div class="card mb-3">
+            <div class="card-header">Statistiche sui click</div>
+            <div class="card-body">
+                <p>In questa pagina puoi monitare il numero di volte che viene visualizzato il tuo annuncio.</p>
+                <p>Hai la possibilità di azzerare il contatore parziale.</p>
 
-        <label>Prezzo attuale € @Model.libro.prezzo.ToString("N2")</label>
+                <p class="badge badge-pill badge-info">Contatore Totale <span class="badge badge-light">@Model.libro.countClick</span></p>
+                <h2 class="badge badge-pill badge-warning">Contatore Parziale <span class="badge badge-light" id="contatoreParziale">@Model.libro.countClickParziale</span></h2>
 
+                <p class="badge badge-pill badge-info">L&#39;ultimo click è stato eseguito il <span class="badge badge-light">@MyHelper.decodeNull(Model.libro.dateLastClick)</span></p>
 
-        <div data-role="fieldcontain">
-            <label for="nuovoPrezzo">Nuovo valore (nel seguente formato: 12345,00) €:</label>
-            <input type="number" id="nuovoPrezzo" name="nuovoPrezzo" pattern="[0-9]+([,\.][0-9]+)?" required="required" step="0.01" min="0" value="@Model.libro.prezzo.ToString("N2").Replace(".", "").Replace(",", ".")" />
+                @using (Html.BeginForm("ResetContatore", "Libri", FormMethod.Post, new { id = "MyFormResetContatore" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="annuncioId" value="@Model.libro.annuncioId" />
+                    <input type="button" class="btn btn-primary float-right" value="Reset del contatore parziale" onclick="javascript: MyAsyncReset();" />
+                }
+            </div>
         </div>
 
-        <input type="hidden" name="annuncioId" value="@Model.libro.annuncioId" />
-        <input type="submit" value="Modifica il prezzo" data-inline="true" data-mini="true" onclick="return updatePrezzo();" />
-        }
+
+        <div class="card">
+            <div class="card-header">Aggiorna il prezzo</div>
+            <div class="card-body">
+                <p>In questa sezione hai la possibilià di <b>aggiornare il prezzo</b> del tuo annuncio.</p>
+                <p>Questa modifica viene notificata solo gli utenti in trattativa, tramite un messaggio email.</p>
+                @using (Html.BeginForm("UpdatePrezzo", "Libri", FormMethod.Post, new { id = "MyFormUpdatePrezzo" }))
+                {
+                    @Html.AntiForgeryToken()
+
+                    <label>Prezzo attuale € @Model.libro.prezzo.ToString("N2")</label>
+                    
+                    <div data-role="fieldcontain">
+                        <label for="nuovoPrezzo">Nuovo valore (nel seguente formato: 12345,00) €:</label>
+                        <input type="number" id="nuovoPrezzo" name="nuovoPrezzo" pattern="[0-9]+([,\.][0-9]+)?" required="required" step="0.01" min="0" value="@Model.libro.prezzo.ToString("N2").Replace(".", "").Replace(",", ".")" />
+                    </div>
+
+                    <input type="hidden" name="annuncioId" value="@Model.libro.annuncioId" />
+                    <input type="submit" class="btn btn-primary float-right" value="Modifica il prezzo" onclick="return updatePrezzo();" />
+                }
+            </div>
+        </div>
+
+
+
     </div>
+
 
     <div id="tab-3" class="tab-pane fade" role="tabpanel" aria-labelledby="tab-3-tab">
         @{Html.RenderPartial("_TabellaTrattative", Model.trattative);}
@@ -77,14 +89,14 @@
             <textarea name="nota" id="nota">@Model.libro.nota</textarea>
 
             <br />
-            <input type="hidden" name="annuncioId" value="@Model.libro.annuncioId" />
-            <input type="submit" value="Modifica la nota" class="btn btn-secondary float-right" onclick="return confirm('Tutti gli utenti in trattativa con questo annuncio verranno notificati della modifica tramite un messaggio email. Confermare la modifica?')" />
+                    <input type="hidden" name="annuncioId" value="@Model.libro.annuncioId" />
+                    <input type="submit" value="Modifica la nota" class="btn btn-primary float-right" onclick="return confirm('Tutti gli utenti in trattativa con questo annuncio verranno notificati della modifica tramite un messaggio email. Confermare la modifica?')" />
         }
 
     </div>
 
     <div id="tab-5" class="tab-pane fade" role="tabpanel" aria-labelledby="tab-5-tab">
-      
+
         <p>Clicca sul bottone per aggiungere una nuova immagine: </p>
         <p>
             Le immagini con dimensione maggiore di @MyWebApplication.Controllers.LibriController.MaxWidthImage x @MyWebApplication.Controllers.LibriController.MaxHeightImage (WxH) verranno automaticamente ridimensionate.
@@ -115,7 +127,7 @@
 
 
 <div>
-    <a class="btn btn-primary" href="@Url.Action("MyAnnunci", "Libri")" role="button">Torna all'elenco</a>
+    <a class="btn btn-secondary" href="@Url.Action("MyAnnunci", "Libri")" role="button">Torna all'elenco</a>
 </div>
 
 

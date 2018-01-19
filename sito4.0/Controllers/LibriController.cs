@@ -32,6 +32,15 @@ namespace MyWebApplication.Controllers
             manager.mOpenConnection();
             try
             {
+                model.comboCategorie = manager.getComboCategoria(1000000);
+
+                if (model.filter.categoriaId != null &&
+                    ((model.filter.categoriaId >= 1130000 && model.filter.categoriaId < 1140000)  || (model.filter.categoriaId >= 1140000 && model.filter.categoriaId < 1150000)) )
+                {
+                    model.comboSubCategorie = manager.getComboCategoria((int)model.filter.categoriaId);
+                }
+                model.comboRegioni = regioniProvinceComuniManager.getComboRegioni();
+
                 manager.getList(model);
             }
             finally
@@ -149,6 +158,24 @@ namespace MyWebApplication.Controllers
                 {
                     return HttpNotFound();
                 }
+
+
+                //CLICK
+                if (User.Identity.IsAuthenticated && MySessionData != null)
+                {
+                    //if ((User.Identity as MyUsers.MyCustomIdentity).UserId != immobile.userId)
+                    if (MySessionData.UserId != model.libro.userId)
+                    {
+                        //se non si tratta di un mio annuncio ...
+                        manager.annuncioAddClick(id);
+                    }
+                }
+                else
+                {
+                    //nel caso di connessioni anonime non posso fare nulla
+                    manager.annuncioAddClick(id);
+                }
+
 
                 Annunci.PhotoManager photoManager = new Annunci.PhotoManager(manager.mGetConnection());
                 model.photos = photoManager.getMyPhotosIsNotPlanimetria(id);
@@ -349,6 +376,11 @@ namespace MyWebApplication.Controllers
             {
                 model.comboCategorie = manager.getComboCategoria(1000000);
                 model.comboRegioni = regioniProvinceComuniManager.getComboRegioni();
+                if (model.libro.categoriaId != null &&
+                    ((model.libro.categoriaId >= 1130000 && model.libro.categoriaId < 1140000) || (model.libro.categoriaId >= 1140000 && model.libro.categoriaId < 1150000)))
+                {
+                    model.comboSubCategorie = manager.getComboCategoria((int)model.libro.categoriaId);
+                }
                 return View(model);
             }
 
@@ -383,11 +415,11 @@ namespace MyWebApplication.Controllers
             Debug.WriteLine("Delete MyAnnuncio: " + annuncioId);
 
 
+            Annunci.Libri.Models.Libro libro;
             try
             {
                 manager.mOpenConnection();
 
-                Annunci.Libri.Models.Libro libro;
                 libro = manager.getLibro((long)annuncioId);
                 if (libro == null)
                 {
@@ -401,9 +433,6 @@ namespace MyWebApplication.Controllers
                 manager.mCloseConnection();
             }
 
-
-
-            
             ViewBag.Title = "Trova-libro: Cancellazione annuncio";
 
             return View(libro);
@@ -743,6 +772,100 @@ namespace MyWebApplication.Controllers
             return Json(model);
         }
 
+
+
+
+
+        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public JsonResult ResetContatore(long? annuncioId)
+        {
+            if (annuncioId == null)
+            {
+                throw new MyManagerCSharp.MyException(MyManagerCSharp.MyException.ErrorNumber.ParametroNull, "ResetContatore");
+            }
+
+            try
+            {
+                manager.mOpenConnection();
+                manager.resetContatoreParziale((long)annuncioId);
+            }
+            finally
+            {
+                manager.mCloseConnection();
+            }
+
+            Models.JsonMessageModel model = new Models.JsonMessageModel();
+            model.esito = "Success";
+            model.messaggio = "Operazione conlusa con successo";
+            return Json(model);
+        }
+
+
+        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [ValidateInput(false)]
+        public ActionResult UpdatePrezzo(long? annuncioId, string nuovoPrezzo)
+        {
+            if (annuncioId == null)
+            {
+                throw new MyManagerCSharp.MyException(MyManagerCSharp.MyException.ErrorNumber.ParametroNull, "annuncioId");
+            }
+
+            //if (nuovoPrezzo == null)
+            if (String.IsNullOrEmpty(nuovoPrezzo))
+            {
+                throw new MyManagerCSharp.MyException(MyManagerCSharp.MyException.ErrorNumber.ParametroNull, "prezzo");
+            }
+
+            decimal dNuovoPrezzo;
+            dNuovoPrezzo = decimal.Parse(nuovoPrezzo.Replace(".", ","));
+
+            Debug.WriteLine("UpdatePrezzo (String): " + nuovoPrezzo);
+            Debug.WriteLine("UpdatePrezzo: " + dNuovoPrezzo);
+
+
+            try
+            {
+
+                manager.mOpenConnection();
+
+                if (manager.updateAnnuncioPrezzo((long)annuncioId, (decimal)dNuovoPrezzo, false) > 0)
+                {
+
+                    System.Data.DataTable dt;
+                    dt = manager.getEmailUtentiInTrattativa((long)annuncioId);
+
+
+                    if (dt.Rows.Count > 0)
+                    {
+
+                        Annunci.Libri.Models.Libro i;
+                        i = manager.getLibro((long)annuncioId);
+                        Annunci.Libri.LibriMailMessageManager mail = new Annunci.Libri.LibriMailMessageManager(System.Configuration.ConfigurationManager.AppSettings["application.name"], System.Configuration.ConfigurationManager.AppSettings["application.url"]);
+                        mail.Subject = System.Configuration.ConfigurationManager.AppSettings["application.name"] + " - Modifica annuncio";
+                        mail.Body = mail.getBodyAggiornamentoPrezzoAnnuncio((long)annuncioId, i.categoria.ToString() + " - " + i.titolo, i.prezzo, (decimal)dNuovoPrezzo);
+
+                        foreach (System.Data.DataRow row in dt.Rows)
+                        {
+                            mail.Bcc(row["email"].ToString());
+                        }
+                        //'MY-DEBUGG
+                        mail.Bcc(System.Configuration.ConfigurationManager.AppSettings["mail.To.Ccn"]);
+
+                        mail.send();
+                    }
+                }
+            }
+            finally
+            {
+                manager.mCloseConnection();
+            }
+
+            return RedirectToAction("MyAnnuncio", new { id = annuncioId });
+        }
 
     }
 }

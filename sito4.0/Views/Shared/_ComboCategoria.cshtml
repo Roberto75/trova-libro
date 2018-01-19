@@ -1,0 +1,72 @@
+﻿<script type="text/javascript">
+
+    function comboCategoriaGetSelectedValue() {
+        console.log("comboCategoriaGetSelectedValue");
+
+        console.log("comboSubCategoria" + $("#comboSubCategoria").val());
+
+        if ($("#comboSubCategoria").val() == "") {
+
+        }
+    }
+    function setComboCategoria(value) {
+        console.log("setComboCategoria: " + value);
+        $("#comboCategoria").val(value);
+        /*if (value > 1130000 && value < 1140000) {
+            //Testi scolastici
+            console.log("Testi scolastici")
+            $("#comboCategoria").val(1130000);
+            $("#comboSubCategoria").val(value);
+        } else if (value > 1140000 && value < 1150000) {
+            //Testi scolastici
+            console.log("Testi universitari")
+            $("#comboCategoria").val(1140000);
+            $("#comboSubCategoria").val(value);
+
+        } else {
+            $("#comboCategoria").val(value);
+        }*/
+
+    }
+
+
+    function setComboSubCategoria(value) {
+        console.log("setComboSubCategoria: " + value);
+        $("#comboSubCategoria").val(value);
+
+    }
+
+
+    function comboCategoriaOnChange(e) {
+        console.log("comboCategoriaOnChange", e);
+        //let selected = $(this).find("option:selected").val();
+        let selectedValue = $(this).val();
+        //var selectedText = $(this).find(":selected").text();
+        console.log("comboCategoriaOnChange selectedValue:" + selectedValue);
+
+
+        if (selectedValue > 1130000 && selectedValue < 1140000) {
+            //Testi scolastici
+            console.log("Testi scolastici")
+        }
+
+        if (selectedValue > 1140000 && selectedValue < 1150000) {
+            //Testi scolastici
+            console.log("Testi universitari")
+        }
+
+        $.getJSON('@Url.Action("GetSubCategoria", "Libri")', { categoriaId: selectedValue }, function (dati) {
+
+
+            $('#comboSubCategoria').empty();
+            $('#comboSubCategoria').append($('<option />', { value: "", text: "---" }));
+            $('#comboSubCategoria').val("---").change();
+
+            $.each(dati, function (index, item) {
+                //console.log(item.Value)
+                $('#comboSubCategoria').append($('<option />', { value: item.Value, text: item.Text }));
+            });
+
+        });
+    }
+</script>

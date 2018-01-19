@@ -81,16 +81,16 @@
                 wGrid.Column (columnName:"titolo", header :"Titolo", format:(item) =>  Html.ActionLink ( (string) (string.IsNullOrEmpty (item.titolo)?"N/A":item.titolo.ToString()), "MyAnnuncio",   new {id=item.annuncioId} ), canSort:true),
                 wGrid.Column (columnName:"prezzo", header :"Prezzo", canSort : true),
                 wGrid.Column ("", header :"Risposte",    format: item=> (ViewData["hashtableRisposte"] as System.Collections.Hashtable)[item.annuncioId],  canSort : false),
-                wGrid.Column ("", header :"Dettagli",
-                        format:@<text><a title="Detagli" href="@Url.Action("MyAnnuncio", "Libri", new { id = item.annuncioId })"><i class="fa fa-info"></i></a></text>
+                wGrid.Column ("", header :"",
+                        format:@<text><a class="btn btn-info btn-sm" title="Detagli" href="@Url.Action("MyAnnuncio", "Libri", new { id = item.annuncioId })"><i class="fa fa-info"></i></a></text>
                         , canSort : false)   ,
-                wGrid.Column ("", header :"Cancella",
-                        format:@<text><a title="Cancella" href="javascript:deleteRow('@item.annuncioId');"><i class="fa fa-trash"></i></a></text>
+                wGrid.Column ("", header :"",
+                        format:@<text><a class="btn btn-info btn-sm" title="Cancella" href="javascript:deleteRow('@item.annuncioId');"><i class="fa fa-trash"></i></a></text>
                         , canSort : false)
                 })
 
-            @{Html.RenderPartial("_Paging", Model);}
-        </div>
+@{Html.RenderPartial("_Paging", Model);}
+</div>
      }
 </form>
 
