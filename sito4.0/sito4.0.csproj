@@ -830,6 +830,7 @@
     <Content Include="Content\xml\menuTop.xml" />
     <Content Include="Content\xml\MySiteMap.xml" />
     <Content Include="Content\xml\whatsnew.xml" />
+    <Content Include="Content\xsl\categorie.xsl" />
     <Content Include="Content\xsl\faq.xsl" />
     <Content Include="Content\xsl\faq_categorie.xsl" />
     <Content Include="Content\xsl\menuLeft.xsl" />
@@ -856,12 +857,14 @@
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\AccountController.cs" />
     <Compile Include="Areas\Admin\Controllers\AdminController.cs" />
+    <Compile Include="Areas\Admin\Controllers\AnnunciController.cs" />
     <Compile Include="Areas\Admin\Controllers\GroupsController.cs" />
     <Compile Include="Areas\Admin\Controllers\LogsController.cs" />
     <Compile Include="Areas\Admin\Controllers\MyAuthorizeAttribute.cs" />
     <Compile Include="Areas\Admin\Controllers\MyBaseController.cs" />
     <Compile Include="Areas\Admin\Controllers\TestController.cs" />
     <Compile Include="Areas\Admin\Controllers\UsersController.cs" />
+    <Compile Include="Areas\Admin\Models\AnnuncioDetailsModel.cs" />
     <Compile Include="Areas\Admin\Models\CheckModel.cs" />
     <Compile Include="Areas\Admin\Models\LogsSummaryModel.cs" />
     <Compile Include="Areas\Admin\Models\ModelHome.cs" />
@@ -973,6 +976,13 @@
     <Content Include="Views\Account\ChangePassword.cshtml" />
     <Content Include="Views\Shared\_ComboCategoria.cshtml" />
     <Content Include="Views\Shared\_ComboRegioneProvinciaComune.cshtml" />
+    <Content Include="Areas\Admin\Views\Annunci\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Annunci\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\Annunci\Trattativa.cshtml" />
+    <Content Include="Views\Libri\Categorie.cshtml" />
+    <Content Include="Views\Shared\NotAuthorized.cshtml" />
+    <Content Include="Views\Shared\NotAvailable.cshtml" />
+    <Content Include="Views\Libri\Messaggi.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

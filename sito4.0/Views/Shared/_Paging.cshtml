@@ -1,34 +1,32 @@
-﻿<div class="ui-bar-c" style="min-height:3em;" >
+﻿<div class="bg-light">
+      <span style="margin-left: 10px; margin-top:15px; display: inline-block;">
+        Record @(((Model.PageNumber - 1) * Model.PageSize) + 1) to
 
-    
-    <span style="margin-left: 10px; margin-top:15px; display: inline-block;">
-    Record @(((Model.PageNumber - 1) * Model.PageSize) + 1) to    
-        
-    @{
-        int temp = (((Model.PageNumber - 1) * Model.PageSize) + Model.PageSize);
+        @{
+            int temp = (((Model.PageNumber - 1) * Model.PageSize) + Model.PageSize);
 
-        if (temp > Model.TotalRows)
-        {
-            temp = Model.TotalRows;
+            if (temp > Model.TotalRows)
+            {
+                temp = Model.TotalRows;
+            }
+
         }
-            
-    }
-    @temp.ToString("N0")  of @Model.TotalRows.ToString("N0")
+        @temp.ToString("N0")  of @Model.TotalRows.ToString("N0")
 
-        </span>
+    </span>
 
     <span style="margin-left: 20px">
         @if (Model.HasPreviousPage)
         {
-            <a data-role="button" data-theme="a"  data-inline="true" data-mini="true" href ="javascript:paging(1, '@Model.Sort', '@Model.SortDir')"><< </a>
+            <a class="btn btn-primary btn-sm" href="javascript:paging(1, '@Model.Sort', '@Model.SortDir')"><i class="fa fa-backward fa-fw"></i></a>
             @Html.Raw(" ");
-            <a data-role="button"  data-theme="a" data-inline="true" data-mini="true" href ="javascript:paging(@Model.PageNumber -1 , '@Model.Sort', '@Model.SortDir')">< Prev </a>
+            <a class="btn btn-primary btn-sm" href="javascript:paging(@Model.PageNumber -1 , '@Model.Sort', '@Model.SortDir')"><i class="fa fa-caret-left fa-fw"></i> Prev </a>
         }
         else
         {
-            @:<<
+            <button class="btn btn-outline-primary btn-sm" disabled><i class="fa fa-backward fa-fw"></i></button>
             @Html.Raw(" ");
-            @:< Prev
+            @:<button class="btn btn-outline-primary btn-sm" disabled><i class="fa fa-caret-left fa-fw"></i> Prev</button>
         }
     </span>
 
@@ -41,24 +39,25 @@
     <span style="margin-left: 20px">
         @if (Model.HasNextPage)
         {
-            <a data-role="button" data-theme="a" data-inline="true" data-mini="true" href ="javascript:paging(@(Model.PageNumber + 1), '@Model.Sort', '@Model.SortDir')">Next > </a>
+            <a class="btn btn-primary btn-sm" href="javascript:paging(@(Model.PageNumber + 1), '@Model.Sort', '@Model.SortDir')">Next <i class="fa fa-caret-right fa-fw"></i></a>
             @Html.Raw(" ");
-            <a data-role="button"  data-theme="a" data-inline="true" data-mini="true" href ="javascript:paging(@(Model.TotalPages), '@Model.Sort', '@Model.SortDir')">>> </a>
+            <a class="btn btn-primary btn-sm" href="javascript:paging(@(Model.TotalPages), '@Model.Sort', '@Model.SortDir')"><i class="fa fa-forward fa-fw"></i></a>
         }
         else
         {
-            @:Next >
+            @:<button class="btn btn-outline-primary btn-sm" disabled> Next <i class="fa fa-caret-right fa-fw"></i></button>
             @Html.Raw(" ")
-            @:>>
+            @:<button class="btn btn-outline-primary btn-sm" disabled><i class="fa fa-forward fa-fw"></i></button>
         }
     </span>
 
-    <span style="float: right; text-align: right; display: inline-block; white-space: nowrap; margin-top:10px; margin-right:10px;">Page size:
-        <select data-inline="true" data-mini="true" data-role="none" id="PageSize" name="PageSize" onchange="paging(1, '@Model.Sort', '@Model.SortDir')">
-            <option value="5"  @(Model.PageSize == 5 ? "selected=\"selected\"" : "") >5</option>
-            <option value="10" @(Model.PageSize == 10 ? "selected=\"selected\"" : "") >10</option>
-            <option value="20" @(Model.PageSize == 20 ? "selected=\"selected\"" : "") >20</option>
-            <option value="50" @(Model.PageSize == 50 ? "selected=\"selected\"" : "") >50</option>
+    <span style="float: right; text-align: right; display: inline-block; white-space: nowrap; margin-top:10px; margin-right:10px;">
+        Page size:
+        <select id="PageSize" name="PageSize" onchange="paging(1, '@Model.Sort', '@Model.SortDir')">
+            <option value="5" @(Model.PageSize == 5 ? "selected=\"selected\"" : "")>5</option>
+            <option value="10" @(Model.PageSize == 10 ? "selected=\"selected\"" : "")>10</option>
+            <option value="20" @(Model.PageSize == 20 ? "selected=\"selected\"" : "")>20</option>
+            <option value="50" @(Model.PageSize == 50 ? "selected=\"selected\"" : "")>50</option>
         </select>
     </span>
 </div>

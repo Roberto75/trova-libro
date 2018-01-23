@@ -273,7 +273,7 @@ namespace MyWebApplication.Controllers
                     {
                         //errore non gestito!!
                         messaggioDiErrore = "Errore durante la procedura di login. Contattare l'amministratore di sistema.";
-                        MyManagerCSharp.MailManager.send(ex);
+                        sendMailExceptionAsync(ex, messaggioDiErrore);
                     }
 
                     //sessionData.setJavaScriptMessage(messaggioDiErrore)
@@ -403,7 +403,7 @@ namespace MyWebApplication.Controllers
                 }
                 catch (Exception ex)
                 {
-                    MyManagerCSharp.MailManager.send(ex, "Reset password con email: " + model.Email + " - login: " + model.Login);
+                    sendMailExceptionAsync(ex, "Reset password con email: " + model.Email + " - login: " + model.Login);
                 }
 
             }
@@ -439,17 +439,22 @@ namespace MyWebApplication.Controllers
             }
 
 
-            //MyUsers.UserManager manager = new UserManager("utenti");
-            manager.mOpenConnection();
-
+            MyUsers.Models.MyUser utente = null;
 
             try
             {
+                manager.mOpenConnection();
+
+                utente = manager.getUser(MySessionData.UserId);
+                if (utente == null)
+                {
+                    throw new MyException("utente non trovato: " + MySessionData.UserId);
+                }
+
                 long test;
-                test = manager.isAuthenticated((User.Identity as MyCustomIdentity).Login, model.OldPassword);
+                test = manager.isAuthenticated(MySessionData.Login, model.OldPassword);
 
-
-                if (test != (User.Identity as MyCustomIdentity).UserId)
+                if (test != MySessionData.UserId)
                 {
                     ModelState.AddModelError("", "Verificare la password inserita");
                     model.carattariConsentiti = PasswordManager.PASSWORD_CHARS_SPECIAL;
@@ -457,8 +462,8 @@ namespace MyWebApplication.Controllers
                     return View(model);
                 }
 
+                manager.updatePassword(MySessionData.UserId, model.NewPassword);
 
-                manager.updatePassword((User.Identity as MyCustomIdentity).UserId, model.NewPassword);
             }
             catch (MyManagerCSharp.MyException ex)
             {
@@ -468,7 +473,11 @@ namespace MyWebApplication.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError("", ex.Message);
+                    //errore non gestito!!
+                    string messaggioDiErrore = "Errore durante la procedura di login. Contattare l'amministratore di sistema.";
+                    sendMailExceptionAsync(ex, messaggioDiErrore);
+
+                    ModelState.AddModelError("", messaggioDiErrore);
                 }
                 model.carattariConsentiti = PasswordManager.PASSWORD_CHARS_SPECIAL;
                 model.catatteriVietati = PasswordManager.PASSWORD_CHARS_SPECIAL_DENY;
@@ -479,7 +488,37 @@ namespace MyWebApplication.Controllers
                 manager.mCloseConnection();
             }
 
-            return RedirectToAction("Index", "Home");
+
+
+            if (utente != null)
+            {
+                Annunci.Libri.LibriMailMessageManager mail = new Annunci.Libri.LibriMailMessageManager(System.Configuration.ConfigurationManager.AppSettings["application.url"], System.Configuration.ConfigurationManager.AppSettings["application.name"]);
+                mail.Subject = System.Configuration.ConfigurationManager.AppSettings["application.name"] + " - Modifica password";
+
+                //MY-DEBUGG
+                if (!String.IsNullOrEmpty(System.Configuration.ConfigurationManager.AppSettings["mail.To.Ccn"]))
+                {
+                    mail.Bcc(System.Configuration.ConfigurationManager.AppSettings["mail.To.Ccn"]);
+                }
+
+
+                mail.Body = mail.getBodyUpdatePassword(utente.nome, utente.cognome, MyManagerCSharp.MailMessageManager.Lingua.IT);
+
+                try
+                {
+                    mail.To(utente.email.Trim());
+                    mail.send();
+                }
+                catch (Exception ex)
+                {
+                    sendMailExceptionAsync(ex, "Errore durante l'invio della mail per Modifica password con email: " + utente.email + " - login: " + utente.login);
+                }
+
+            }
+
+
+            //return RedirectToAction("Index", "Home");
+            return RedirectToAction("Manage");
         }
 
 

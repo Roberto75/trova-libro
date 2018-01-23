@@ -1,0 +1,14 @@
+﻿
+@{
+    ViewBag.Title = "NotAuthorized";
+    Layout = "~/Views/Shared/_MasterPageMobile.cshtml";
+}
+
+<h2>Not Authorized</h2>
+<p>
+    Attenzione si sta tentando di accedere ad una pagina il cui contenuto necessita
+    di un'autorizzazione particolare.
+</p>
+
+<p>Se non ti sei ancora autenticato clicca <a href="@Url.Action("Login", "Account")">qui</a> per accedere alla maschera di login.</p>
+

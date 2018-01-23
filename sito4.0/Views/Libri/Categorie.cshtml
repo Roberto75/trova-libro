@@ -1,0 +1,58 @@
+﻿
+@{
+    ViewBag.Title = "Trova libro: categorie";
+    ViewBag.Description = "Naviga gli annunci tra le categorie di Trova-libro. Cerca i libri usati tra le categorie di Trova-libro";
+    ViewBag.Keywords = "libri usati università, cerco libri usati, comprare libri usati, vendo compro libri, compro libri usati, vendere libri, vendo libri usati, testi usati, cerco libri, libri usati universitari, comprovendo libri";
+
+    Layout = "~/Views/Shared/_MasterPageMobile.cshtml";
+}
+
+<h2>Categorie</h2>
+<p>Benvenuto nel Mercatino di Trova-Libro dove puoi cercare e vendere libri usati.</p>
+<p>In questa sezione pui cercare i libri in base alla categoria di appartenenza.</p>
+<p>Per una ricerca avanzata puoi accedere alla pagina di <a href="ricerca.aspx">ricerca </a></p>
+<p>Clicca su una categoria per visualizzare gli annunci.</p>
+
+
+@{
+
+    string contesto;
+    contesto = Request.ApplicationPath;
+    if (contesto == "/")
+    {
+        contesto = "";
+    }
+
+    System.IO.MemoryStream risultatoMemoryStream;
+    risultatoMemoryStream = new MemoryStream();
+
+    System.Xml.Xsl.XslCompiledTransform xslt;
+    xslt = new System.Xml.Xsl.XslCompiledTransform();
+    xslt.Load(Server.MapPath("~/Content/xsl/categorie.xsl"));
+
+    System.Xml.Xsl.XsltArgumentList args = new System.Xml.Xsl.XsltArgumentList();
+    args.AddParam("contesto", "", contesto);
+
+
+
+    Annunci.AnnunciManager manager = new Annunci.AnnunciManager("mercatino");
+
+    System.Xml.XmlDocument document = new System.Xml.XmlDocument();
+
+    document = manager.getCategorie_XML();
+
+    xslt.Transform(document, args, risultatoMemoryStream);
+    risultatoMemoryStream.Flush();
+
+
+    string risultato;
+
+    // System.Text.Encoding encoding = System.Text.Encoding.UTF8;
+    //risultato = System.Text.Encoding.UTF8.GetString(risultatoMemoryStream.ToArray());
+    risultato = System.Text.Encoding.Default.GetString(risultatoMemoryStream.ToArray());
+    //risultato = System.Text.Encoding.ASCII.GetString(risultatoMemoryStream.ToArray());
+
+    HtmlString risultatoHTML = new HtmlString(risultato);
+}
+
+@risultatoHTML

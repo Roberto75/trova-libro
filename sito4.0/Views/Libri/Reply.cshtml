@@ -17,7 +17,7 @@
     <input type="hidden" name="trattativaId" value="@Model.trattativaId" />
     <input type="hidden" name="rispostaId" value="@Model.rispostaId" />
 
-    <textarea  id="nota" name="testo">@Model.testo</textarea>
+    <textarea id="nota" name="testo">@Model.testo</textarea>
 
     <br />
 
@@ -29,7 +29,7 @@
         {
             <a href="@Url.Action("Trattativa", "Libri", new { id = Model.trattativaId })" class="btn btn-warning">Torna alla trattativa</a>
         }
-        <input type="submit" value="Reply" class="btn btn-primary" />
+        <button type="submit" class="btn btn-primary"><i class="fa fa-pencil-alt fa-fw"></i>Rispondi</button>
     </div>
 }
 
@@ -39,7 +39,7 @@
     $(document).ready(function () {
         //tinymce.init({            mode: "exact",            elements: "nota",            encoding: "xml"        });
 
-        $('#nota').summernote({ tabsize: 2, height: 100 });
+        $('#nota').summernote({ tabsize: 2, height: 300 });
 
     });
 

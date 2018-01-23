@@ -24,9 +24,16 @@
     </div>
 
     <div id="descrizione" class="tab-pane fade" role="tabpanel" aria-labelledby="descrizione-tab">
-        <div class="jumbotron">
-            <blockquote>@Html.Raw(Model.libro.nota)</blockquote>
-        </div>
+        @if (String.IsNullOrEmpty(Model.libro.nota))
+        {
+            <p>Descrizione non disponibile</p>
+        }
+        else
+        {
+            <div class="jumbotron">
+                <blockquote>@Html.Raw(Model.libro.nota)</blockquote>
+            </div>
+        }
     </div>
 
     <div id="photo" class="tab-pane fade" role="tabpanel" aria-labelledby="photo-tab">
@@ -70,9 +77,13 @@
                     }
                     else
                     {
-                        <a href="@Url.Content(p.Path)" data-lightbox="gallery">
+                        <a href="@Url.Content("~/Content/Images/Shared/unavailable.jpg")" data-lightbox="gallery">
                             <img src="@Url.Content("~/Content/Images/Shared/unavailable.jpg")" alt="Immagine non disponibile" width="120" height="120" />
                         </a>
+
+
+
+
 
 
 
@@ -105,6 +116,6 @@
 <div class="row">
     <div class="col-xs-12">
         <a class="btn btn-secondary" href="@Url.Action("Index", "Libri")">Pagina di ricerca</a>
-        <a class="btn btn-primary text-right" href="@Url.Action("Reply", "Libri", new { annuncioId = Model.libro.annuncioId })">Rispondi</a>
+        <a class="btn btn-primary text-right" href="@Url.Action("Reply", "Libri", new { annuncioId = Model.libro.annuncioId })"><i class="fa fa-pencil-alt fa-fw"></i>Rispondi</a>
     </div>
 </div>

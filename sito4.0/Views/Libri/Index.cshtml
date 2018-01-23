@@ -34,72 +34,130 @@
         </div>
     </div>
 
+    <button class="btn btn-info" type="button" data-toggle="collapse" data-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">
+        <i class="fa fa-bars fa-fw"></i>Filtri <span class="badge badge-light">@Model.countFilter()</span>
+    </button>
 
-    <div class="row">
-        <div class="col-md-4">
-            <div class="form-group">
-                <label for="titolo">Titolo</label>
-                <input type="text" class="form-control" name="filter.titolo" value="@Model.filter.titolo">
+    <input type="hidden" id="collapseShow" name="collapseShow" value="true"  />
+
+
+    <div class="collapse mt-3 @(Model.collapseShow== 1 ? "show":"")" id="collapseFilter">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="titolo">Titolo</label>
+                    <input type="text" class="form-control" name="filter.titolo" id="titolo" value="@Model.filter.titolo">
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="titolo">Autore</label>
+                    <input type="text" class="form-control" name="filter.autore" id="autore" value="@Model.filter.autore">
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="isbn">ISBN</label>
+                    <input type="text" class="form-control" name="filter.isbn"  id="isbn" value="@Model.filter.isbn">
+                </div>
             </div>
         </div>
-        <div class="col-md-4">
-            <div class="form-group">
-                <label for="titolo">Autore</label>
-                <input type="text" class="form-control" name="filter.autore" value="@Model.filter.autore">
+
+
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="comboTipo">Tipo di annuncio</label>
+                    <select class="form-control mb-3" id="comboTipo" name="filter.tipo" value="@(Model.filter.tipo!= null?Model.filter.tipo.Value.ToString():"")">
+                        <option value="">---</option>
+                        <option value="1" @( Model.filter.tipo != null && (int)Model.filter.tipo == 1 ? "selected" : "")>Vendo</option>
+                        <option value="2" @( Model.filter.tipo != null && (int)Model.filter.tipo == 2 ? "selected" : "")>Compro</option>
+                        <option value="3" @( Model.filter.tipo != null && (int)Model.filter.tipo == 3 ? "selected" : "")>Scambio</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="comboCategoria">Categoria</label>
+
+                    <select class="form-control mb-3" id="comboCategoria" name="filter.categoriaId">
+                        <option value="">---</option>
+                        @foreach (MyManagerCSharp.Models.MyItem item in Model.comboCategorie)
+                        {
+                        <option value="@item.Value" @(item.Value == Model.filter.categoriaId.ToString() ? "selected" : "")>@item.Text</option>
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="comboSubCategoria">Testi scolastici/universitari</label>
+                    <select class="form-control mb-3" id="comboSubCategoria" name="filter.subCategoriaId">
+                        <option value="">---</option>
+                        @foreach (MyManagerCSharp.Models.MyItem item in Model.comboSubCategorie)
+                        {
+                        <option value="@item.Value" @(item.Value == Model.filter.subCategoriaId.ToString() ? "selected" : "")>@item.Text</option>
+                        }
+                    </select>
+                </div>
             </div>
         </div>
-        <div class="col-md-4">
-            <div class="form-group">
-                <label for="isbn">ISBN</label>
-                <input type="text" class="form-control" name="filter.isbn" value="@Model.filter.isbn">
+
+        <div class="row">
+            <div class="col-md-4">
+
+                <div class="form-group">
+                    <label for="comboRegione">Regione</label>
+                    <select class="form-control mb-3" id="comboRegione" name="filter.regioneId">
+                        <option value="">---</option>
+                        @foreach (MyManagerCSharp.Models.MyItem item in Model.comboRegioni)
+                        {
+                            <option value="@item.Value" @(item.Value == Model.filter.regioneId.ToString() ? "selected" : "")>@item.Text</option>
+                        }
+                    </select>
+                    <input type="hidden" id="regione" name="filter.regione" />
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="comboProvincia">Provincia</label>
+                    <select class="form-control mb-3" id="comboProvincia" name="filter.provinciaId">
+                        <option value="">---</option>
+                        @foreach (MyManagerCSharp.Models.MyItem item in Model.comboProvince)
+                        {
+                            <option value="@item.Value" @(item.Value == Model.filter.provinciaId ? "selected" : "")>@item.Text</option>
+                        }
+                    </select>
+                    <input type="hidden" id="provincia" name="filter.provincia" />
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="comboComune">Comune</label>
+                    <select class="form-control mb-3" id="comboComune" name="filter.comuneId">
+                        <option value="">---</option>
+                        @foreach (MyManagerCSharp.Models.MyItem item in Model.comboComuni)
+                        {
+                            <option value="@item.Value" @(item.Value == Model.filter.comuneId ? "selected" : "")>@item.Text</option>
+                        }
+                    </select>
+                    <input type="hidden" id="comune" name="filter.comune" />
+                </div>
+
             </div>
         </div>
     </div>
 
 
-    <div class="row">
-        <div class="col-md-4">
-            <div class="form-group">
-                <label for="tipo">Tipo di annuncio</label>
-                <select class="form-control mb-3" id="tipo" name="filter.tipo" value="@(Model.filter.tipo!= null?Model.filter.tipo.Value.ToString():"")">
-                    <option value="">---</option>
-                    <option value="1" @( Model.filter.tipo != null && (int)Model.filter.tipo == 1 ? "selected" : "")>Vendo</option>
-                    <option value="2" @( Model.filter.tipo != null && (int)Model.filter.tipo == 2 ? "selected" : "")>Compro</option>
-                    <option value="3" @( Model.filter.tipo != null && (int)Model.filter.tipo == 3 ? "selected" : "")>Scambio</option>
-                </select>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="form-group">
-                <label for="comboCategoria">Categoria</label>
-                
-                <select class="form-control mb-3" id="comboCategoria" name="filter.categoriaId" >
-                    <option value="">---</option>
-                    @foreach (MyManagerCSharp.Models.MyItem item in Model.comboCategorie)
-                    {
-                        <option value="@item.Value" @(item.Value == Model.filter.categoriaId.ToString() ? "selected" : "")>@item.Text  (@item.Value)</option>
-                    }
-                </select>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="form-group">
-                <label for="comboSubCategoria">Testi scolastici/universitari</label>
-                <select class="form-control mb-3" id="comboSubCategoria" name="filter.subCategoriaId" >
-                    <option value="">---</option>
-                    @foreach (MyManagerCSharp.Models.MyItem item in Model.comboSubCategorie)
-                    {
-                        <option value="@item.Value" @(item.Value == Model.filter.subCategoriaId.ToString() ? "selected" : "")>@item.Text  (@item.Value)</option>
-                    }
-                </select>
-            </div>
-        </div>
-    </div>
+    <button type="button" class="btn btn-default" onclick="resetOnClick()">Reset</button>
+    <button type="submit" class="btn btn-primary"><i class="fa fa-search fa-fw"></i>Ricerca</button>
 
-
-
-    <button type="reset" class="btn btn-default">Reset</button>
-    <button type="submit" class="btn btn-primary">Ricerca <i class="fa fa-search fa-fw"></i></button>
+    @if (!String.IsNullOrEmpty(Model.filter.comuneId))
+    {
+    <p class="text-warning">Prova a rieseguire la ricerca togliendo il filtro sul comune</p>
+    }
 
 
     @if (Model.TotalRows == 0)
@@ -125,6 +183,7 @@
                     wGrid.Column (columnName:"login", header :"Utente", canSort : true),
                     wGrid.Column (columnName:"tipo", header :"Tipo", canSort : true),
                     wGrid.Column (columnName:"prezzo", header :"Prezzo", canSort : true),
+                    wGrid.Column ("", header :"Photo",    format: item=> (ViewData["hashtablePhoto"] as System.Collections.Hashtable)[item.annuncioId],  canSort : false),
                     wGrid.Column ("", header :"",
                         format:@<text><a class="btn btn-info btn-sm" title="Detagli" href="@Url.Action("Details", "Libri", new { id = item.annuncioId })"><i class="fa fa-info"></i></a></text>
                         , canSort : false)   ,
@@ -149,7 +208,32 @@
 
         setComboCategoria(@Model.filter.categoriaId);
         setComboSubCategoria(@Model.filter.subCategoriaId);
+
+
+        $('#collapseFilter').on('hidden.bs.collapse', function () {
+            console.log("collapseFilter hide");
+            $("#collapseShow").val(0);
+        })
+
+
+        $('#collapseFilter').on('shown.bs.collapse', function () {
+            console.log("collapseFilter show");
+            $("#collapseShow").val(1);
+        })
     });
 
+
+
+    function resetOnClick() {
+        console.log("resetOnClick");
+        $("#titolo").val("");
+        $("#autore").val("");
+        $("#isbn").val("");
+        $("#comboTipo").val("");
+        $("#comboCategoria").val("").change();
+        //$("#comboSubCategoria").val("");
+        $("#comboRegione").val("").change();
+        
+    }
 
 </script>

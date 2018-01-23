@@ -12,30 +12,26 @@
 
 @using (Html.BeginForm("DeleteExecute", "Libri", FormMethod.Post, new { id = "MyForm" }))
 {
-
-
     @Html.AntiForgeryToken()
-
     <p>
         Specificare il motivo della cancellazione:  <select id="causale" name="causale" data-mini="true" data-inline="true">
             <option value="">---</option>
-            <option value="@Annunci.AnnuncioManager.StatoAnnuncio.Oggetto_non_piu_disponibile.ToString()">Oggetto della compravendita non più disponibile</option>
-            <option value="@Annunci.AnnuncioManager.StatoAnnuncio.Concluso_con_successo.ToString()">Compravendita conclusa correttamente</option>
-            <option value="@Annunci.AnnuncioManager.StatoAnnuncio.Altro.ToString()">Altro - inserire eventuali note</option>
+            <option value="@Annunci.AnnunciManager.StatoAnnuncio.Oggetto_non_piu_disponibile.ToString()">Oggetto della compravendita non più disponibile</option>
+            <option value="@Annunci.AnnunciManager.StatoAnnuncio.Concluso_con_successo.ToString()">Compravendita conclusa correttamente</option>
+            <option value="@Annunci.AnnunciManager.StatoAnnuncio.Altro.ToString()">Altro - inserire eventuali note</option>
         </select>
     </p>
 
-        <br />
+    <br />
 
+    <input type="hidden" name="MyId" value="@Model.annuncioId" />
+    <input type="hidden" name="Tipo" value="" />
 
-        <input type="hidden" name="MyId" value="@Model.annuncioId" />
-        <input type="hidden" name="Tipo" value="" />
+    <h2>Note aggiuntive</h2>
+    <textarea class="form-control" name="nota" rows="3"></textarea>
+    <br />
 
-        <h2>Note aggiuntive</h2>
-        <textarea class="form-control" name="nota" rows="3"></textarea>
-        <br />
-
-        <a class="btn btn-secondary" href="@Url.Action("MyAnnunci", "Libri")" role="button">Annulla</a>
-        <button class="btn btn-primary" type="submit">Conferma</button>
+    <a class="btn btn-secondary" href="@Url.Action("MyAnnunci", "Libri")" role="button">Annulla</a>
+    <button class="btn btn-primary" type="submit">Conferma</button>
 
 }

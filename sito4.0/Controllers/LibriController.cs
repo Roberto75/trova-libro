@@ -18,6 +18,7 @@ namespace MyWebApplication.Controllers
         public const int WidthThumbnail = 200;
         public const int HeightThumbnail = 200;
 
+        private const string SESSSION_FILTER_SEARCH = "SearchLibriModel";
 
         private Annunci.Libri.LibriManager manager = new Annunci.Libri.LibriManager("mercatino");
 
@@ -28,28 +29,84 @@ namespace MyWebApplication.Controllers
         public ActionResult Index(Annunci.Libri.Models.SearchLibri model)
         {
 
+            if (Request.HttpMethod.ToString() == "GET" && Session[SESSSION_FILTER_SEARCH] != null && Request.UrlReferrer.LocalPath != "/Libri/Categorie")
+            {
+                model = (Session[SESSSION_FILTER_SEARCH] as Annunci.Libri.Models.SearchLibri);
+                //model.filter = (Session[SESSSION_FILTER_SEARCH] as Annunci.Libri.Models.Libro);
+                Debug.WriteLine("Leggo i parametri di ricerca dalla sessione ...");
+                Debug.WriteLine("Filtro Days: " + model.days);
+            }
 
-            manager.mOpenConnection();
+
+            System.Collections.Hashtable hashtablePhoto = new System.Collections.Hashtable();
+            Debug.WriteLine("collapseShow: " + model.collapseShow);
+            Debug.WriteLine("CategoriaId: " + model.filter.categoriaId);
             try
             {
-                model.comboCategorie = manager.getComboCategoria(1000000);
+                manager.mOpenConnection();
 
+                model.comboCategorie = manager.getComboCategoria(1000000);
                 if (model.filter.categoriaId != null &&
-                    ((model.filter.categoriaId >= 1130000 && model.filter.categoriaId < 1140000)  || (model.filter.categoriaId >= 1140000 && model.filter.categoriaId < 1150000)) )
+                    ((model.filter.categoriaId >= 1130000 && model.filter.categoriaId < 1140000) || (model.filter.categoriaId >= 1140000 && model.filter.categoriaId < 1150000)))
                 {
                     model.comboSubCategorie = manager.getComboCategoria((int)model.filter.categoriaId);
                 }
+
                 model.comboRegioni = regioniProvinceComuniManager.getComboRegioni();
+                if (model.filter.regioneId != null)
+                {
+                    model.comboProvince = regioniProvinceComuniManager.getComboProvince((int)model.filter.regioneId);
+                }
+
+                if (model.filter.provinciaId != null)
+                {
+                    model.comboComuni = regioniProvinceComuniManager.getComboComuni(model.filter.provinciaId);
+                }
 
                 manager.getList(model);
+
+
+                long numeroPhoto;
+                foreach (Annunci.Libri.Models.Libro i in model.Libri)
+                {
+                    numeroPhoto = manager.countPhoto(i.annuncioId);
+                    hashtablePhoto.Add(i.annuncioId, numeroPhoto);
+                }
             }
             finally
             {
                 manager.mCloseConnection();
             }
 
+            Session[SESSSION_FILTER_SEARCH] = model;
+            ViewData["hashtablePhoto"] = hashtablePhoto;
             return View(model);
         }
+
+
+
+
+
+        [AllowAnonymous]
+        public ActionResult Categorie()
+        {
+            return View();
+        }
+
+
+        [AllowAnonymous]
+        public ActionResult Categoria(int categoriaId)
+        {
+            Debug.WriteLine("Categoria: " + categoriaId);
+            Annunci.Libri.Models.SearchLibri model = new Annunci.Libri.Models.SearchLibri();
+            model.filter.categoriaId = categoriaId;
+            //return View("Index", model);
+            return RedirectToAction("Index", model);
+
+            //return Index(model);
+        }
+
+
 
         public ActionResult MyAnnunci(Annunci.Libri.Models.SearchLibri model)
         {
@@ -60,7 +117,7 @@ namespace MyWebApplication.Controllers
 
                 manager.getMyListAnnunci(MySessionData.UserId, model);
 
-                Annunci.AnnuncioManager annuncioManager = new Annunci.AnnuncioManager(manager.mGetConnection());
+                Annunci.AnnunciManager annuncioManager = new Annunci.AnnunciManager(manager.mGetConnection());
                 long numeroRisposte;
                 foreach (Annunci.Libri.Models.Libro i in model.Libri)
                 {
@@ -98,36 +155,57 @@ namespace MyWebApplication.Controllers
 
 
         [Authorize]
-        public ActionResult Trattativa(long? id)
+        public ActionResult Trattativa(long? trattativaId)
         {
-            Debug.WriteLine("trattativaId: " + id);
-
-
+            Debug.WriteLine("trattativaId: " + trattativaId);
             Models.ModelTrattativa model = new Models.ModelTrattativa();
 
 
-
             manager.mOpenConnection();
-
             Annunci.Models.Trattativa risultato;
 
             try
             {
-                risultato = manager.getTrattativa((long)id);
 
-                if (risultato != null)
+                if (!manager.authorizeShowTrattativa(MySessionData.UserId, (long)trattativaId))
                 {
-                    manager.setRisposteFromTrattativa(risultato);
+                    return RedirectToAction("NotAuthorized", "Home");
                 }
 
+                //La coppa trattativaID e annuncioID sono + sicuri per leggere gli annunci
+                //if (annuncioId == null) {
+                //  annuncioId = manager.getAnnucioIdFromTrattativa((long)trattativaId);
+                //}
+
+
+                risultato = manager.getTrattativa((long)trattativaId);
+                if (risultato == null)
+                {
+                    return HttpNotFound();
+                }
                 model.trattativa = risultato;
+                manager.setRisposteFromTrattativa(model.trattativa);
 
-                model.libro = manager.getLibro(risultato.annuncioId);
 
+                model.libro = manager.getLibro(model.trattativa.annuncioId);
                 if (model.libro == null)
                 {
                     //vuol dire che l'annuncio è stato rimosso ... 
+                    return View("NotAvailable");
+                }
 
+
+                //Verifico se l'utente che ha inserito la risposta sia il prorietario dell'annuncio
+                bool isOwner;
+                isOwner = manager.isOwner(model.trattativa.annuncioId, MySessionData.UserId);
+
+                if (isOwner)
+                {
+                    manager.updateNotificaLetturaRispostaOwner((long)trattativaId);
+                }
+                else
+                {
+                    manager.updateNotificaLetturaRispostaUser((long)trattativaId);
                 }
 
             }
@@ -136,6 +214,11 @@ namespace MyWebApplication.Controllers
                 manager.mCloseConnection();
             }
 
+
+            if (TempData["AREA"] != null && TempData["AREA"].ToString() == "Admin")
+            {
+                return View("~/Areas/Admin/Views/Annunci/Trattativa.cshtml", model);
+            }
 
             return View(model);
         }
@@ -271,9 +354,6 @@ namespace MyWebApplication.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult ReplyPost(long annuncioId, string testo, long? rispostaId, long? trattativaId)
         {
-            //long userId = (User.Identity as MyUsers.MyCustomIdentity).UserId;
-            long userId = userId = (Session["MySessionData"] as MyManagerCSharp.MySessionData).UserId;
-
 
             if (String.IsNullOrEmpty(testo.Trim()))
             {
@@ -283,9 +363,11 @@ namespace MyWebApplication.Controllers
                 model = getReplyModel(annuncioId, trattativaId, null, rispostaId);
 
                 model.testo = testo;
-
                 return View(model);
             }
+
+
+
 
             if (ModelState.IsValid)
             {
@@ -300,12 +382,55 @@ namespace MyWebApplication.Controllers
                     if (rispostaId == null || rispostaId == -1)
                     {
                         //' si tratta di una nuova trattativa!!
-                        trattativaId = manager.insertTrattativa(annuncioId, userId);
-                        managerVb.rispondi((long)trattativaId, userId, testo);
+                        trattativaId = manager.insertTrattativa(annuncioId, MySessionData.UserId);
+                        managerVb.rispondi((long)trattativaId, MySessionData.UserId, testo);
                     }
                     else
                     {
-                        managerVb.rispondi((long)trattativaId, userId, testo, (long)rispostaId);
+                        managerVb.rispondi((long)trattativaId, MySessionData.UserId, testo, (long)rispostaId);
+                    }
+
+
+                    bool isOwner;
+                    isOwner = manager.isOwner(annuncioId, MySessionData.UserId);
+
+                    Annunci.Libri.Models.Libro libro;
+                    libro = manager.getLibro(annuncioId);
+
+                    //*** EMAIL ***
+                    System.Data.DataTable dt;
+                    dt = manager.getEmailReplyAnnnuncio((long)trattativaId);
+
+                    Annunci.Libri.LibriMailMessageManager mail = new Annunci.Libri.LibriMailMessageManager(System.Configuration.ConfigurationManager.AppSettings["application.name"], System.Configuration.ConfigurationManager.AppSettings["application.url"]);
+                    mail.Subject = System.Configuration.ConfigurationManager.AppSettings["application.name"] + " - Nuovo messaggio";
+                    mail.Body = mail.getBodyNuovoMessaggioReply((long)trattativaId, annuncioId, libro.titolo);
+
+                    if (isOwner)
+                    {
+                        mail.To(dt.Rows[0]["email"].ToString());
+                    }
+                    else
+                    {
+                        mail.To(dt.Rows[0]["email_owner"].ToString());
+                    }
+
+                    //MY-DEBUGG
+                    //' mail._ToClearField()
+                    //'mail._To("roberto.rutigliano@gmail.com")
+
+                    mail.Bcc(System.Configuration.ConfigurationManager.AppSettings["mail.To.Ccn"]);
+                    mail.send();
+
+
+                    //'l'inserimento di una nuova risposta comporta la notifica del messaggio
+                    //'ci passo l'id dell'utente per facilitare la ricerca 
+                    if (isOwner)
+                    {
+                        manager.notificaUser((long)trattativaId, long.Parse(dt.Rows[0]["user_id"].ToString()));
+                    }
+                    else
+                    {
+                        manager.notificaOwner((long)trattativaId, long.Parse(dt.Rows[0]["user_id_owner"].ToString()));
                     }
                 }
                 finally
@@ -357,6 +482,11 @@ namespace MyWebApplication.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult CreatePost(Models.CreateModel model)
         {
+            if (model.libro.tipo == null)
+            {
+                ModelState.AddModelError("", "Il tipo di annuncio è un campo obbligatorio");
+            }
+
             if (model.libro.categoriaId == null)
             {
                 ModelState.AddModelError("", "La categoria è un campo obbligatorio");
@@ -367,10 +497,6 @@ namespace MyWebApplication.Controllers
                 ModelState.AddModelError("", "Il titolo è un campo obbligatorio");
             }
 
-            if (model.libro.tipo == null)
-            {
-                ModelState.AddModelError("", "Il tipo di annuncio è un campo obbligatorio");
-            }
 
             if (!ModelState.IsValid)
             {
@@ -456,7 +582,7 @@ namespace MyWebApplication.Controllers
             {
                 manager.mOpenConnection();
 
-                manager.deleteAnnuncioLogic((long)MyId, Annunci.AnnuncioManager.StatoAnnuncio.Da_cancellare, Server.MapPath("~"));
+                manager.deleteAnnuncioLogic((long)MyId, Annunci.AnnunciManager.StatoAnnuncio.Da_cancellare, Server.MapPath("~"));
 
             }
             finally
@@ -866,6 +992,31 @@ namespace MyWebApplication.Controllers
 
             return RedirectToAction("MyAnnuncio", new { id = annuncioId });
         }
+
+
+
+
+        public ActionResult Messaggi()
+        {
+
+            List<Annunci.Models.Trattativa> risultato;
+
+            try
+            {
+                risultato = manager.getListMessaggi(MySessionData.UserId);
+            }
+            finally
+            {
+                manager.mCloseConnection();
+            }
+
+
+            return View(risultato);
+
+
+        }
+
+
 
     }
 }

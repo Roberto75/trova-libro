@@ -1,7 +1,7 @@
 ﻿
 @model List<Annunci.Models.Trattativa>
 @{
-    ViewBag.Title = "MyTrattative";
+    ViewBag.Title = "Trova libro: le mie trattative";
     Layout = "~/Views/Shared/_MasterPageMobile.cshtml";
 }
 
@@ -63,7 +63,7 @@ else
                     <td>@t.login</td>
                     <td>@t.tipoAnnuncio</td>
                     <td>@t.prezzo.ToString("C")</td>
-                    <td><a class="btn btn-info btn-sm" title="Detagli" href="@(Url.Action("Trattativa", "Libri") + "/" + t.trattativaId)"><i class="fa fa-info"></i></a></td>
+                    <td><a class="btn btn-info btn-sm" title="Detagli" href="@(Url.Action("Trattativa", "Libri") + "?trattativaId=" + t.trattativaId)"><i class="fa fa-info"></i></a></td>
                     <td><button class="btn btn-info btn-sm" title="Cancella" type="button" onclick="deleteOnClick(@t.trattativaId)"><i class="fa fa-trash"></i></button></td>
                 </tr>
 

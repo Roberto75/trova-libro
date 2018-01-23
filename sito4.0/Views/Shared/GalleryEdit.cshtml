@@ -16,7 +16,7 @@
 
 <br />
 <div id="MyGalleryEdit">
-    <table class="table table-bordered">
+    <table class="table table-bordered mt-3">
         <tbody>
 
             @foreach (Annunci.Models.MyPhoto p in Model.photos)
@@ -26,13 +26,17 @@
 
                 if (p.Path.StartsWith("http:"))
                 {
-                    <li>
-                        <a href="@p.Path" data-lightbox="gallery" title="@p.Note ">
-                            <img src="@p.Path" alt="@p.Note" />
-                        </a>
-                        <a href="#">Delete</a>
-
-                    </li>
+                    <tr>
+                        <td class="align-middle">@conta</td>
+                        <td>
+                            <a href="@p.Path" data-lightbox="gallery" >
+                                <img src="@p.Path" alt="@p.Note" />
+                            </a>
+                        </td>
+                        <td class="align-middle" style="width:10em">
+                            <button class="btn btn-warning" disabled>Delete <i class="fa fa-trash"></i></button>
+                        </td>
+                    </tr>
 
                 }
                 else
@@ -64,13 +68,17 @@
                     }
                     else
                     {
-                        <li>
-                            <a href="#">
-                                <img src="@Url.Content("~/Content/Images/Shared/unavailable.jpg")" alt="Immagine non disponibile" width="120" height="120" />
-                            </a>
-                            <a href="javascript:MyDeleteAsync('@p.PhotoId')">Delete <i class="fa fa-trash"></i></a>
-                        </li>
-
+                        <tr>
+                            <td class="align-middle">@conta</td>
+                            <td>
+                                <a href="#">
+                                    <img src="@Url.Content("~/Content/Images/Shared/unavailable.jpg")" alt="Immagine non disponibile" width="120" height="120" />
+                                </a>
+                            </td>
+                            <td class="align-middle" style="width:10em">
+                                <button class="btn btn-warning" onclick="javascript:MyDeleteAsync('@p.PhotoId')">Delete <i class="fa fa-trash"></i></button>
+                            </td>
+                        </tr>
                     }
                 }
             }
@@ -211,11 +219,11 @@
 
 
     function MyAsyncUpdate() {
-        
+
 
         $.get('@Url.Action("MyAnnuncio", "Libri", new { id = Model.externalId })', function (data) {
             // alert("MyGalleryEdit" + data);
-            console.log("MyAsyncUpdate: " + data );
+            console.log("MyAsyncUpdate: " + data);
             $('#MyGalleryEdit').html(data);
             // $('#MyGalleryEdit').trigger('create');
         });

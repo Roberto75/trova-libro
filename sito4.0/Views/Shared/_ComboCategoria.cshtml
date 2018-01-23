@@ -45,6 +45,16 @@
         console.log("comboCategoriaOnChange selectedValue:" + selectedValue);
 
 
+        $('#comboSubCategoria').empty();
+        $('#comboSubCategoria').append($('<option />', { value: "", text: "---" }));
+        $('#comboSubCategoria').val("").change();
+
+
+
+        if (selectedValue === undefined || selectedValue === ""  ) {
+            return;
+        }
+
         if (selectedValue > 1130000 && selectedValue < 1140000) {
             //Testi scolastici
             console.log("Testi scolastici")
@@ -56,11 +66,6 @@
         }
 
         $.getJSON('@Url.Action("GetSubCategoria", "Libri")', { categoriaId: selectedValue }, function (dati) {
-
-
-            $('#comboSubCategoria').empty();
-            $('#comboSubCategoria').append($('<option />', { value: "", text: "---" }));
-            $('#comboSubCategoria').val("---").change();
 
             $.each(dati, function (index, item) {
                 //console.log(item.Value)

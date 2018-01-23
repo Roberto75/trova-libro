@@ -1,0 +1,18 @@
+﻿@model  MyWebApplication.Areas.Admin.Models.AnnuncioDetailsModel
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Areas/Admin/Views/Shared/MasterPageAdmin.cshtml";
+}
+
+<h2>Details</h2>
+
+@using (Html.BeginForm("Details", "Annunci", FormMethod.Post, new { id = "MyForm" }))
+{
+    @Html.AntiForgeryToken()
+    <input class="form-control" placeholder="Inserisci l'ID dell'annuncio" type="text" name="annuncioId" id="annuncioId" value="@Model.annuncioId">
+    <button type="submit">Ricerca</button>
+}
+
+
+@{Html.RenderPartial("~/Views/Libri/_TabellaTrattative.cshtml", Model.trattative);}
+

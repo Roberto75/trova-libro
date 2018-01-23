@@ -30,7 +30,7 @@ else
                     <td>@i.login</td>
                     <td>@i.stato</td>
                     <td>@((ViewData["hashtableRisposte"] as System.Collections.Hashtable)[i.trattativaId])</td>
-                    <td><a href="@(Url.Action("Trattativa") + "/" + i.trattativaId)"><i class="fa fa-info"></i></a></td>
+                    <td><a href="@(Url.Action("Trattativa") + "?trattativaId=" + i.trattativaId)"><i class="fa fa-info"></i></a></td>
                     <td><a href="javascript:deleteRow('@i.trattativaId');"><i class="fa fa-trash"></i></a></td>
                 </tr>
 

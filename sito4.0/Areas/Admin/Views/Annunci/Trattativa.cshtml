@@ -1,0 +1,75 @@
+﻿@model MyWebApplication.Models.ModelTrattativa
+@{
+    ViewBag.Title = "Trattativa";
+    Layout = "~/Areas/Admin/Views/Shared/MasterPageAdmin.cshtml";
+}
+
+
+@if (Model.libro == null)
+{
+    //vuol dire che l'annuncio è stato rimosso
+    <h2>Spiacenti ma l'annucio richiesto non è più disponibile</h2>
+    <center>
+        <img src="@Url.Content("~/Content/Images/Shared/error.png")" border="0" alt="Failed" style="margin-top:1em;margin-left:1em;" />
+    </center>
+
+}
+else
+{
+
+
+
+    <h2>Trattativa</h2>
+
+    { Html.RenderPartial("~/Views/Libri/_TabInfoLibro.cshtml", Model.libro); }
+
+    <br />
+
+    <div id="MyTrattativa">
+
+        @foreach (Annunci.Models.Risposta r in Model.trattativa.risposte)
+        {
+            <div class="card mb-3 ">
+                <div class="card-header bg-success">
+                    <span class="MyReplyId">@((r.refRispostaId == -1) ? "" : r.refRispostaId.ToString())</span>
+                    <span class="MyDate">@r.dateAdded.ToString()</span>
+                </div>
+
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-3">
+                            <h6>Utente: @r.login</h6>
+                            @MyHelper.getProfileImage(Server.MapPath("~"), r.login, r.customerId)
+                        </div>
+
+                        <div class="col-9">
+                            <div class="row float-right">
+                                <a role="button" class="btn btn-primary btn-sm float-right" href="@Url.Action("Reply", "Libri", new { annuncioId = r.annuncioId, trattativaId = r.trattativaId, rispostaId = r.rispostaId })">Reply<i class="fas fa-reply fa-fw"></i></a>
+                                &nbsp;
+                                <a role="button" class="btn btn-primary btn-sm" href="@Url.Action("Reply", "Libri", new { annuncioId = r.annuncioId, trattativaId = r.trattativaId, quote = r.rispostaId })">Quote<i class="fas fa-quote-right fa-fw"></i></a>
+                            </div>
+
+                            <div style="clear:both"></div>
+
+                            <div class="row float-none">
+                                <blockquote>@Html.Raw(r.testo)</blockquote>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+
+    <a class="btn btn-secondary" href="@(Url.Action("Details")+ "/" + Model.libro.annuncioId)">Torna all'annuncio</a>
+
+
+
+
+
+}
+<a class="btn btn-secondary" href="@Url.Action("MyTrattative")">Torna all'elenco delle trattative</a>
+
+
+
