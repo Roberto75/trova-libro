@@ -54,9 +54,15 @@ namespace MyWebApplication.Areas.Admin.Controllers
         public ActionResult Details(long id = 0)
         {
             Models.MyUserModel model = new Models.MyUserModel();
-            manager.mOpenConnection();
+
+            Annunci.AnnunciAdminManager annunciAdminManager = new Annunci.AnnunciAdminManager("mercatino");
+
+
             try
             {
+                manager.mOpenConnection();
+                annunciAdminManager.mOpenConnection();
+
                 model.Utente = manager.getUser(id);
 
                 if (model.Utente == null)
@@ -96,10 +102,24 @@ namespace MyWebApplication.Areas.Admin.Controllers
                 //report.Height = "400px";
                 //model.Reports.Add(report);
 
+
+                //ANNUNCI
+                //cerco tutti gli annunci di un utente
+                //Annunci.Libri.LibriManager libriManager = new Annunci.Libri.LibriManager(manager.mGetConnection());
+                //Annunci.Libri.Models.SearchLibri search = new Annunci.Libri.Models.SearchLibri();
+                //search.filter.login = model.Utente.login;
+
+                //libriManager.getList(search);
+                model.Annunci = annunciAdminManager.getListAnnunciByUserId((long)model.Utente.userId);
+
+                model.ContaAnnunciByStato = annunciAdminManager.countAnnunciByStato((long)model.Utente.userId);
+                model.ContaTrattativeByStato = annunciAdminManager.countTrattativeByStato((long)model.Utente.userId);
+
             }
             finally
             {
                 manager.mCloseConnection();
+                annunciAdminManager.mCloseConnection();
             }
             return View(model);
         }
@@ -107,8 +127,8 @@ namespace MyWebApplication.Areas.Admin.Controllers
         public ActionResult Create()
         {
             List<string> t = new List<string>  {
-                        "Brendan Enrick", 
-                        "Kevin Kuebler", 
+                        "Brendan Enrick",
+                        "Kevin Kuebler",
                         "Todd Ropog"
                     };
 
@@ -594,7 +614,7 @@ namespace MyWebApplication.Areas.Admin.Controllers
 
 
 
-      
+
 
 
     }

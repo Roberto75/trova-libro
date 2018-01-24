@@ -1,0 +1,49 @@
+﻿
+@model Annunci.Models.Annuncio
+
+
+@if (Model == null)
+{
+    <h3>Annuncio is NULL</h3>
+}
+else
+{
+
+    <dl class="row">
+        <dt class="col-sm-3 col-6">Data inserimento</dt>
+        <dd class="col-sm-3 col-6">@Model.dataInserimento.ToString()</dd>
+        <dt class="col-sm-3 col-6">Data cancellazione</dt>
+        <dd class="col-sm-3 col-6">@MyHelper.decodeNull(Model.dateDeleted)</dd>
+
+
+        <dt class="col-sm-3 col-6">Utente</dt>
+        <dd class="col-sm-3 col-6">@Model.login</dd>
+
+
+        <dt class="col-sm-3 col-6">Tipo annuncio</dt>
+        <dd class="col-sm-3 col-6">@Model.tipo</dd>
+        <dt class="col-sm-3 col-6">Categoria</dt>
+        <dd class="col-sm-3 col-6">@Model.categoria</dd>
+
+
+        <dt class="col-sm-3 col-6">Nome</dt>
+        <dd class="col-sm-3 col-6">@Model.nome</dd>
+        <dt class="col-sm-3 col-6">sss</dt>
+        <dd class="col-sm-3 col-6"></dd>
+
+
+        <dt class="col-sm-3 col-6">Prezzo</dt>
+        <dd class="col-sm-3 col-6">@Model.prezzo.ToString("C")</dd>
+        <dt class="col-sm-3 col-6">Regione</dt>
+        <dd class="col-sm-3 col-6">@MyHelper.decodeNull(Model.regione)</dd>
+
+        <dt class="col-sm-3 col-6">Provincia</dt>
+        <dd class="col-sm-3 col-6">@MyHelper.decodeNull(Model.provincia)</dd>
+        <dt class="col-sm-3 col-6">Comune</dt>
+        <dd class="col-sm-3 col-6">@MyHelper.decodeNull(Model.comune)</dd>
+
+    </dl>
+
+
+
+}

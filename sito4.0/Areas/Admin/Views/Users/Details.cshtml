@@ -108,6 +108,7 @@
     <li class="nav-item"><a href="#tab-3" id="tab-3-tab" class="nav-link" role="tab" data-toggle="tab" aria-controls="tab-3" aria-selected="false">Gruppi</a></li>
     <li class="nav-item"><a href="#tab-4" id="tab-4-tab" class="nav-link" role="tab" data-toggle="tab" aria-controls="tab-4" aria-selected="false">Ruoli</a></li>
     <li class="nav-item"><a href="#tab-5" id="tab-5-tab" class="nav-link" role="tab" data-toggle="tab" aria-controls="tab-5" aria-selected="false">Accessi</a></li>
+    <li class="nav-item"><a href="#tab-6" id="tab-6-tab" class="nav-link" role="tab" data-toggle="tab" aria-controls="tab-6" aria-selected="false">Annunci</a></li>
 </ul>
 
 
@@ -236,18 +237,93 @@
             }}
         </div>
 
-
-
-
-
-
     </div>
 
 
 
 
 
+    <div id="tab-6" class="tab-pane fade" role="tabpanel" aria-labelledby="tab-6">
+
+
+        <div class="row">
+            <div class="col-md-6">
+
+                <h3>Numero di annunci by Stato</h3>
+                <ul class="list-group">
+                    @foreach (Annunci.AnnunciManager.StatoAnnuncio k in Model.ContaAnnunciByStato.Keys)
+                    {
+                        <li class="list-group-item">@k.ToString().Replace("_", " ") <span class="badge badge-primary badge-pill">@Model.ContaAnnunciByStato[k]</span></li>
+                    }
+                </ul>
+            </div>
+
+            <div class="col-md-6">
+                <h3>Numero di trattative by Stato</h3>
+                <ul class="list-group">
+                    @foreach (Annunci.TrattativaManager.StatoTrattativa k in Model.ContaTrattativeByStato.Keys)
+                    {
+                        <li class="list-group-item">@k.ToString().Replace("_", " ") <span class="badge badge-primary badge-pill">@Model.ContaTrattativeByStato[k]</span></li>
+                    }
+                </ul>
+            </div>
+        </div>
+
+        <hr />
+
+
+
+
+        @if (Model.Annunci.Count == 0)
+        {
+            <h3>L'utente non ha pubblicato nessun annuncio</h3>
+        }
+        else
+        {
+            <h3>L'utente ha pubblicato @Model.Annunci.Count annunci</h3>
+
+            <table id="MyTable" class="table table-striped table-hover">
+                <thead class="thead-light">
+                    <tr>
+                        <th>ID</th>
+                        <th>Data inserimento</th>
+                        <th>Data cancellazione</th>
+                        <th>Tipo</th>
+                        <th>Stato</th>
+                        <th>Nome</th>
+                        <th>Prezzo</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+
+                    @foreach (Annunci.Models.Annuncio i in Model.Annunci)
+                {
+                        <tr>
+                            <td><a href="@Url.Action("Details", "Annunci", new { annuncioId = i.annuncioId })">@i.annuncioId</a></td>
+                            <td>@i.dataInserimento.ToString()</td>
+                            <td>@MyHelper.decodeNull(i.dateDeleted)</td>
+                            <td>@i.tipo</td>
+                            <td>@i.stato</td>
+                            <td>@i.nome</td>
+                            <td>@i.prezzo</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+        }
+
+
+
+    </div>
+
+
 </div>
+
+
+
+
 
 
 

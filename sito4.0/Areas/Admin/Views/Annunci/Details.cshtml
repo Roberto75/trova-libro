@@ -13,6 +13,51 @@
     <button type="submit">Ricerca</button>
 }
 
+<hr />
+
+
+<div class="d-inline-flex">
+    @using (Html.BeginForm("DeleteAnnuncio", "Annunci", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+
+        <input type="hidden" name="id" value="@Model.annuncioId" />
+
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#confirmDelete01">Cancellazione FISICA</button>
+        { Html.RenderPartial("_ConfirmDelete", new ViewDataDictionary { { "ID", "confirmDelete01" }, { "title", "Cancellazione FISICA" } }); }
+    }
+
+</div>
+
+<div class="d-inline-flex">
+    @using (Html.BeginForm("DeleteAnnuncioLocic", "Annunci", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        <input type="hidden" name="id" value="@Model.annuncioId" />
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#confirmDelete02">Cancellazione LOGICA</button>
+        { Html.RenderPartial("_ConfirmDelete", new ViewDataDictionary { { "ID", "confirmDelete02" }, { "title", "Cancellazione LOGICA" } }); }
+    }
+</div>
+
+
+
+
+
+
+
+@if (Model.annuncio == null)
+{
+    <h3>Annuncio is null</h3>
+}
+else
+{
+    Html.RenderPartial("_tabellaAnnuncio", Model.annuncio);
+}
+
+
 
 @{Html.RenderPartial("~/Views/Libri/_TabellaTrattative.cshtml", Model.trattative);}
+
+
+
 

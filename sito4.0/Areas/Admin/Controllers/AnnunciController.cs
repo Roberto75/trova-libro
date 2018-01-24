@@ -10,7 +10,7 @@ namespace MyWebApplication.Areas.Admin.Controllers
     [Authorize]
     public class AnnunciController : MyBaseController
     {
-        private Annunci.Libri.LibriManager manager = new Annunci.Libri.LibriManager("mercatino");
+        private Annunci.AnnunciAdminManager manager = new Annunci.AnnunciAdminManager("mercatino");
 
         public ActionResult Index()
         {
@@ -21,7 +21,7 @@ namespace MyWebApplication.Areas.Admin.Controllers
         public ActionResult Details(MyWebApplication.Areas.Admin.Models.AnnuncioDetailsModel model)
         {
 
-            model.annuncioId = 727456154;
+         //   model.annuncioId = 727456154;
             return View(model);
         }
 
@@ -37,11 +37,11 @@ namespace MyWebApplication.Areas.Admin.Controllers
             manager.mOpenConnection();
             try
             {
-                model.libro = manager.getLibro(model.annuncioId);
+                model.annuncio = manager.getAnnuncio(model.annuncioId);
 
-                if (model.libro == null)
+                if (model.annuncio == null)
                 {
-                    return HttpNotFound();
+                   // return HttpNotFound();
                 }
 
 
@@ -51,7 +51,7 @@ namespace MyWebApplication.Areas.Admin.Controllers
                 long numeroRisposte;
                 foreach (Annunci.Models.Trattativa t in model.trattative)
                 {
-                    numeroRisposte = manager.getNumeroRisposteOfTrattativa(t.trattativaId, model.libro.userId);
+                    numeroRisposte = manager.getNumeroRisposteOfTrattativa(t.trattativaId, model.annuncio.userId);
                     hashtableRisposte.Add(t.trattativaId, numeroRisposte);
                 }
 
@@ -88,5 +88,55 @@ namespace MyWebApplication.Areas.Admin.Controllers
             controller.TempData = TempData;
             return controller.Trattativa(id);
         }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteAnnuncio(long? id)
+        {
+            if (id == null)
+            {
+                return HttpNotFound();
+            }
+
+            bool esito;
+            manager.mOpenConnection();
+            try
+            {
+                esito = manager.deleteAnnuncio((long)id, Server.MapPath("~"));
+            }
+            finally
+            {
+                manager.mCloseConnection();
+            }
+
+            return RedirectToAction("Details");
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteAnnuncioLogic(long? id)
+        {
+            if (id == null)
+            {
+                return HttpNotFound();
+            }
+
+            bool esito;
+            manager.mOpenConnection();
+            try
+            {
+                esito = manager.deleteAnnuncioLogic((long)id, Annunci.AnnunciManager.StatoAnnuncio.Da_cancellare, Server.MapPath("~"));
+            }
+            finally
+            {
+                manager.mCloseConnection();
+            }
+
+            return RedirectToAction("Details");
+        }
+
+
     }
 }

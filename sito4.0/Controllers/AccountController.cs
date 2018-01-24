@@ -177,9 +177,11 @@ namespace MyWebApplication.Controllers
             ViewBag.ReturnUrl = returnUrl;
             LogOnModel model = new LogOnModel();
             model.Password = "";
-
+#if DEBUG
             model.UserName = "roberto.rutigliano";
             model.Password = "r0b3rt0";
+#endif
+
             return View(model);
         }
 

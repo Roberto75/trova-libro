@@ -19,11 +19,11 @@ public static class MyConstantsAdmin
     public const string CONNECTION_LOG = "log";
 
 
-    public const string TABLE_STYLE = "MyTable ui-responsive";
-    public const string TABLE_ROW_STYLE = "ui-body-a";
-    public const string TABLE_ALTERNATING_ROW_STYLE = "ui-body-g";
-    public const string TABLE_HEADER_STYLE = "ui-bar-b";
-    public const string TABLE_FOOTER_STYLE = "ui-bar-b";
+    public const string TABLE_STYLE = "table table-hover table-striped table-responsive-md";
+    public const string TABLE_ROW_STYLE = "";
+    public const string TABLE_ALTERNATING_ROW_STYLE = "";
+    public const string TABLE_HEADER_STYLE = "thead-light";
+    public const string TABLE_FOOTER_STYLE = "";
 
     //public const string FIXED_FOOTER_THEME = "b";
 

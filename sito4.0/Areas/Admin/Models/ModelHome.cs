@@ -9,5 +9,7 @@ namespace MyWebApplication.Areas.Admin.Models
     {
         public string version { get; set; }
         public string versionMVC { get; set; }
+
+        public bool mailIsEnabled { get; set; }
     }
 }

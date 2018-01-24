@@ -8,26 +8,26 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>http://www.trova-libro.it/default.aspx</loc>
+    <loc>http://www.trova-libro.it/Home</loc>
     <lastmod>2011-03-01</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>http://www.trova-libro.it/mercatino/ricerca.aspx</loc>
+    <loc>http://www.trova-libro.it/Libri</loc>
     <lastmod>2011-03-01</lastmod>
     <changefreq>always</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>http://www.trova-libro.it/mercatino/default.aspx</loc>
+    <loc>http://www.trova-libro.it/Libri/Categorie</loc>
     <lastmod>2011-03-01</lastmod>
     <changefreq>always</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
-    <loc>http://www.trova-libro.it/faq/Default.aspx</loc>
+    <loc>http://www.trova-libro.it/Home/Faq</loc>
     <lastmod>2011-05-01</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.8</priority>

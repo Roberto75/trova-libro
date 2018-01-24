@@ -40,7 +40,7 @@
 
 
         @if (Model.photos == null || Model.photos.Count == 0)
-            {
+        {
             <p>Immagini non disponibili</p>
         }
         else
@@ -80,15 +80,7 @@
                         <a href="@Url.Content("~/Content/Images/Shared/unavailable.jpg")" data-lightbox="gallery">
                             <img src="@Url.Content("~/Content/Images/Shared/unavailable.jpg")" alt="Immagine non disponibile" width="120" height="120" />
                         </a>
-
-
-
-
-
-
-
                     }
-
                 }
             }
         }
@@ -100,22 +92,15 @@
             -->
 
     </div>
-
-
-
-
 </div>
 
-<br />
+<hr />
 
-<div>
+<p>
     Se sei interessatto a questo annuncio clicca su "Rispondi" per mandare un un messaggio all'inserzionista.
-</div>
+</p>
 
 <br />
-<div class="row">
-    <div class="col-xs-12">
-        <a class="btn btn-secondary" href="@Url.Action("Index", "Libri")">Pagina di ricerca</a>
-        <a class="btn btn-primary text-right" href="@Url.Action("Reply", "Libri", new { annuncioId = Model.libro.annuncioId })"><i class="fa fa-pencil-alt fa-fw"></i>Rispondi</a>
-    </div>
-</div>
+
+<a class="btn btn-secondary" href="@Url.Action("Index", "Libri")"> <i class="fa fa-search fa-fw"></i> Pagina di ricerca</a>
+<a class="btn btn-primary text-right" href="@Url.Action("Reply", "Libri", new { annuncioId = Model.libro.annuncioId })"><i class="fa fa-pencil-alt fa-fw"></i>Rispondi</a>

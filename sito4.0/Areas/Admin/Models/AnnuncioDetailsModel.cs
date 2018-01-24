@@ -9,7 +9,7 @@ namespace MyWebApplication.Areas.Admin.Models
     {
        public long annuncioId { get; set; }
 
-        public Annunci.Libri.Models.Libro libro;
+        public Annunci.Models.Annuncio annuncio;
 
         public List<Annunci.Models.MyPhoto> photos;
         public List<Annunci.Models.Trattativa> trattative;

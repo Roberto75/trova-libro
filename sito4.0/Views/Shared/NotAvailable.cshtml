@@ -4,7 +4,15 @@
     Layout = "~/Views/Shared/_MasterPageMobile.cshtml";
 }
 
-<h2>Spiacenti ma l'annucio richiesto non è più disponibile</h2>
+
+<div class="alert alert-warning mt-3" role="alert">
+    Spiacenti ma l'annucio richiesto non è più disponibile <i class="fa fa-exclamation-circle fa-fw"></i>
+</div>
+
 <center>
     <img src="@Url.Content("~/Content/Images/Shared/error.png")" border="0" alt="Failed" style="margin-top:1em;margin-left:1em;" />
 </center>
+
+<p class="mt-3">
+    Clicca qui per tornare alla <a class="btn btn-primary" href="@Url.Action("Index", "Libri")"><i class="fa fa-search fa-fw"></i> pagina di ricerca</a>
+</p>

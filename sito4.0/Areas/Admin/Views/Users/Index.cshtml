@@ -15,29 +15,34 @@
 
 @using (Html.BeginForm("Index", "Users", FormMethod.Post, new { id = "MyForm" }))
 {
-    <div class="ui-field-contain">
-        <label for="filter_login">Login:</label>
-        <input type="text" data-mini="true" data-clear-btn="true" id="filter_login" name="filter.login" value="@Model.filter.login" />
+    <div class="row">
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="filter_login">Login:</label>
+                <input type="text" data-mini="true" data-clear-btn="true" id="filter_login" name="filter.login" value="@Model.filter.login" />
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="filter_email">Email:</label>
+                <input type="text" data-mini="true" data-clear-btn="true" id="filter_email" name="filter.email" value="@Model.filter.email" />
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="filter_nome">Nome:</label>
+                <input type="text" data-mini="true" data-clear-btn="true" id="filter_nome" name="filter.nome" value="@Model.filter.nome" />
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="filter_cognome">Cognome:</label>
+                <input type="text" data-mini="true" data-clear-btn="true" id="filter_cognome" name="filter.cognome" value="@Model.filter.cognome" />
+            </div>
+        </div>
     </div>
+    <button type="submit" class="btn btn-primary"><i class="fa fa-search fa-fw"></i>Ricerca</button>
 
-    <div class="ui-field-contain">
-        <label for="filter_email">Email:</label>
-        <input type="text" data-mini="true" data-clear-btn="true" id="filter_email" name="filter.email" value="@Model.filter.email" />
-    </div>
-
-    <div class="ui-field-contain">
-        <label for="filter_nome">Nome:</label>
-        <input type="text" data-mini="true" data-clear-btn="true" id="filter_nome" name="filter.nome" value="@Model.filter.nome" />
-    </div>
-
-    <div class="ui-field-contain">
-        <label for="filter_cognome">Cognome:</label>
-        <input type="text" data-mini="true" data-clear-btn="true" id="filter_cognome" name="filter.cognome" value="@Model.filter.cognome" />
-    </div>
-
-    <div data-role="controlgrup" data-type="horizontal">
-        <input type="submit" data-inline="true" data-mini="true" value="Seach" data-icon="search" />
-    </div>
 
 
 
@@ -73,7 +78,6 @@
 
             @{Html.RenderPartial("_Paging", Model);}
         </div>
-    }
+                    }
 
-}
-
+                }

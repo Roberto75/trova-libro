@@ -1,4 +1,4 @@
-﻿
+﻿@model MyWebApplication.Areas.Admin.Models.ModelHome
 @{
     ViewBag.Title = "Index";
     Layout = "~/Areas/Admin/Views/Shared/MasterPageAdmin.cshtml";
@@ -20,5 +20,17 @@
 <h3>Benvenuto @User.Identity.Name</h3>
 
 <p>Version: @Model.version</p>
-
 <p>MVC: @Model.versionMVC</p>
+
+
+
+@if (Model.mailIsEnabled)
+{
+    <b>Mail is enabled: </b>
+    <img class="mx-auto d-block" src="@Url.Content("~/Content/Images/Shared/ok.png")" border="0" alt="Passed" />
+}
+else
+{
+    <b>Mail is NOT enabled: </b>
+    <img class="mx-auto d-block" src="@Url.Content("~/Content/Images/shared/error1_48x48.gif")" border="0" alt="Failed" />
+}

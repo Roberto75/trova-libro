@@ -15,14 +15,13 @@ namespace MyWebApplication.Areas.Admin.Controllers
 
             Models.ModelHome model = new Models.ModelHome();
 
-            System.Reflection.Assembly assembly = System.Reflection.Assembly.GetExecutingAssembly();
-            System.Diagnostics.FileVersionInfo fvi = System.Diagnostics.FileVersionInfo.GetVersionInfo(assembly.Location);
-            model.version = fvi.FileVersion;
+            //System.Reflection.Assembly assembly = System.Reflection.Assembly.GetExecutingAssembly();
+            //System.Diagnostics.FileVersionInfo fvi = System.Diagnostics.FileVersionInfo.GetVersionInfo(assembly.Location);
+            //model.version = fvi.FileVersion;
+            //model.versionMVC = typeof(System.Web.Mvc.Controller).Assembly.GetName().Version.ToString();
 
-            //model.versionMVC = HttpContext.ApplicationInstance.GetType().Assembly.GetName().Version.ToString(); 
-            model.versionMVC = typeof(System.Web.Mvc.Controller).Assembly.GetName().Version.ToString();
 
-            //    System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString(); 
+            model.mailIsEnabled = bool.Parse(System.Configuration.ConfigurationManager.AppSettings["mail.isEnabled"]);
 
             return View(model);
         }

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<whatsnew>
+  <!-- 
+  type => bug
+  type => changes
+ -->
+
+  <release number="3.0.0.0" data="23/01/2018">
+    <item data="23/01/2018"     owner="Rutigliano"  type="bug" >
+      Rilascio nuova versione in MVC con Boostrap 4
+    </item>
+  </release>
+
+
+</whatsnew>

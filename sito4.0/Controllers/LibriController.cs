@@ -239,7 +239,7 @@ namespace MyWebApplication.Controllers
 
                 if (model.libro == null)
                 {
-                    return HttpNotFound();
+                    return View("NotAvailable");
                 }
 
 
