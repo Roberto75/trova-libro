@@ -36,6 +36,19 @@
     <a href="mailto:@System.Configuration.ConfigurationManager.AppSettings["mail.webmaster"]">@System.Configuration.ConfigurationManager.AppSettings["mail.webmaster"]</a>
 </p>
 
+<div class="fb-like" data-href="http://www.trova-libro.it/" data-layout="button_count" data-action="like" data-size="large" data-show-faces="true" data-share="true"></div>
+
 
 
 <img class="mx-auto d-block" src="@Url.Content("~/Content/Images/logo_trova-libro.gif")" />
+
+
+<div id="fb-root"></div>
+<script>
+(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = 'https://connect.facebook.net/it_IT/sdk.js#xfbml=1&version=v2.11';
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>

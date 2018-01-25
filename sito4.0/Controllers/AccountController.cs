@@ -709,21 +709,21 @@ namespace MyWebApplication.Controllers
                         //*** IMMOBILIARE ***
                         if (System.Configuration.ConfigurationManager.AppSettings["Annunci.isEnabled"] != null && bool.Parse(System.Configuration.ConfigurationManager.AppSettings["Annunci.isEnabled"]))
                         {
-                            Annunci.ImmobiliareManager managerImmobiliare = new Annunci.ImmobiliareManager("immobiliare");
+                            Annunci.AnnunciManager managerAnnunci = new Annunci.ImmobiliareManager("mercatino");
 
                             try
                             {
                                 //mi copio nelle tabelle del mercatino tutti questi dati per evitare di accedete al db degli utenti
 
-                                managerImmobiliare.mOpenConnection();
+                                managerAnnunci.mOpenConnection();
                                 //'27/02/2011
                                 if (customerId != -1)
                                 {
-                                    managerImmobiliare.insertUser(newUserID, model.ragioneSociale, "", model.email, model.login, customerId);
+                                    managerAnnunci.insertUser(newUserID, model.ragioneSociale, "", model.email, model.login, customerId);
                                 }
                                 else
                                 {
-                                    managerImmobiliare.insertUser(newUserID, model.nome, model.cognome, model.email, model.login, customerId);
+                                    managerAnnunci.insertUser(newUserID, model.nome, model.cognome, model.email, model.login, customerId);
                                 }
 
                             }
@@ -735,7 +735,7 @@ namespace MyWebApplication.Controllers
                             }
                             finally
                             {
-                                managerImmobiliare.mCloseConnection();
+                                managerAnnunci.mCloseConnection();
                             }
                         }
 

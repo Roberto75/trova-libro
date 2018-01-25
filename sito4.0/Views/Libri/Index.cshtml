@@ -8,6 +8,8 @@
 
     WebGrid wGrid = new WebGrid(null, rowsPerPage: Model.PageSize, defaultSort: Model.Sort, canPage: false);
     wGrid.Bind(Model.Libri, rowCount: Model.TotalRows, autoSortAndPage: false);
+
+    //@(Model.collapseShow== 1 ? "show":"")
 }
 
 <h2>Ricerca</h2>
@@ -41,7 +43,7 @@
     <input type="hidden" id="collapseShow" name="collapseShow" value="true"  />
 
 
-    <div class="collapse mt-3 @(Model.collapseShow== 1 ? "show":"")" id="collapseFilter">
+    <div class="collapse mt-3" id="collapseFilter">
         <div class="row">
             <div class="col-md-4">
                 <div class="form-group">
@@ -166,7 +168,7 @@
     }
     else
     {
-        <div style="margin-top: 20px;">
+        <div class="mt-3">
             @wGrid.GetHtml(
             fillEmptyRows: false,
             tableStyle: MyConstants.TABLE_STYLE,

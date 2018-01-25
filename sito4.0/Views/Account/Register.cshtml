@@ -37,7 +37,7 @@
         </div>
     </div>
 
-    <div class="card mb-3">
+    <div class="card mb-3" id="datiObbligatori">
         <div class="card-header">
             Dati obbligatori
         </div>
@@ -48,22 +48,26 @@
             <div class="form-group">
                 <label for="nome">Nome*:</label>
                 <input type="text" class="form-control" value="@Model.nome" id="nome" name="nome" placeholder="Nome">
+                <div class="invalid-feedback">Valore obbligatorio</div>
             </div>
 
             <div class="form-group">
                 <label for="cognome">Cognome*:</label>
                 <input type="text" class="form-control" value="@Model.cognome" id="cognome" name="cognome" placeholder="Cognome">
+                <div class="invalid-feedback">Valore obbligatorio</div>
             </div>
 
 
             <div class="form-group">
                 <label for="login">Login*:</label>
                 <input type="text" class="form-control" value="@Model.login" id="login" name="login" placeholder="Scegli una login" />
+                <div class="invalid-feedback">Valore obbligatorio</div>
             </div>
 
             <div class="form-group">
                 <label for="email">Email*:</label>
                 <input type="email" class="form-control" value="@Model.email" id="email" name="email" placeholder="Il tuo indirizzo email attuale" />
+                <div class="invalid-feedback">Valore obbligatorio</div>
             </div>
         </div>
     </div>
@@ -134,16 +138,23 @@
             Condizioni del servizio
         </div>
         <div class="card-body">
-            <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
-                <legend>Informativa sulla privacy</legend>
 
-                <div>@(new HtmlString(ViewData["TestoPrivacy"].ToString()))</div>
+            <h3>Informativa sulla privacy</h3>
 
-                <input type="radio" name="privacy" id="privacy-si" value="SI">
-                <label for="privacy-si">Accetto</label>
-                <input type="radio" name="privacy" id="privacy-no" value="NO">
-                <label for="privacy-no">Non accetto</label>
-            </fieldset>
+            <div>@(new HtmlString(ViewData["TestoPrivacy"].ToString()))</div>
+            <div class="form-group">
+                <div class="form-check">
+                    <input type="radio" class="form-check-input" name="privacy" id="privacy-si" value="SI">
+                    <label class="form-check-label" for="privacy-si">Accetto</label>
+                    <div class="invalid-feedback">Per proseguire con la registrazione occorre dare il consenso sulla privacy</div>
+                </div>
+
+                <div class="form-check">
+                    <input type="radio" class="form-check-input" name="privacy" id="privacy-no" value="NO">
+                    <label class="form-check-label" for="privacy-no">Non accetto</label>
+                </div>
+            </div>
+
 
             <a class="btn btn-secondary" href="@Url.Action("Index","Home")">Annulla</a>
             <button class="btn btn-primary" type="button" onclick="buttonSalvaOnClick()">Salva</button>
@@ -160,41 +171,58 @@
 
         if ($("#nome").val().trim() === "") {
             console.log("nome is null");
-            $("#nome").parent().addClass("has-error");
+            $("#nome").addClass("is-invalid");
             check = false;
         } else {
-            $("#nome").parent().removeClass("has-error");
+            $("#nome").removeClass("is-invalid");
         }
 
 
         if ($("#cognome").val().trim() === "") {
             console.log("cognome is null");
-            $("#cognome").parent().addClass("has-error");
+            $("#cognome").addClass("is-invalid");
             check = false;
         } else {
-            $("#cognome").parent().removeClass("has-error");
+            $("#cognome").removeClass("is-invalid");
         }
 
         if ($("#login").val().trim() === "") {
-            console.log("nome is null");
-            $("#login").parent().addClass("has-error");
+            console.log("login is null");
+            $("#login").addClass("is-invalid");
             check = false;
         } else {
-            $("#login").parent().removeClass("has-error");
+            $("#login").removeClass("is-invalid");
         }
 
         if ($("#email").val().trim() === "") {
             console.log("email is null");
-            $("#email").parent().addClass("has-error");
+            $("#email").addClass("is-invalid");
             check = false;
         } else {
-            $("#email").parent().removeClass("has-error");
+            $("#email").removeClass("is-invalid");
         }
 
+             
+
+        if (check === false) {
+            $('html, body').scrollTop($("#datiObbligatori").offset().top);
+            return;
+        }
+        console.log("Privacy " + $("input[name='privacy']").attr("checked"));
+        console.log("Privacy " + $("#privacy-si").is(":checked"));
+
+
+        if ($("#privacy-si").is(":checked") != true) {
+            $("#privacy-si").addClass("is-invalid");
+            check = false;
+        } else {
+            $("#privacy-si").removeClass("is-invalid");
+        }
 
         if (check === false) {
             return;
         }
+
 
         $("form").submit();
     }

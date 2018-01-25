@@ -1,6 +1,7 @@
-﻿<div class="bg-light">
-      <span style="margin-left: 10px; margin-top:15px; display: inline-block;">
-        Record @(((Model.PageNumber - 1) * Model.PageSize) + 1) to
+﻿<div class="d-flex flex-row bg-light flex-nowrap">
+  
+      <div class="p-1 mr-auto  d-none d-md-block align-self-center">
+        Records @(((Model.PageNumber - 1) * Model.PageSize) + 1) to
 
         @{
             int temp = (((Model.PageNumber - 1) * Model.PageSize) + Model.PageSize);
@@ -12,10 +13,10 @@
 
         }
         @temp.ToString("N0")  of @Model.TotalRows.ToString("N0")
+    </div>
 
-    </span>
-
-    <span style="margin-left: 20px">
+   
+    <div class="p-1 align-self-center">
         @if (Model.HasPreviousPage)
         {
             <a class="btn btn-primary btn-sm" href="javascript:paging(1, '@Model.Sort', '@Model.SortDir')"><i class="fa fa-backward fa-fw"></i></a>
@@ -28,15 +29,15 @@
             @Html.Raw(" ");
             @:<button class="btn btn-outline-primary btn-sm" disabled><i class="fa fa-caret-left fa-fw"></i> Prev</button>
         }
-    </span>
+    </div>
 
-    <span style="margin-left: 20px">
+    <div class="p-1 align-self-center">
         @Html.Raw("Page " + Model.PageNumber.ToString("N0") + " of " + Model.TotalPages.ToString("N0"))
-    </span>
+    </div>
 
 
 
-    <span style="margin-left: 20px">
+    <div class="p-1 align-self-center">
         @if (Model.HasNextPage)
         {
             <a class="btn btn-primary btn-sm" href="javascript:paging(@(Model.PageNumber + 1), '@Model.Sort', '@Model.SortDir')">Next <i class="fa fa-caret-right fa-fw"></i></a>
@@ -49,9 +50,9 @@
             @Html.Raw(" ")
             @:<button class="btn btn-outline-primary btn-sm" disabled><i class="fa fa-forward fa-fw"></i></button>
         }
-    </span>
+    </div>
 
-    <span style="float: right; text-align: right; display: inline-block; white-space: nowrap; margin-top:10px; margin-right:10px;">
+    <div class="p-1 ml-auto  d-none d-md-block align-self-center">
         Page size:
         <select id="PageSize" name="PageSize" onchange="paging(1, '@Model.Sort', '@Model.SortDir')">
             <option value="5" @(Model.PageSize == 5 ? "selected=\"selected\"" : "")>5</option>
@@ -59,7 +60,7 @@
             <option value="20" @(Model.PageSize == 20 ? "selected=\"selected\"" : "")>20</option>
             <option value="50" @(Model.PageSize == 50 ? "selected=\"selected\"" : "")>50</option>
         </select>
-    </span>
+    </div>
 </div>
 
 

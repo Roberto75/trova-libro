@@ -69,7 +69,6 @@ namespace MyWebApplication.Areas.Admin.Controllers
                 {
                     return HttpNotFound();
                 }
-
                 manager.setProfili(model.Utente);
                 manager.setGroups(model.Utente);
                 manager.setRoles(model.Utente);
@@ -110,6 +109,28 @@ namespace MyWebApplication.Areas.Admin.Controllers
                 //search.filter.login = model.Utente.login;
 
                 //libriManager.getList(search);
+
+                //Verifico che l'utente sia registrato anche nel db degli ANNUNCI
+                if (!annunciAdminManager.checkUserExists((long)model.Utente.userId))
+                {
+
+                    throw new MyManagerCSharp.MyException("L'utente " + model.Utente.userId + " non è presente nel db degli annunci");
+
+                    //Rutigliano 24/01/2018
+                    //Decommento questo codice solo se i serve fare l'inserimento automatico
+                    //al momento voglio vedere l'errore ....
+
+                    //if (model.Utente.customerId != null)
+                    //{
+                      //  annunciAdminManager.insertUser((long)model.Utente.userId, model.Utente.nome, model.Utente.cognome, model.Utente.email, model.Utente.login, (long)model.Utente.customerId);
+                    //}
+                    //else
+                    //{
+                      //  annunciAdminManager.insertUser((long)model.Utente.userId, model.Utente.nome, model.Utente.cognome, model.Utente.email, model.Utente.login, -1);
+                    //}
+
+                }
+
                 model.Annunci = annunciAdminManager.getListAnnunciByUserId((long)model.Utente.userId);
 
                 model.ContaAnnunciByStato = annunciAdminManager.countAnnunciByStato((long)model.Utente.userId);
@@ -415,16 +436,56 @@ namespace MyWebApplication.Areas.Admin.Controllers
             return View(myuser);
         }
 
-        [HttpPost, ActionName("Delete")]
+        /*  [HttpPost]
+          [ValidateAntiForgeryToken]
+          public ActionResult DeleteUserLogic(long? id)
+          {
+
+              if (id == null)
+              {
+                  return HttpNotFound();
+              }
+
+              bool esito;
+              manager.mOpenConnection();
+              try
+              {
+                  esito = manager.delete((long)id);
+              }
+              finally
+              {
+                  manager.mCloseConnection();
+              }
+
+              return RedirectToAction("Index");
+          }
+          */
+
+
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(long? id)
+        public ActionResult DeleteUser(long? id)
         {
+            //CANCELLAZIONE FISICA
             if (id == null)
             {
                 return HttpNotFound();
             }
 
             bool esito;
+
+            Annunci.AnnunciManager annunciManager = new Annunci.AnnunciManager("mercatino");
+            try
+            {
+                annunciManager.mOpenConnection();
+                esito = annunciManager.deleteUser((long)id, Server.MapPath("~"));
+            }
+            finally
+            {
+                annunciManager.mCloseConnection();
+            }
+
+            //Rutigliano 07/03/2014 potrei avere un utente che sta registato in Utenti e non su Immobiliare!
             manager.mOpenConnection();
             try
             {
@@ -437,6 +498,8 @@ namespace MyWebApplication.Areas.Admin.Controllers
 
             return RedirectToAction("Index");
         }
+
+
 
         private void populateComboBoxOLD(MyUser myuser)
         {

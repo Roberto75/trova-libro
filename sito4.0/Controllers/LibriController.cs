@@ -403,7 +403,7 @@ namespace MyWebApplication.Controllers
 
                     Annunci.Libri.LibriMailMessageManager mail = new Annunci.Libri.LibriMailMessageManager(System.Configuration.ConfigurationManager.AppSettings["application.name"], System.Configuration.ConfigurationManager.AppSettings["application.url"]);
                     mail.Subject = System.Configuration.ConfigurationManager.AppSettings["application.name"] + " - Nuovo messaggio";
-                    mail.Body = mail.getBodyNuovoMessaggioReply((long)trattativaId, annuncioId, libro.titolo);
+                    mail.Body = mail.getBodyNuovoMessaggioReply((long)trattativaId, annuncioId, libro.titolo, String.Format("Libri/Trattativa/{0}", trattativaId));
 
                     if (isOwner)
                     {
@@ -514,17 +514,24 @@ namespace MyWebApplication.Controllers
 
 
             manager.mOpenConnection();
-
+            long annuncioId;
             try
             {
-                manager.insertAnnuncio(model.libro, MySessionData.UserId);
+                annuncioId = manager.insertAnnuncio(model.libro, MySessionData.UserId);
             }
             finally
             {
                 manager.mCloseConnection();
             }
 
-
+            //*** EMAIL ***
+            Annunci.Libri.LibriMailMessageManager mail = new Annunci.Libri.LibriMailMessageManager(System.Configuration.ConfigurationManager.AppSettings["application.url"], System.Configuration.ConfigurationManager.AppSettings["application.name"]);
+            mail.Subject = System.Configuration.ConfigurationManager.AppSettings["application.name"] + " - Nuovo annuncio";
+            mail.Body = mail.getBodyInserimentoNuovoAnnuncio(annuncioId, model.libro.titolo, String.Format("Libri/Details/{0}", annuncioId));
+            mail.To(MySessionData.Email);
+            //'MY-DEBUGG
+            mail.Bcc(System.Configuration.ConfigurationManager.AppSettings["mail.To.Ccn"]);
+            mail.send();
 
             return View("CreateCompleted");
         }
@@ -588,6 +595,21 @@ namespace MyWebApplication.Controllers
             finally
             {
                 manager.mCloseConnection();
+            }
+
+
+            //mando un email a chi ha eseguito la cancellazione
+            if (!String.IsNullOrEmpty(MySessionData.Email))
+            {
+                Annunci.Libri.LibriMailMessageManager mail = new Annunci.Libri.LibriMailMessageManager(System.Configuration.ConfigurationManager.AppSettings["application.name"], System.Configuration.ConfigurationManager.AppSettings["application.url"]);
+                mail.Subject = System.Configuration.ConfigurationManager.AppSettings["application.name"] + " - Donazione";
+                mail.Body = mail.getBodyDonazione("Home/Donazione");
+                mail.To(MySessionData.Email);
+                //MY-DEBUGG
+                mail.Bcc(System.Configuration.ConfigurationManager.AppSettings["mail.To.Ccn"]);
+
+                mail.send();
+
             }
 
             return RedirectToAction("MyAnnunci");
@@ -704,13 +726,13 @@ namespace MyWebApplication.Controllers
 
                         Annunci.Libri.LibriMailMessageManager mail = new Annunci.Libri.LibriMailMessageManager(System.Configuration.ConfigurationManager.AppSettings["application.name"], System.Configuration.ConfigurationManager.AppSettings["application.url"]);
                         mail.Subject = System.Configuration.ConfigurationManager.AppSettings["application.name"] + " - Modifica annuncio";
-                        mail.Body = mail.getBodyModificaTestoAnnuncio((long)annuncioId, i.categoria.ToString() + " - " + i.annuncioId.ToString());
+                        mail.Body = mail.getBodyModificaTestoAnnuncio((long)annuncioId, i.categoria.ToString() + " - " + i.annuncioId.ToString(), String.Format("Libri/Details/{0}", i.annuncioId));
 
                         foreach (System.Data.DataRow row in dt.Rows)
                         {
                             mail.Bcc(row["email"].ToString());
                         }
-                        //'MY-DEBUGG
+                        //MY-DEBUGG
                         mail.Bcc(System.Configuration.ConfigurationManager.AppSettings["mail.To.Ccn"]);
 
                         mail.send();
@@ -972,7 +994,7 @@ namespace MyWebApplication.Controllers
                         i = manager.getLibro((long)annuncioId);
                         Annunci.Libri.LibriMailMessageManager mail = new Annunci.Libri.LibriMailMessageManager(System.Configuration.ConfigurationManager.AppSettings["application.name"], System.Configuration.ConfigurationManager.AppSettings["application.url"]);
                         mail.Subject = System.Configuration.ConfigurationManager.AppSettings["application.name"] + " - Modifica annuncio";
-                        mail.Body = mail.getBodyAggiornamentoPrezzoAnnuncio((long)annuncioId, i.categoria.ToString() + " - " + i.titolo, i.prezzo, (decimal)dNuovoPrezzo);
+                        mail.Body = mail.getBodyAggiornamentoPrezzoAnnuncio((long)annuncioId, i.categoria.ToString() + " - " + i.titolo, i.prezzo, (decimal)dNuovoPrezzo, String.Format("Libri/Details/{0}", i.annuncioId));
 
                         foreach (System.Data.DataRow row in dt.Rows)
                         {

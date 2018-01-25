@@ -94,6 +94,7 @@ namespace MyWebApplication.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteAnnuncio(long? id)
         {
+            //CANCELLAZIONE FISICA
             if (id == null)
             {
                 return HttpNotFound();
