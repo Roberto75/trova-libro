@@ -13,9 +13,9 @@
 <a class="btn btn-secondary float-right" href="@Url.Action("Create" )" role="button"><i class="fa fa-plus fa-fw"></i>Nuovo annuncio</a>
 <h2>I miei annunci</h2>
 <p>In questa pagina sono elencati gli annunci che hai pubblicato.</p>
- <p>Per ogni annuncio è indicato il <b>numero di risposte</b> che hai ricevuto.</p>
+<p>Per ogni annuncio è indicato il <b>numero di risposte</b> che hai ricevuto.</p>
 <p>Clicca sul dettaglio dell'annuncio per vedere le trattative in corso con le relative risposte.</p>
-<p>   Se desideri aggiungere altre immagini oppure modificare il testo del messaggio clicca su  <i class="fa fa-info"></i>  per aprire il dettaglio dell'annuncio</p>
+<p> Se desideri aggiungere altre immagini oppure modificare il testo del messaggio clicca su  <i class="fa fa-info"></i>  per aprire il dettaglio dell'annuncio</p>
 
 
 <form action="@Url.Action("MyAnnunci")" method="post" id="MyForm">
@@ -65,20 +65,20 @@
          columns: new[]{
               wGrid.Column ("", header :"",
                         format:@<text>
-            @if (((long)(ViewData["hashtableRisposte"] as System.Collections.Hashtable)[item.annuncioId]) > 0)
+                @if (((long)(ViewData["hashtableRisposte"] as System.Collections.Hashtable)[item.annuncioId]) > 0)
                     {
-                <img src="@Url.Content("~/Content/Images/shared/green2_16x16.png")" alt="Ci sono delle risposte per l'annuncio" />
+                    <img src="@Url.Content("~/Content/Images/shared/green2_16x16.png")" alt="Ci sono delle risposte per l'annuncio" />
                     }
                     else
                     {
-                <img src="@Url.Content("~/Content/Images/shared/empty.gif")" alt="Non ci sono risposte per l'annuncio" />
+                    <img src="@Url.Content("~/Content/Images/shared/empty.gif")" alt="Non ci sono risposte per l'annuncio" />
                     }
-            </text>
+                        </text>
                         , canSort : false)   ,
+                wGrid.Column (columnName:"titolo", header :"Titolo", format:(item) =>  Html.ActionLink ( (string) (string.IsNullOrEmpty (item.titolo)?"N/A":item.titolo.ToString()), "MyAnnuncio",   new {id=item.annuncioId} ), canSort:true),
                 wGrid.Column (columnName:"categoria", header :"Categoria", canSort : true),
                 wGrid.Column (columnName:"dataInserimento", header :"Data",  format: p=>p.DataInserimento.ToShortDateString() ,canSort : true),
                 wGrid.Column (columnName:"tipo", header :"Tipo", canSort : true),
-                wGrid.Column (columnName:"titolo", header :"Titolo", format:(item) =>  Html.ActionLink ( (string) (string.IsNullOrEmpty (item.titolo)?"N/A":item.titolo.ToString()), "MyAnnuncio",   new {id=item.annuncioId} ), canSort:true),
                 wGrid.Column (columnName:"prezzo", header :"Prezzo", canSort : true),
                 wGrid.Column ("", header :"Risposte",    format: item=> (ViewData["hashtableRisposte"] as System.Collections.Hashtable)[item.annuncioId],  canSort : false),
                 wGrid.Column ("", header :"",
@@ -89,9 +89,9 @@
                         , canSort : false)
                 })
 
-@{Html.RenderPartial("_Paging", Model);}
-</div>
-     }
+            @{Html.RenderPartial("_Paging", Model);}
+        </div>
+                }
 </form>
 
 

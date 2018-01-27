@@ -63,7 +63,7 @@ else
                     <td>@t.login</td>
                     <td>@t.tipoAnnuncio</td>
                     <td>@t.prezzo.ToString("C")</td>
-                    <td><a class="btn btn-info btn-sm" title="Detagli" href="@(Url.Action("Trattativa", "Libri") + "?trattativaId=" + t.trattativaId)"><i class="fa fa-info"></i></a></td>
+                    <td><a class="btn btn-info btn-sm" title="Detagli" href="@(Url.Action("Trattativa", "Libri") + "/" + t.trattativaId)"><i class="fa fa-info"></i></a></td>
                     <td><button class="btn btn-info btn-sm" title="Cancella" type="button" onclick="deleteOnClick(@t.trattativaId)"><i class="fa fa-trash"></i></button></td>
                 </tr>
 
@@ -103,7 +103,7 @@ else
                 </button>
             </div>
             <div class="modal-body">
-                Confermare la cacellazione della trattativa?
+                Confermare la cancellazione della trattativa?
             </div>
 
             @using (Html.BeginForm("DeleteTrattativa", "Libri", FormMethod.Post, new { id = "MyForm" }))

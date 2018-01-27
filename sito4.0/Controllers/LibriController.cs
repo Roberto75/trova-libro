@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
@@ -37,10 +36,14 @@ namespace MyWebApplication.Controllers
                 Debug.WriteLine("Filtro Days: " + model.days);
             }
 
-
-            System.Collections.Hashtable hashtablePhoto = new System.Collections.Hashtable();
+            if (model.filter == null)
+            {
+                model.filter = new Annunci.Libri.Models.Libro();
+            }
             Debug.WriteLine("collapseShow: " + model.collapseShow);
             Debug.WriteLine("CategoriaId: " + model.filter.categoriaId);
+
+            System.Collections.Hashtable hashtablePhoto = new System.Collections.Hashtable();
             try
             {
                 manager.mOpenConnection();
@@ -99,7 +102,11 @@ namespace MyWebApplication.Controllers
         {
             Debug.WriteLine("Categoria: " + categoriaId);
             Annunci.Libri.Models.SearchLibri model = new Annunci.Libri.Models.SearchLibri();
-            model.filter.categoriaId = categoriaId;
+
+            if (categoriaId != -1)
+            {
+                model.filter.categoriaId = categoriaId;
+            }
             //return View("Index", model);
             return RedirectToAction("Index", model);
 
@@ -155,35 +162,31 @@ namespace MyWebApplication.Controllers
 
 
         [Authorize]
-        public ActionResult Trattativa(long? trattativaId)
+        public ActionResult Trattativa(long? id)
         {
-            Debug.WriteLine("trattativaId: " + trattativaId);
+            Debug.WriteLine("trattativaId: " + id);
             Models.ModelTrattativa model = new Models.ModelTrattativa();
 
-
             manager.mOpenConnection();
-            Annunci.Models.Trattativa risultato;
-
             try
             {
-
-                if (!manager.authorizeShowTrattativa(MySessionData.UserId, (long)trattativaId))
-                {
-                    return RedirectToAction("NotAuthorized", "Home");
-                }
-
                 //La coppa trattativaID e annuncioID sono + sicuri per leggere gli annunci
                 //if (annuncioId == null) {
                 //  annuncioId = manager.getAnnucioIdFromTrattativa((long)trattativaId);
                 //}
 
-
-                risultato = manager.getTrattativa((long)trattativaId);
-                if (risultato == null)
+                model.trattativa = manager.getTrattativa((long)id);
+                if (model.trattativa == null)
                 {
-                    return HttpNotFound();
+                    return View("NotAvailable");
                 }
-                model.trattativa = risultato;
+
+                if (!manager.authorizeShowTrattativa(MySessionData.UserId, (long)id))
+                {
+                    return RedirectToAction("NotAuthorized", "Home");
+                }
+
+     
                 manager.setRisposteFromTrattativa(model.trattativa);
 
 
@@ -191,7 +194,9 @@ namespace MyWebApplication.Controllers
                 if (model.libro == null)
                 {
                     //vuol dire che l'annuncio è stato rimosso ... 
-                    return View("NotAvailable");
+                    //return View("NotAvailable");
+
+                    // il controllo lo faccio sulla VIEW così visualizzo i pulsanti corretti
                 }
 
 
@@ -201,11 +206,11 @@ namespace MyWebApplication.Controllers
 
                 if (isOwner)
                 {
-                    manager.updateNotificaLetturaRispostaOwner((long)trattativaId);
+                    manager.updateNotificaLetturaRispostaOwner((long)id);
                 }
                 else
                 {
-                    manager.updateNotificaLetturaRispostaUser((long)trattativaId);
+                    manager.updateNotificaLetturaRispostaUser((long)id);
                 }
 
             }
@@ -323,6 +328,7 @@ namespace MyWebApplication.Controllers
                     risposta = manager.getRisposta((long)quote);
                     model.testo = "<blockquote><hr/><b>" + risposta.login + "</b> scrive: </br></br>" + risposta.testo + "<hr/></blockquote>";
                     model.rispostaId = (long)quote;
+                    model.replyTo = risposta.login;
                 }
                 else
                 {
@@ -330,10 +336,14 @@ namespace MyWebApplication.Controllers
                     if (rispostaId == null)
                     {
                         model.rispostaId = -1;
+                        model.replyTo = libro.login;
                     }
                     else
                     {
                         model.rispostaId = (long)rispostaId;
+                        Annunci.Models.Risposta risposta;
+                        risposta = manager.getRisposta((long)rispostaId);
+                        model.replyTo = risposta.login;
                     }
 
                 }
@@ -376,18 +386,15 @@ namespace MyWebApplication.Controllers
                 {
                     manager.mOpenConnection();
 
-                    Annunci.TrattativaManager managerVb = new Annunci.TrattativaManager(manager.mGetConnection());
-
-
                     if (rispostaId == null || rispostaId == -1)
                     {
                         //' si tratta di una nuova trattativa!!
                         trattativaId = manager.insertTrattativa(annuncioId, MySessionData.UserId);
-                        managerVb.rispondi((long)trattativaId, MySessionData.UserId, testo);
+                        manager.rispondi((long)trattativaId, MySessionData.UserId, testo);
                     }
                     else
                     {
-                        managerVb.rispondi((long)trattativaId, MySessionData.UserId, testo, (long)rispostaId);
+                        manager.rispondi((long)trattativaId, MySessionData.UserId, testo, (long)rispostaId);
                     }
 
 

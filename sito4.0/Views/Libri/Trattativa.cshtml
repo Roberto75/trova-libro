@@ -9,58 +9,99 @@
 @if (Model.libro == null)
 {
     //vuol dire che l'annuncio è stato rimosso
-    <h2>Spiacenti ma l'annucio richiesto non è più disponibile</h2>
-    <center>
-        <img src="@Url.Content("~/Content/Images/Shared/error.png")" border="0" alt="Failed" style="margin-top:1em;margin-left:1em;" />
-    </center>
+
+
+    <div class="card border-warning mb-3">
+        <div class="card-header bg-warning ">
+            Annuncio non più disponibile <i class="fa fa-exclamation-circle fa-fw"></i>
+        </div>
+        <div class="card-body">
+            <p>Spiacenti ma l'annucio richiesto non è più disponibile.</p>
+
+            <p>Ti consigliamo di cancellare la trattativa dall'elenco delle tue trattativa</p>
+
+            <a class="btn btn-secondary" href="@Url.Action("MyTrattative")">Torna all'elenco delle trattative</a>
+            <button class="btn btn-primary" title="Cancella" type="button" data-toggle="modal" data-target="#deleteModal"><i class="fa fa-trash"></i> Cancella la trattativa</button>
+
+        </div>
+    </div>
+
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModal " aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModal">Cancellazione</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Confermare la cancellazione della trattativa?
+                </div>
+
+                @using (Html.BeginForm("DeleteTrattativa", "Libri", FormMethod.Post, new { id = "MyForm" }))
+                {
+                    @Html.AntiForgeryToken()
+
+                    <input type="hidden" name="trattativaId" value="@Model.trattativa.trattativaId" />
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                        <button type="submit" class="btn btn-primary">Si <i class="fa fa-trash fa-fw"></i></button>
+                    </div>
+                }
+
+            </div>
+        </div>
+    </div>
 
 }
 else
 {
 
-
-
     <h2>Trattativa</h2>
-
     { Html.RenderPartial("_TabInfoLibro", Model.libro); }
 
     <br />
 
-        <div id="MyTrattativa">
+    <div id="MyTrattativa">
 
-            @foreach (Annunci.Models.Risposta r in Model.trattativa.risposte)
-            {
-                <div class="card mb-3 ">
-                    <div class="card-header bg-success">
-                        <span class="MyReplyId">@((r.refRispostaId == -1) ? "" : r.refRispostaId.ToString())</span>
-                        <span class="MyDate">@r.dateAdded.ToString()</span>
-                    </div>
+        @foreach (Annunci.Models.Risposta r in Model.trattativa.risposte)
+        {
+            <div class="card mb-3 ">
+                <div class="card-header bg-success">
+                    <span class="MyReplyId">@((r.refRispostaId == -1) ? "" : r.refRispostaId.ToString())</span>
+                    <span class="MyDate">@r.dateAdded.ToString()</span>
+                </div>
 
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-3">
-                                <h6>Utente: @r.login</h6>
-                                @MyHelper.getProfileImage(Server.MapPath("~"), r.login, r.customerId)
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-3">
+                            <h6>Utente: @r.login</h6>
+                            @MyHelper.getProfileImage(Server.MapPath("~"), r.login, r.customerId)
+                        </div>
+
+                        <div class="col-9">
+                            <div class="row float-right">
+                                <a role="button" class="btn btn-primary btn-sm float-right" href="@Url.Action("Reply", "Libri", new { annuncioId = r.annuncioId, trattativaId = r.trattativaId, rispostaId = r.rispostaId })">Reply<i class="fas fa-reply fa-fw"></i></a>
+                                &nbsp;
+                                <a role="button" class="btn btn-primary btn-sm" href="@Url.Action("Reply", "Libri", new { annuncioId = r.annuncioId, trattativaId = r.trattativaId, quote = r.rispostaId })">Quote<i class="fas fa-quote-right fa-fw"></i></a>
                             </div>
 
-                            <div class="col-9">
-                                <div class="row float-right">
-                                    <a role="button" class="btn btn-primary btn-sm float-right" href="@Url.Action("Reply", "Libri", new { annuncioId = r.annuncioId, trattativaId = r.trattativaId, rispostaId = r.rispostaId })">Reply<i class="fas fa-reply fa-fw"></i></a>
-                                    &nbsp;
-                                    <a role="button" class="btn btn-primary btn-sm" href="@Url.Action("Reply", "Libri", new { annuncioId = r.annuncioId, trattativaId = r.trattativaId, quote = r.rispostaId })">Quote<i class="fas fa-quote-right fa-fw"></i></a>
-                                </div>
+                            <div style="clear:both"></div>
 
-                                <div style="clear:both"></div>
-
-                                <div class="row float-none">
-                                    <blockquote>@Html.Raw(r.testo)</blockquote>
-                                </div>
+                            <div class="row float-none">
+                                <blockquote>@Html.Raw(r.testo)</blockquote>
                             </div>
                         </div>
                     </div>
                 </div>
-            }
-        </div>
+            </div>
+        }
+    </div>
 
     if (Model.libro.login == User.Identity.Name)
     {
@@ -72,9 +113,9 @@ else
     }
 
 
+    <a class="btn btn-secondary" href="@Url.Action("MyTrattative")">Torna all'elenco delle trattative</a>
 
-        
 }
-<a class="btn btn-secondary" href="@Url.Action("MyTrattative")">Torna all'elenco delle trattative</a>
+
 
 

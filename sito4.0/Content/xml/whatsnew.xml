@@ -5,6 +5,13 @@
   type => changes
  -->
 
+    <release number="3.0.0.1" data="26/01/2018">
+    <item data="23/01/2018"     owner="Rutigliano"  type="bug" >
+      Gestione delle eccezioni con Global.asax
+    </item>
+  </release>
+
+  
   <release number="3.0.0.0" data="23/01/2018">
     <item data="23/01/2018"     owner="Rutigliano"  type="bug" >
       Rilascio nuova versione in MVC con Boostrap 4

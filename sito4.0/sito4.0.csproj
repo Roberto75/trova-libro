@@ -138,6 +138,14 @@
     <Content Include="Content\Images\entra.gif" />
     <Content Include="Content\Images\entra_old.gif" />
     <Content Include="Content\Images\faq.jpg" />
+    <Content Include="Content\Images\favicon\android-chrome-96x96.png" />
+    <Content Include="Content\Images\favicon\apple-touch-icon.png" />
+    <Content Include="Content\Images\favicon\browserconfig.xml" />
+    <Content Include="Content\Images\favicon\favicon-16x16.png" />
+    <Content Include="Content\Images\favicon\favicon-32x32.png" />
+    <Content Include="Content\Images\favicon\favicon.ico" />
+    <Content Include="Content\Images\favicon\mstile-150x150.png" />
+    <Content Include="Content\Images\favicon\safari-pinned-tab.svg" />
     <Content Include="Content\Images\Forum\anonymous.gif" />
     <Content Include="Content\Images\Forum\folder.gif" />
     <Content Include="Content\Images\Forum\folder1_16x16.gif" />
@@ -309,6 +317,7 @@
     <Content Include="Content\Images\shared\angolodxdwn.gif" />
     <Content Include="Content\Images\shared\angolosxup.gif" />
     <Content Include="Content\Images\shared\Anonimo.png" />
+    <Content Include="Content\Images\shared\anonymous.gif" />
     <Content Include="Content\Images\shared\apici.gif" />
     <Content Include="Content\Images\shared\apri_16x16.gif" />
     <Content Include="Content\Images\shared\AQUA ICONS SYSTEM ALERT NOTE ICON.png" />
@@ -848,6 +857,8 @@
     <Content Include="Content\xsl\whatsnew.xsl" />
     <Content Include="Global.asax" />
     <Content Include="google091d7f6415f0069b.html" />
+    <Content Include="mercatino\annuncio.aspx" />
+    <Content Include="mercatino\categoria.aspx" />
     <Content Include="robots.txt" />
     <Content Include="sitemap.xml">
       <SubType>Designer</SubType>
@@ -886,6 +897,20 @@
     <Compile Include="Controllers\ThumbnailController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="mercatino\annuncio.aspx.cs">
+      <DependentUpon>annuncio.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="mercatino\annuncio.aspx.designer.cs">
+      <DependentUpon>annuncio.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="mercatino\categoria.aspx.cs">
+      <DependentUpon>categoria.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="mercatino\categoria.aspx.designer.cs">
+      <DependentUpon>categoria.aspx</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\ChangePasswordModel.cs" />
@@ -989,6 +1014,7 @@
     <Content Include="Views\Libri\Messaggi.cshtml" />
     <Content Include="Areas\Admin\Views\Annunci\_tabellaAnnuncio.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_ConfirmDelete.cshtml" />
+    <Content Include="Content\Images\favicon\manifest.json" />
     <None Include="Properties\PublishProfiles\TEMP.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -999,6 +1025,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\Images\Immobiliare\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\MyFramework4.5\MyAnnunciManager\MyAnnunci.csproj">

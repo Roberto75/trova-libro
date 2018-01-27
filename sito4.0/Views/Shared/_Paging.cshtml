@@ -1,6 +1,6 @@
 ﻿<div class="d-flex flex-row bg-light flex-nowrap">
-  
-      <div class="p-1 mr-auto  d-none d-md-block align-self-center">
+
+    <div class="p-1 mr-auto  d-none d-md-block align-self-center">
         Records @(((Model.PageNumber - 1) * Model.PageSize) + 1) to
 
         @{
@@ -15,10 +15,10 @@
         @temp.ToString("N0")  of @Model.TotalRows.ToString("N0")
     </div>
 
-   
+
     <div class="p-1 align-self-center">
         @if (Model.HasPreviousPage)
-        {
+            {
             <a class="btn btn-primary btn-sm" href="javascript:paging(1, '@Model.Sort', '@Model.SortDir')"><i class="fa fa-backward fa-fw"></i></a>
             @Html.Raw(" ");
             <a class="btn btn-primary btn-sm" href="javascript:paging(@Model.PageNumber -1 , '@Model.Sort', '@Model.SortDir')"><i class="fa fa-caret-left fa-fw"></i> Prev </a>
@@ -31,7 +31,7 @@
         }
     </div>
 
-    <div class="p-1 align-self-center">
+    <div class="p-1 align-self-center small">
         @Html.Raw("Page " + Model.PageNumber.ToString("N0") + " of " + Model.TotalPages.ToString("N0"))
     </div>
 
