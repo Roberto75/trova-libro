@@ -8,7 +8,8 @@ using System.Diagnostics;
 
 namespace MyWebApplication.Controllers
 {
-    public class ThumbnailController : Controller
+    [AllowAnonymous]
+    public class ThumbnailController : MyBaseController
     {
         //http://aspnet.html.it/script/vedi/973/miniature-delle-immagini-thumbnail/
 
@@ -46,15 +47,18 @@ namespace MyWebApplication.Controllers
             {
                 thumbnail.Save(buffer, System.Drawing.Imaging.ImageFormat.Jpeg);
                 return new FileContentResult(buffer.ToArray(), "image/jpeg");
-            } if (strFileName.ToLower().EndsWith(".gif"))
+            }
+            if (strFileName.ToLower().EndsWith(".gif"))
             {
                 thumbnail.Save(buffer, System.Drawing.Imaging.ImageFormat.Gif);
                 return new FileContentResult(buffer.ToArray(), "image/gif");
-            } if (strFileName.ToLower().EndsWith(".bmp"))
+            }
+            if (strFileName.ToLower().EndsWith(".bmp"))
             {
                 thumbnail.Save(buffer, System.Drawing.Imaging.ImageFormat.Bmp);
                 return new FileContentResult(buffer.ToArray(), "image/bmp");
-            } if (strFileName.ToLower().EndsWith(".png"))
+            }
+            if (strFileName.ToLower().EndsWith(".png"))
             {
                 thumbnail.Save(buffer, System.Drawing.Imaging.ImageFormat.Png);
                 return new FileContentResult(buffer.ToArray(), "image/png");

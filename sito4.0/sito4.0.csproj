@@ -889,6 +889,7 @@
     <Compile Include="Areas\Admin\Models\SourceModel.cs" />
     <Compile Include="Areas\Admin\Models\UserProfile.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ErrorsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LibriController.cs" />
     <Compile Include="Controllers\MyAuthorizeAttribute.cs" />
@@ -933,7 +934,6 @@
   <ItemGroup>
     <Content Include="Views\web.config" />
     <Content Include="packages.config" />
-    <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\GalleryEdit.cshtml" />
     <Content Include="Views\Shared\LoginPartialMobile.cshtml" />
     <Content Include="Views\Shared\_MasterPageMobile.cshtml" />
@@ -1009,13 +1009,15 @@
     <Content Include="Areas\Admin\Views\Annunci\Details.cshtml" />
     <Content Include="Areas\Admin\Views\Annunci\Trattativa.cshtml" />
     <Content Include="Views\Libri\Categorie.cshtml" />
-    <Content Include="Views\Shared\NotAuthorized.cshtml" />
-    <Content Include="Views\Shared\NotAvailable.cshtml" />
     <Content Include="Views\Libri\Messaggi.cshtml" />
     <Content Include="Areas\Admin\Views\Annunci\_tabellaAnnuncio.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_ConfirmDelete.cshtml" />
     <Content Include="Content\Images\favicon\manifest.json" />
     <None Include="Properties\PublishProfiles\TEMP.pubxml" />
+    <Content Include="Views\Errors\NotFound.cshtml" />
+    <Content Include="Views\Errors\Index.cshtml" />
+    <Content Include="Views\Errors\NotAuthorized.cshtml" />
+    <Content Include="Views\Errors\NotAvailable.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

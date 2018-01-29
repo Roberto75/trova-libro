@@ -1,0 +1,20 @@
+﻿
+@{
+    ViewBag.Title = "NotFound";
+    Layout = "~/Views/Shared/_MasterPageMobile.cshtml";
+}
+
+
+
+<div class="alert alert-warning mt-3" role="alert">
+    <h2>Pagina non trovata</h2>
+    <p>Attenzione, la pagina richiesta non è disponibile <i class="fa fa-exclamation-circle fa-fw"></i></p>
+</div>
+
+<center>
+    <img src="@Url.Content("~/Content/Images/Shared/error.png")" border="0" alt="Failed" style="margin-top:1em;margin-left:1em;" />
+</center>
+
+<p class="mt-3">
+    Clicca qui per tornare alla <a class="btn btn-primary" href="@Url.Action("Index", "Libri")"><i class="fa fa-search fa-fw"></i> pagina di ricerca</a>
+</p>

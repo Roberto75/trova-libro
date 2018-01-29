@@ -20,13 +20,13 @@ namespace MyWebApplication.Controllers
         {
             base.Initialize(requestContext);
 
-            if (User.Identity.IsAuthenticated && Session["MySessionData"] == null)
+            if (User.Identity.IsAuthenticated && Session != null && Session["MySessionData"] == null)
             {
                 FormsAuthentication.SignOut();
             }
 
 
-            if (Session["MySessionData"] != null)
+            if (Session != null && Session["MySessionData"] != null)
             {
                 MySessionData = (Session["MySessionData"] as MyManagerCSharp.MySessionData);
             }
@@ -42,9 +42,6 @@ namespace MyWebApplication.Controllers
             }
             else
             {
-
-
-
                 if (Session["MySessionData"] == null || System.Web.HttpContext.Current.User.Identity.IsAuthenticated == false)
                 {
                     Debug.WriteLine("MySessionData is NULL");
@@ -102,6 +99,45 @@ namespace MyWebApplication.Controllers
         }
 
 
+        protected override void HandleUnknownAction(string actionName)
+        {
+            Debug.WriteLine("HandleUnknownAction" + actionName);
+            //this.View(errorpage).ExecuteResult(this.ControllerContext);
+        }
+
+
+        protected override void OnException(ExceptionContext filterContext)
+        {
+            Debug.WriteLine("OnException");
+            //base.OnException(filterContext);
+
+            // Mark exception as handled
+            filterContext.ExceptionHandled = true;
+
+            //  TempData["Exception"] = filterContext.Exception;
+
+            sendMailExceptionAsync(filterContext.Exception);
+            MyLogExceptionAsync("ControllerOnException", filterContext.Exception);
+
+            //Errore generico
+            filterContext.Result = RedirectToAction("Index", "Errors");
+            base.OnException(filterContext);
+
+            //TempData["Exception"] = filterContext.Exception;
+            //return RedirectToAction("NotAuthorized", "Errors");
+
+            //   filterContext.Result = new RedirectToRouteResult(
+            //              new System.Web.Routing.RouteValueDictionary(
+            //                new
+            //              {
+            //                controller = "Errors",
+            //              action = "ControllerOnException",
+            //            exception = filterContext.
+            //      }));
+
+        }
+
+
         protected void sendMailExceptionAsync(Exception ex)
         {
             Debug.WriteLine("sendMailExceptionAsync - START");
@@ -137,21 +173,26 @@ namespace MyWebApplication.Controllers
                 }
             }
 
+            string referrer = "null";
+            if (Request.UrlReferrer != null)
+            {
+                referrer = Request.UrlReferrer.AbsoluteUri;
+            }
+
+
             MyManagerCSharp.MailMessageManager mail = new MyManagerCSharp.MailMessageManager(System.Configuration.ConfigurationManager.AppSettings["application.name"], System.Configuration.ConfigurationManager.AppSettings["application.url"]);
+
+
 
             if (String.IsNullOrEmpty(messaggio))
             {
-                mail.sendException(ex, String.Format("Controller [{0}] - Action [{1}]", currentController, currentAction));
-
+                mail.sendException(ex, String.Format("Controller [{0}] - Action [{1}] - Url [{2}] - Refferer [{3}]", currentController, currentAction, Request.Url.AbsoluteUri, referrer));
             }
             else
             {
-                mail.sendException(ex, String.Format("Controller [{0}] - Action [{1}] - {2}", currentController, currentAction, messaggio));
+                mail.sendException(ex, String.Format("Controller [{0}] - Action [{1}] - Url [{2}] - Refferer [{3}] - {4}", currentController, currentAction, Request.Url.AbsoluteUri, referrer, messaggio));
             }
-
-
-
-
+        
             //System.Threading.Thread.Sleep(15000);
 
             Debug.WriteLine("sendMailException - END");
@@ -173,6 +214,62 @@ namespace MyWebApplication.Controllers
         //    }
 
         //}
+
+
+        protected void MyLogExceptionAsync(string tipo, Exception ex)
+        {
+            Debug.WriteLine("MyLogExceptionAsync - START");
+            System.Threading.Tasks.Task.Factory.StartNew(() => MyLogException(tipo, ex));
+            Debug.WriteLine("MyLogExceptionAsync - END");
+        }
+
+        private void MyLogException(string tipo, Exception ex)
+        {
+            Debug.WriteLine("MyLogException - START");
+            string currentController = "";
+            string currentAction = "";
+
+
+            if (RouteData != null)
+            {
+                if (RouteData.Values["controller"] != null && !String.IsNullOrEmpty(RouteData.Values["controller"].ToString()))
+                {
+                    currentController = RouteData.Values["controller"].ToString();
+                }
+
+                if (RouteData.Values["action"] != null && !String.IsNullOrEmpty(RouteData.Values["action"].ToString()))
+                {
+                    currentAction = RouteData.Values["action"].ToString();
+                }
+            }
+
+            MyManagerCSharp.Log.LogManager log = new MyManagerCSharp.Log.LogManager("log");
+            log.mOpenConnection();
+            try
+            {
+                if (ex.Message.StartsWith("Timeout expired"))
+                {
+                    //  log.insert("Timeout expired", String.Format("{0}.{1}.{2}", currentController, currentAction, tipo), "", "", MyManagerCSharp.Log.LogManager.Level.Exception);
+                    log.insert(tipo, String.Format("{0}.{1}.{2}", currentController, currentAction, tipo), "", "Timeout expired", MyManagerCSharp.Log.LogManager.Level.Exception);
+                }
+                else
+                {
+                    log.exception(ex, "", String.Format("{0}.{1}", currentController, currentAction), tipo);
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine("Exception: " + e.Message);
+            }
+            finally
+            {
+                log.mCloseConnection();
+            }
+
+            //System.Threading.Thread.Sleep(15000);
+
+            Debug.WriteLine("MyLogException - END");
+        }
 
     }
 

@@ -183,7 +183,7 @@ namespace MyWebApplication.Controllers
 
                 if (!manager.authorizeShowTrattativa(MySessionData.UserId, (long)id))
                 {
-                    return RedirectToAction("NotAuthorized", "Home");
+                    return RedirectToAction("NotAuthorized", "Errors");
                 }
 
      
@@ -229,6 +229,29 @@ namespace MyWebApplication.Controllers
         }
 
 
+        private ActionResult AnnuncioNotFound(long? id)
+        {
+            string messaggio;
+            messaggio = String.Format("Annuncio con id {0} == NULL", id);
+
+            if (MySessionData == null)
+            {
+                messaggio += String.Format("Utente {0} ", "Anonymous");
+            }
+            else
+            {
+                messaggio += String.Format("Utente {0} ", MySessionData.Login);
+            }
+
+            messaggio += String.Format("URL {0} ", Request.Url.AbsoluteUri);
+            messaggio += String.Format("Referrer {0} ", Request.UrlReferrer.AbsoluteUri);
+
+            MyManagerCSharp.MyException ex = new MyManagerCSharp.MyException(MyManagerCSharp.MyException.ErrorNumber.Codice_id_non_valido, messaggio);
+            TempData["MyException"] = ex;
+            return RedirectToAction("NotAvailable", "Errors");
+        }
+
+
 
         [AllowAnonymous]
         public ActionResult Details(long id)
@@ -244,7 +267,7 @@ namespace MyWebApplication.Controllers
 
                 if (model.libro == null)
                 {
-                    return View("NotAvailable");
+                    return AnnuncioNotFound(id);
                 }
 
 
@@ -643,12 +666,18 @@ namespace MyWebApplication.Controllers
 
                 if (model.libro == null)
                 {
-                    return HttpNotFound();
+                    return AnnuncioNotFound(id);
                 }
 
                 if (model.libro.userId != MySessionData.UserId)
                 {
-                    return RedirectToAction("NotAuthorized", "Home");
+                    string messaggio;
+                    messaggio = String.Format("L'utente {0} sta tentando di accedere ad un annuncio non suo" , MySessionData.Login);
+                    messaggio += String.Format("Url: {0} ", Request.Url.AbsoluteUri);
+                    
+                    MyManagerCSharp.MyException ex = new MyManagerCSharp.MyException(MyManagerCSharp.MyException.ErrorNumber.UtenteNonAutorizzato, messaggio);
+                    TempData["MyException"] = ex;
+                    return RedirectToAction("NotAuthorized", "Errors");
                 }
 
                 //Trattative in corso 

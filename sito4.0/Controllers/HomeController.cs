@@ -10,7 +10,7 @@ namespace MyWebApplication.Controllers
     [AllowAnonymous]
     public class HomeController : MyBaseController
     {
-       
+
         public ActionResult Index()
         {
             return View();
@@ -26,40 +26,22 @@ namespace MyWebApplication.Controllers
             return View();
         }
 
-        public ActionResult NotAuthorized()
+
+        public ActionResult Test401()
         {
-            return View();
+            throw new HttpException(401, "Not Authorized");
         }
 
-
-        public ActionResult NotAvailable()
+        public ActionResult TestException()
         {
-            return View();
+            throw new Exception("Oh no, some error occurred...");
         }
 
-       
-
-        public ActionResult Error()
+        public ActionResult TestMyException()
         {
-            Debug.WriteLine("MyError:" + TempData["MyError"]);
-            Debug.WriteLine("UrlReferrer {0}", Request.UrlReferrer);
-            Debug.WriteLine("Error {0}", Request["MyError"]);
-
-            if (TempData["MyError"] != null && !String.IsNullOrEmpty(TempData["MyError"].ToString()))
-            {
-                MyManagerCSharp.Log.LogManager log = new MyManagerCSharp.Log.LogManager("DefaultConnection");
-                log.mOpenConnection();
-                try
-                {
-                    log.error(TempData["MyError"].ToString(), "HomeController.Error");
-                }
-                finally
-                {
-                    log.mCloseConnection();
-                }
-            }
-            return View();
+            throw new MyManagerCSharp.MyException("Oh no, some error occurred...");
         }
+
 
     }
 }
