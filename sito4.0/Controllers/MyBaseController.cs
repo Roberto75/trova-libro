@@ -179,20 +179,25 @@ namespace MyWebApplication.Controllers
                 referrer = Request.UrlReferrer.AbsoluteUri;
             }
 
+            string browser = "null";
+            if (Request.Browser != null)
+            {
+                browser = String.Format("{0} IsMobileDevice {1}", Request.Browser.Browser, Request.Browser.IsMobileDevice); ;
+            }
 
             MyManagerCSharp.MailMessageManager mail = new MyManagerCSharp.MailMessageManager(System.Configuration.ConfigurationManager.AppSettings["application.name"], System.Configuration.ConfigurationManager.AppSettings["application.url"]);
 
+            string temp;
+            temp = String.Format("Controller [{0}] - Action [{1}] - Url [{2}] - Refferer [{3}]", currentController, currentAction, Request.Url.AbsoluteUri, referrer);
+            temp += String.Format(" - Browser [{0}]", browser);
 
+            if (!String.IsNullOrEmpty(messaggio))
+            {
+                temp = String.Format("{0} - {1}", temp, messaggio);
+            }
 
-            if (String.IsNullOrEmpty(messaggio))
-            {
-                mail.sendException(ex, String.Format("Controller [{0}] - Action [{1}] - Url [{2}] - Refferer [{3}]", currentController, currentAction, Request.Url.AbsoluteUri, referrer));
-            }
-            else
-            {
-                mail.sendException(ex, String.Format("Controller [{0}] - Action [{1}] - Url [{2}] - Refferer [{3}] - {4}", currentController, currentAction, Request.Url.AbsoluteUri, referrer, messaggio));
-            }
-        
+            mail.sendException(ex, temp);
+
             //System.Threading.Thread.Sleep(15000);
 
             Debug.WriteLine("sendMailException - END");

@@ -7,18 +7,20 @@
         //var selectedText = $(this).find(":selected").text();
         console.log("comboRegioneOnChange selectedValue:" + selectedValue);
 
+        $('#comboProvincia').empty();
+        $('#comboProvincia').append($('<option />', { value: "", text: "---" }));
+        $('#comboProvincia').val("").change();
+
+      //  $('#comboComune').empty();
+//        $('#comboComune').append($('<option />', { value: "", text: "---" }));
+        //$('#comboComune').val("").change();
+
+        if (selectedValue === "") {
+            return;
+        }
+
 
         $.getJSON('@Url.Action("GetProvince", "RegioneProvinciaComune")', { regioneId: selectedValue }, function (dati) {
-
-
-            $('#comboProvincia').empty();
-            $('#comboProvincia').append($('<option />', { value: "", text: "---" }));
-            $('#comboProvincia').val("---").change();
-
-            $('#comboComune').empty();
-            $('#comboComune').append($('<option />', { value: "", text: "---" }));
-            $('#comboComune').val("---").change();
-
 
             $.each(dati, function (index, item) {
                 //console.log(item.Value)
@@ -35,14 +37,16 @@
         //var selectedText = $(this).find(":selected").text();
         console.log("comboProvinciaOnChange selectedValue:" + selectedValue);
 
+        $('#comboComune').empty();
+        $('#comboComune').append($('<option />', { value: "", text: "---" }));
+        $('#comboComune').val("").change();
+
+        if (selectedValue === "") {
+            return;
+        }
 
         $.getJSON('@Url.Action("GetComuni", "RegioneProvinciaComune")', { provinciaId: selectedValue }, function (dati) {
-
-
-            $('#comboComune').empty();
-            $('#comboComune').append($('<option />', { value: "", text: "---" }));
-            $('#comboComune').val("---").change();
-
+  
             $.each(dati, function (index, item) {
                 //console.log(item.Value)
                 $('#comboComune').append($('<option />', { value: item.value, text: item.text }));

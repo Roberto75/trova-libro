@@ -67,11 +67,11 @@
 
 <script type="text/javascript">
 
-    $(document).on("pagebeforecreate", function () {
-        //alert("pagebeforecreate");
+    $(document).ready(function () {
+        console.log("document ready");
 
         //rutigliano 02/04/2014 per la visualizzazione delle tabelle al 100%
-        $("#MyWebGrid").css("display", "table");
+        //$("#MyWebGrid").css("display", "table");
 
 
         var links = $('#MyWebGrid thead a[href*=sort]');
@@ -79,15 +79,15 @@
 
         links.click(function () {
             //alert("Click:  " + this.href );
-            var pageNumber = $("input[name='PageNumber']").val();
+            let pageNumber = $("input[name='PageNumber']").val();
             //alert("PageNumber : " + pageNumber);
 
-            var sort = this.href.match('sort=([a-zA-Z]*)')[1];
+            let sort = this.href.match('sort=([a-zA-Z]*)')[1];
             //alert("Sort: " + sort );
 
-            var sortDir = this.href.match('sortdir=([a-zA-Z]*)')[1];
-            //alert("SortDir: " + sortDir);
-
+            let sortDir = this.href.match('sortdir=([a-zA-Z]*)')[1];
+            //console.log("sortDir.toUpperCase() " + sortDir.toUpperCase());
+        
             paging(pageNumber, sort, sortDir);
 
             return false;
@@ -99,7 +99,7 @@
 
 
     function paging(page, sort, sortDir) {
-        //alert("Paging Sort: " + sort + " " + sortDir);
+        console.log("Paging Sort: " + sort + " " + sortDir);
         //alert("Paging Page Numeber: " + page);
 
         var pageSize;

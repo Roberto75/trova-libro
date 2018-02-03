@@ -1,14 +1,29 @@
-﻿@model Annunci.Libri.Models.SearchLibri
+﻿@using System.Diagnostics;
+@model Annunci.Libri.Models.SearchLibri
 @{
-    ViewBag.Title = "Trova libro: Cercare e vendere libri usati";
+    ViewBag.Title = "Trova libro: Vendo libri usati e testi universitari";
     ViewBag.Description = "Trova-libro ti offre la possibilità di vendere, comprare e cercare gratuitamente libri usati con estrema velocità e semplicità mettendoti direttamente in contatto con il venditore";
     ViewBag.Keywords = "acquisto libri usati, libri usati, trova libri, testi universitari usati,compro libri, vendo libri, comprovendolibriusati, compro e vendo libri , libro.it, vendere libri usati, compro vendo libri, libri universitari usati, comprovendolibri";
 
     Layout = "~/Views/Shared/_MasterPageMobile.cshtml";
 
-    WebGrid wGrid = new WebGrid(null, rowsPerPage: Model.PageSize, defaultSort: Model.Sort, canPage: false);
-    wGrid.Bind(Model.Libri, rowCount: Model.TotalRows, autoSortAndPage: false);
+    WebGrid wGrid = new WebGrid(null, rowsPerPage: Model.PageSize, canPage: false, defaultSort: Model.Sort, canSort: true);
 
+    if (Model.SortDir == "ASC")
+    {
+        wGrid.SortDirection = SortDirection.Ascending;
+        //wGrid.SortDirection = SortDirection.Descending;
+    }
+    else
+    {
+        wGrid.SortDirection = SortDirection.Descending;
+        //wGrid.SortDirection = SortDirection.Ascending;
+    }
+    wGrid.Bind(Model.Libri, rowCount: Model.TotalRows, autoSortAndPage: false);
+    //wGrid.SortFieldName = "login";
+
+    Debug.WriteLine(String.Format("wGrid  sort {0} - dir {1} - {2}", wGrid.SortColumn, wGrid.SortDirection, wGrid.SortDirectionFieldName));
+    Debug.WriteLine(String.Format("Model  sort {0} - dir {1}", Model.Sort, Model.SortDir));
     //@(Model.collapseShow== 1 ? "show":"")
 }
 
@@ -40,7 +55,7 @@
         <i class="fa fa-bars fa-fw"></i>Filtri <span class="badge badge-light">@Model.countFilter()</span>
     </button>
 
-    <input type="hidden" id="collapseShow" name="collapseShow" value="true"  />
+    <input type="hidden" id="collapseShow" name="collapseShow" value="true" />
 
 
     <div class="collapse mt-3" id="collapseFilter">
@@ -60,7 +75,7 @@
             <div class="col-md-4">
                 <div class="form-group">
                     <label for="isbn">ISBN</label>
-                    <input type="text" class="form-control" name="filter.isbn"  id="isbn" value="@Model.filter.isbn">
+                    <input type="text" class="form-control" name="filter.isbn" id="isbn" value="@Model.filter.isbn">
                 </div>
             </div>
         </div>
@@ -86,7 +101,7 @@
                         <option value="">---</option>
                         @foreach (MyManagerCSharp.Models.MyItem item in Model.comboCategorie)
                         {
-                        <option value="@item.Value" @(item.Value == Model.filter.categoriaId.ToString() ? "selected" : "")>@item.Text</option>
+                            <option value="@item.Value" @(item.Value == Model.filter.categoriaId.ToString() ? "selected" : "")>@item.Text</option>
                         }
                     </select>
                 </div>
@@ -98,7 +113,7 @@
                         <option value="">---</option>
                         @foreach (MyManagerCSharp.Models.MyItem item in Model.comboSubCategorie)
                         {
-                        <option value="@item.Value" @(item.Value == Model.filter.subCategoriaId.ToString() ? "selected" : "")>@item.Text</option>
+                            <option value="@item.Value" @(item.Value == Model.filter.subCategoriaId.ToString() ? "selected" : "")>@item.Text</option>
                         }
                     </select>
                 </div>
@@ -158,13 +173,17 @@
 
     @if (!String.IsNullOrEmpty(Model.filter.comuneId))
     {
-    <p class="text-warning">Prova a rieseguire la ricerca togliendo il filtro sul comune</p>
+        <div class="alert alert-warning mt-3" role="alert">
+            Prova a rieseguire la ricerca togliendo il filtro sul comune
+        </div>
     }
 
 
     @if (Model.TotalRows == 0)
     {
-        <h3>Non è stato trovato nessun libro. Modificare i filtri di ricerca.</h3>
+        <div class="alert alert-info mt-3" role="alert">
+            Non è stato trovato nessun libro. Modificare i filtri di ricerca.
+        </div>
     }
     else
     {
@@ -235,7 +254,7 @@
         $("#comboCategoria").val("").change();
         //$("#comboSubCategoria").val("");
         $("#comboRegione").val("").change();
-        
+
     }
 
 </script>

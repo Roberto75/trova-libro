@@ -712,6 +712,7 @@
     <Content Include="Content\Images\workflow.jpg" />
     <Content Include="Content\Images\zoom1_16x16.gif" />
     <Content Include="Content\js\acc-wizard.min.js" />
+    <Content Include="Content\js\jquery.form-3.51.js" />
     <Content Include="Content\lightbox-2.10.0\css\lightbox.css" />
     <Content Include="Content\lightbox-2.10.0\css\lightbox.min.css" />
     <Content Include="Content\lightbox-2.10.0\images\close.png" />

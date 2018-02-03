@@ -28,7 +28,7 @@ namespace MyWebApplication.Controllers
         public ActionResult Index(Annunci.Libri.Models.SearchLibri model)
         {
 
-            if (Request.HttpMethod.ToString() == "GET" && Session[SESSSION_FILTER_SEARCH] != null && Request.UrlReferrer.LocalPath != "/Libri/Categorie")
+            if (Request.HttpMethod.ToString() == "GET" && Session[SESSSION_FILTER_SEARCH] != null && Request.UrlReferrer != null && Request.UrlReferrer.LocalPath != "/Libri/Categorie")
             {
                 model = (Session[SESSSION_FILTER_SEARCH] as Annunci.Libri.Models.SearchLibri);
                 //model.filter = (Session[SESSSION_FILTER_SEARCH] as Annunci.Libri.Models.Libro);
@@ -186,7 +186,7 @@ namespace MyWebApplication.Controllers
                     return RedirectToAction("NotAuthorized", "Errors");
                 }
 
-     
+
                 manager.setRisposteFromTrattativa(model.trattativa);
 
 
@@ -243,8 +243,16 @@ namespace MyWebApplication.Controllers
                 messaggio += String.Format("Utente {0} ", MySessionData.Login);
             }
 
+            
+
             messaggio += String.Format("URL {0} ", Request.Url.AbsoluteUri);
-            messaggio += String.Format("Referrer {0} ", Request.UrlReferrer.AbsoluteUri);
+
+            string referrer = "null";
+            if (Request.UrlReferrer != null)
+            {
+                referrer = Request.UrlReferrer.AbsoluteUri;
+            }
+            messaggio += String.Format("Referrer {0} ", referrer);
 
             MyManagerCSharp.MyException ex = new MyManagerCSharp.MyException(MyManagerCSharp.MyException.ErrorNumber.Codice_id_non_valido, messaggio);
             TempData["MyException"] = ex;
@@ -478,14 +486,20 @@ namespace MyWebApplication.Controllers
 
 
         [AllowAnonymous]
-        public ActionResult GetSubCategoria(long categoriaId)
+        public ActionResult GetSubCategoria(long? categoriaId)
         {
             Debug.WriteLine("GetSubCategoria: " + categoriaId);
 
-            List<MyManagerCSharp.Models.MyItem> items = manager.getComboCategoria(categoriaId);
+            List<MyManagerCSharp.Models.MyItem> items;
+            items = new List<MyManagerCSharp.Models.MyItem>();
 
+            if (categoriaId == null)
+            {
+                return Json(items, JsonRequestBehavior.AllowGet);
+            }
+
+            items = manager.getComboCategoria((long)categoriaId);
             return Json(items, JsonRequestBehavior.AllowGet);
-
         }
 
 
@@ -672,9 +686,9 @@ namespace MyWebApplication.Controllers
                 if (model.libro.userId != MySessionData.UserId)
                 {
                     string messaggio;
-                    messaggio = String.Format("L'utente {0} sta tentando di accedere ad un annuncio non suo" , MySessionData.Login);
+                    messaggio = String.Format("L'utente {0} sta tentando di accedere ad un annuncio non suo", MySessionData.Login);
                     messaggio += String.Format("Url: {0} ", Request.Url.AbsoluteUri);
-                    
+
                     MyManagerCSharp.MyException ex = new MyManagerCSharp.MyException(MyManagerCSharp.MyException.ErrorNumber.UtenteNonAutorizzato, messaggio);
                     TempData["MyException"] = ex;
                     return RedirectToAction("NotAuthorized", "Errors");

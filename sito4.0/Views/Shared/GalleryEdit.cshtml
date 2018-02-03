@@ -125,11 +125,9 @@
 </div>
 
 
-<script src="http://malsup.github.com/jquery.form.js"></script>
+<script src="@Url.Content("~/Content/js/jquery.form-3.51.js")"></script>
+
 <script type="text/javascript">
-
-
-
 
     $(document).ready(function () {
         $('#MyPopupDialog').on('hidden.bs.modal', function (e) {
@@ -137,9 +135,6 @@
         })
 
     });
-
-
-
 
     function MyDeleteAsync(id) {
         console.log("MyDeleteAsync: " + id);
