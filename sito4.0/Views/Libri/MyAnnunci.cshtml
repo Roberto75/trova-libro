@@ -87,9 +87,12 @@
                     }
                         </text>
                         , canSort : false)   ,
+
+                wGrid.Column (columnName:"dataInserimento", header :"Data",  format: p=>p.DataInserimento.ToShortDateString() ,canSort : true),
                 wGrid.Column (columnName:"titolo", header :"Titolo", format:(item) =>  Html.ActionLink ( (string) (string.IsNullOrEmpty (item.titolo)?"N/A":item.titolo.ToString()), "MyAnnuncio",   new {id=item.annuncioId} ), canSort:true),
                 wGrid.Column (columnName:"categoria", header :"Categoria", canSort : true),
-                wGrid.Column (columnName:"dataInserimento", header :"Data",  format: p=>p.DataInserimento.ToShortDateString() ,canSort : true),
+                wGrid.Column (columnName:"autore", header :"Autore", canSort : true),
+                wGrid.Column (columnName:"isbn", header :"ISBN", canSort : true),
                 wGrid.Column (columnName:"tipo", header :"Tipo", canSort : true),
                 wGrid.Column (columnName:"prezzo", header :"Prezzo", canSort : true),
                 wGrid.Column ("", header :"Risposte",    format: item=> (ViewData["hashtableRisposte"] as System.Collections.Hashtable)[item.annuncioId],  canSort : false),

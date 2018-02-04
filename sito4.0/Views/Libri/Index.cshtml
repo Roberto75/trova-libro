@@ -29,25 +29,7 @@
 
 <form action="@Url.Action("Index", "Libri")" method="post" class="form-horizontal" id="MyForm">
 
-    <div class="form-group">
-        <label for="data" class="control-label">Data inserimento</label>
-        <div class="form-check form-check-inline">
-            <input type="radio" class="form-check-input" name="days" id="radio-oggi" value="@((int)MyManagerCSharp.ManagerDB.Days.Oggi)" @((Model.days == MyManagerCSharp.ManagerDB.Days.Oggi) ? "checked" : "") />
-            <label class="form-check-label" for="radio-oggi">Oggi</label>
-        </div>
-        <div class="form-check form-check-inline">
-            <input type="radio" class="form-check-input" name="days" id="radio-7-giorni" value="@((int)MyManagerCSharp.ManagerDB.Days.Ultimi_7_giorni)" @((Model.days == MyManagerCSharp.ManagerDB.Days.Ultimi_7_giorni) ? "checked" : "") />
-            <label class="form-check-label" for="radio-7-giorni">Ultima settimana</label>
-        </div>
-        <div class="form-check form-check-inline">
-            <input type="radio" class="form-check-input" name="days" id="radio-30-giorni" value="@((int)MyManagerCSharp.ManagerDB.Days.Ultimi_30_giorni)" @((Model.days == MyManagerCSharp.ManagerDB.Days.Ultimi_30_giorni) ? "checked" : "") />
-            <label class="form-check-label" for="radio-30-giorni"> Ultimo mese</label>
-        </div>
-        <div class="form-check form-check-inline">
-            <input type="radio" class="form-check-input" name="days" id="radio-tutti" value="@((int)MyManagerCSharp.ManagerDB.Days.Tutti)" @((Model.days == MyManagerCSharp.ManagerDB.Days.Tutti) ? "checked" : "") />
-            <label class="form-check-label" for="radio-tutti">Tutti</label>
-        </div>
-    </div>
+    
 
     <button class="btn btn-info" type="button" data-toggle="collapse" data-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">
         <i class="fa fa-bars fa-fw"></i>Filtri <span class="badge badge-light">@Model.countFilter()</span>
@@ -57,6 +39,27 @@
 
 
     <div class="collapse mt-3" id="collapseFilter">
+
+        <div class="form-group">
+            <label for="data" class="control-label">Data inserimento</label>
+            <div class="form-check form-check-inline">
+                <input type="radio" class="form-check-input" name="days" id="radio-oggi" value="@((int)MyManagerCSharp.ManagerDB.Days.Oggi)" @((Model.days == MyManagerCSharp.ManagerDB.Days.Oggi) ? "checked" : "") />
+                <label class="form-check-label" for="radio-oggi">Oggi</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input type="radio" class="form-check-input" name="days" id="radio-7-giorni" value="@((int)MyManagerCSharp.ManagerDB.Days.Ultimi_7_giorni)" @((Model.days == MyManagerCSharp.ManagerDB.Days.Ultimi_7_giorni) ? "checked" : "") />
+                <label class="form-check-label" for="radio-7-giorni">Ultima settimana</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input type="radio" class="form-check-input" name="days" id="radio-30-giorni" value="@((int)MyManagerCSharp.ManagerDB.Days.Ultimi_30_giorni)" @((Model.days == MyManagerCSharp.ManagerDB.Days.Ultimi_30_giorni) ? "checked" : "") />
+                <label class="form-check-label" for="radio-30-giorni"> Ultimo mese</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input type="radio" class="form-check-input" name="days" id="radio-tutti" value="@((int)MyManagerCSharp.ManagerDB.Days.Tutti)" @((Model.days == MyManagerCSharp.ManagerDB.Days.Tutti) ? "checked" : "") />
+                <label class="form-check-label" for="radio-tutti">Tutti</label>
+            </div>
+        </div>
+
         <div class="row">
             <div class="col-md-4">
                 <div class="form-group">
@@ -248,11 +251,11 @@
         $("#titolo").val("");
         $("#autore").val("");
         $("#isbn").val("");
+        $("#radio-tutti").prop("checked", true);
         $("#comboTipo").val("");
         $("#comboCategoria").val("").change();
         //$("#comboSubCategoria").val("");
         $("#comboRegione").val("").change();
-
     }
 
 </script>
