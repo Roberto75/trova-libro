@@ -6,6 +6,14 @@
 
     Layout = "~/Views/Shared/_MasterPageMobile.cshtml";
     WebGrid wGrid = new WebGrid(null, rowsPerPage: Model.PageSize, defaultSort: Model.Sort, canPage: false);
+    if (Model.SortDir == "ASC")
+    {
+        wGrid.SortDirection = SortDirection.Ascending;
+    }
+    else
+    {
+        wGrid.SortDirection = SortDirection.Descending;
+    }
     wGrid.Bind(Model.Libri, rowCount: Model.TotalRows, autoSortAndPage: false);
 }
 
@@ -20,29 +28,33 @@
 
 <form action="@Url.Action("MyAnnunci")" method="post" id="MyForm">
 
-    <p class="lead">Filtri</p>
-    <div class="row">
-        <div class="col-md-4">
-            <div class="form-group">
-                <label for="titolo">Titolo</label>
-                <input type="text" class="form-control" name="filter.titolo" value="@Model.filter.titolo">
+    <button class="btn btn-info" type="button" data-toggle="collapse" data-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">
+        <i class="fa fa-bars fa-fw"></i>Filtri <span class="badge badge-light">@Model.countFilter()</span>
+    </button>
+
+    <div class="collapse mt-3" id="collapseFilter">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="titolo">Titolo</label>
+                    <input type="text" class="form-control" name="filter.titolo" id="titolo" value="@Model.filter.titolo">
+                </div>
             </div>
-        </div>
-        <div class="col-md-4">
-            <div class="form-group">
-                <label for="titolo">Autore</label>
-                <input type="text" class="form-control" name="filter.autore" value="@Model.filter.autore">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="titolo">Autore</label>
+                    <input type="text" class="form-control" name="filter.autore" id="autore" value="@Model.filter.autore">
+                </div>
             </div>
-        </div>
-        <div class="col-md-4">
-            <div class="form-group">
-                <label for="isbn">ISBN</label>
-                <input type="text" class="form-control" name="filter.isbn" value="@Model.filter.isbn">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="isbn">ISBN</label>
+                    <input type="text" class="form-control" name="filter.isbn" id="isbn" value="@Model.filter.isbn">
+                </div>
             </div>
         </div>
     </div>
-
-    <button type="reset" class="btn btn-default">Reset</button>
+    <button type="button" class="btn btn-default" onclick="resetOnClick()">Reset</button>
     <button type="submit" class="btn btn-primary">Ricerca<i class="fa fa-search fa-fw"></i></button>
 
 
@@ -105,6 +117,17 @@
 
 
 <script type="text/javascript">
+
+
+
+    function resetOnClick() {
+        console.log("resetOnClick");
+        $("#titolo").val("");
+        $("#autore").val("");
+        $("#isbn").val("");
+    }
+
+
     function deleteRow(id) {
         // alert("deleteRow: " + id);
 

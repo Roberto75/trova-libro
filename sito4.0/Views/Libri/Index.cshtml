@@ -12,12 +12,10 @@
     if (Model.SortDir == "ASC")
     {
         wGrid.SortDirection = SortDirection.Ascending;
-        //wGrid.SortDirection = SortDirection.Descending;
     }
     else
     {
         wGrid.SortDirection = SortDirection.Descending;
-        //wGrid.SortDirection = SortDirection.Ascending;
     }
     wGrid.Bind(Model.Libri, rowCount: Model.TotalRows, autoSortAndPage: false);
     //wGrid.SortFieldName = "login";
