@@ -75,9 +75,11 @@ namespace MyWebApplication
 
         protected void Application_EndRequest(object sender, EventArgs e)
         {
-            //Debug.WriteLine("Application_EndRequest StatusCode:" + Context.Response.StatusCode, Request.Url.AbsoluteUri);
+            Debug.WriteLine("Application_EndRequest StatusCode:" + Context.Response.StatusCode, Request.Url.AbsoluteUri);
 
-            if (Context.Response.StatusCode == 404)
+            if (Context.Response.StatusCode == 404 
+                && Context.Request.Url.LocalPath != "/Errors/NotAvailable" 
+                && Context.Request.Url.LocalPath != "/Errors/HttpError404")
             {
                 Debug.WriteLine("Application_EndRequest StatusCode:" + Context.Response.StatusCode, Request.Url.AbsoluteUri);
 

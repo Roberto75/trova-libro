@@ -12,6 +12,18 @@ namespace MyWebApplication.Controllers
     {
         //https://stackoverflow.com/questions/717628/asp-net-mvc-404-error-handling
 
+
+        public ActionResult Index()
+        {
+            //Errore generico
+            Debug.WriteLine("General:" + TempData["MyError"]);
+            Debug.WriteLine("UrlReferrer {0}", Request.UrlReferrer);
+            Debug.WriteLine("Error {0}", Request["MyError"]);
+
+            Response.StatusCode = 500;
+            return View();
+        }
+        
         public ActionResult NotAuthorized()
         {
             Debug.WriteLine(Request.Url.AbsoluteUri);
@@ -42,8 +54,9 @@ namespace MyWebApplication.Controllers
                 sendMailExceptionAsync(exception);
             }
 
+            Response.Clear();
             Response.StatusCode = 404;
-            return View();
+            return View("~/Views/Errors/NotAvailable.cshtml");
         }
 
 
@@ -64,36 +77,26 @@ namespace MyWebApplication.Controllers
 
 
 
-/*
-        public ActionResult ControllerOnException()
-        {
-            Debug.WriteLine(Request.Url.AbsoluteUri);
+        /*
+                public ActionResult ControllerOnException()
+                {
+                    Debug.WriteLine(Request.Url.AbsoluteUri);
 
-            //ho loggato sull MyBaseController
-            //if (TempData["Exception"] != null)
-            //{
-            //  Exception exception = (Exception)TempData["Exception"];
-            //                MyLogExceptionAsync("ControllerOnException", exception);
-            //              sendMailExceptionAsync(exception);
-            //        }
+                    //ho loggato sull MyBaseController
+                    //if (TempData["Exception"] != null)
+                    //{
+                    //  Exception exception = (Exception)TempData["Exception"];
+                    //                MyLogExceptionAsync("ControllerOnException", exception);
+                    //              sendMailExceptionAsync(exception);
+                    //        }
 
-            Response.StatusCode = 500;
-            return View("Index");
-        }
+                    Response.StatusCode = 500;
+                    return View("Index");
+                }
 
-    */
+            */
 
 
 
-        public ActionResult Index()
-        {
-            //Errore generico
-            Debug.WriteLine("General:" + TempData["MyError"]);
-            Debug.WriteLine("UrlReferrer {0}", Request.UrlReferrer);
-            Debug.WriteLine("Error {0}", Request["MyError"]);
-
-            Response.StatusCode = 500;
-            return View();
-        }
     }
 }

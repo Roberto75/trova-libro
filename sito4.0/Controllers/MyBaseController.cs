@@ -103,7 +103,49 @@ namespace MyWebApplication.Controllers
         {
             Debug.WriteLine("HandleUnknownAction" + actionName);
             //this.View(errorpage).ExecuteResult(this.ControllerContext);
+            string messaggio = "HandleUnknownAction: " + actionName;
+
+            messaggio += getMessageLog();
+
+            MyManagerCSharp.MyException exception = new MyManagerCSharp.MyException(MyManagerCSharp.MyException.ErrorNumber.PaginaNonTrovata, messaggio);
+            TempData["MyException"] = exception;
+
+            RedirectToAction("HttpError404", "Errors").ExecuteResult(this.ControllerContext);
         }
+
+
+
+
+
+
+
+        protected string getMessageLog()
+        {
+            string messaggio = "";
+
+            if (MySessionData == null)
+            {
+                messaggio += String.Format("Utente {0} ", "Anonymous");
+            }
+            else
+            {
+                messaggio += String.Format("Utente {0} ", MySessionData.Login);
+            }
+
+            messaggio += String.Format("URL {0} ", Request.Url.AbsoluteUri);
+
+            string referrer = "null";
+            if (Request.UrlReferrer != null)
+            {
+                referrer = Request.UrlReferrer.AbsoluteUri;
+            }
+            messaggio += String.Format("Referrer {0} ", referrer);
+
+            return messaggio;
+        }
+
+
+
 
 
         protected override void OnException(ExceptionContext filterContext)

@@ -234,28 +234,11 @@ namespace MyWebApplication.Controllers
             string messaggio;
             messaggio = String.Format("Annuncio con id {0} == NULL", id);
 
-            if (MySessionData == null)
-            {
-                messaggio += String.Format("Utente {0} ", "Anonymous");
-            }
-            else
-            {
-                messaggio += String.Format("Utente {0} ", MySessionData.Login);
-            }
 
+            messaggio += getMessageLog();
             
-
-            messaggio += String.Format("URL {0} ", Request.Url.AbsoluteUri);
-
-            string referrer = "null";
-            if (Request.UrlReferrer != null)
-            {
-                referrer = Request.UrlReferrer.AbsoluteUri;
-            }
-            messaggio += String.Format("Referrer {0} ", referrer);
-
-            MyManagerCSharp.MyException ex = new MyManagerCSharp.MyException(MyManagerCSharp.MyException.ErrorNumber.Codice_id_non_valido, messaggio);
-            TempData["MyException"] = ex;
+            MyManagerCSharp.MyException exception = new MyManagerCSharp.MyException(MyManagerCSharp.MyException.ErrorNumber.Codice_id_non_valido, messaggio);
+            TempData["MyException"] = exception;
             return RedirectToAction("NotAvailable", "Errors");
         }
 
@@ -407,12 +390,9 @@ namespace MyWebApplication.Controllers
                 return View(model);
             }
 
-
-
-
+            
             if (ModelState.IsValid)
             {
-
                 try
                 {
                     manager.mOpenConnection();
