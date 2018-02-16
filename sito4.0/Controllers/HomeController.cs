@@ -27,6 +27,16 @@ namespace MyWebApplication.Controllers
         }
 
 
+        public ActionResult TestiScolastici()
+        {
+
+            Annunci.Libri.Models.SearchLibri model = new Annunci.Libri.Models.SearchLibri();
+            model.filter.categoriaId = 1130000;
+            return RedirectToAction("Index", model);
+        }
+
+
+
         public ActionResult Test401()
         {
             throw new HttpException(401, "Not Authorized");

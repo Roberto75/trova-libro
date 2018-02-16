@@ -3,13 +3,13 @@
     ViewBag.Title = "Libri usati e testi universitari";
     ViewBag.Description = "Con Trova-libro puoi vendere e comprare libri usati e testi universitari. Il servizio è gratuito e senza costi di intermediazione";
     ViewBag.Keywords = "libri usati, libri scolastici usati, libri universitari usati, vendere libri usati, libri usati scolastici";
-    
+
 
     Layout = "~/Views/Shared/_MasterPageMobile.cshtml";
 }
 
-<h2>Benvenuto su Trova-libro</h2>
-<div class="float-right"> <img src="@Url.Content("~/Content/Images/libri1_128x128.gif")" alt="" /> </div>
+<h1>Benvenuto su Trova-libro</h1>
+<div class="float-right"><img src="@Url.Content("~/Content/Images/libri1_128x128.gif")" alt="Trova-libro" /></div>
 
 <p><strong>Trova-libro</strong> ti offre la possibilità di vendere, comprare e scambiare gratuitamente libri usati con estrema velocità e semplicità mettendoti direttamente in contatto con il venditore.</p>
 
@@ -21,7 +21,7 @@
 
 <p>Puoi cercare tra gli annunci e trovare il libro di tuo interesse utlizzando la <a href="@Url.Action("Index","Libri")">pagina di ricerca</a> oppure navigando tra le varie <a href="@Url.Action("Categorie","Libri")">categorie</a>.</p>
 
-<p>L'archivio mette a disposizione numerosi testi universitari e scolastici.</p>
+<p>L'archivio mette a disposizione numerosi libri universitari e testi scolastici.</p>
 
 <p>Ad ogni annuncio puoi associare una o più immagini.</p>
 
@@ -46,10 +46,11 @@
 
 <div id="fb-root"></div>
 <script>
-(function(d, s, id) {
-  var js, fjs = d.getElementsByTagName(s)[0];
-  if (d.getElementById(id)) return;
-  js = d.createElement(s); js.id = id;
-  js.src = 'https://connect.facebook.net/it_IT/sdk.js#xfbml=1&version=v2.11';
-  fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));</script>
+    (function (d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = 'https://connect.facebook.net/it_IT/sdk.js#xfbml=1&version=v2.11';
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+</script>

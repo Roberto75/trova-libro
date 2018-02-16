@@ -1,7 +1,7 @@
 ﻿@using System.Diagnostics;
 @model Annunci.Libri.Models.SearchLibri
 @{
-    ViewBag.Title = "Ricerca libri su Trova-libro";
+    ViewBag.Title = "Ricerca " + Model.filter.categoria;
     ViewBag.Description = "Trova-libro ti offre la possibilità di cercare gratuitamente libri e testi universitari con estrema velocità e semplicità mettendoti direttamente in contatto con il venditore";
     ViewBag.Keywords = "libro usato, libri usati, libro, usati, usato, università, universitari, compro libri usati, vendo libri usati, cerco libri usati, scambio, annunci, vendo libri, cerco libri, compro vendo libri, vendo libri ";
 
@@ -25,10 +25,9 @@
     //@(Model.collapseShow== 1 ? "show":"")
 }
 
-<h2>Ricerca</h2>
+<h1>Ricerca @Model.filter.categoria</h1>
 
 <form action="@Url.Action("Index", "Libri")" method="post" class="form-horizontal" id="MyForm">
-
     
 
     <button class="btn btn-info" type="button" data-toggle="collapse" data-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">

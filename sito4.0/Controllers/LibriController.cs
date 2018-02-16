@@ -85,10 +85,7 @@ namespace MyWebApplication.Controllers
             ViewData["hashtablePhoto"] = hashtablePhoto;
             return View(model);
         }
-
-
-
-
+        
 
         [AllowAnonymous]
         public ActionResult Categorie()
@@ -107,10 +104,7 @@ namespace MyWebApplication.Controllers
             {
                 model.filter.categoriaId = categoriaId;
             }
-            //return View("Index", model);
             return RedirectToAction("Index", model);
-
-            //return Index(model);
         }
 
 
