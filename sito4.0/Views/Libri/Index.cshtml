@@ -1,7 +1,7 @@
 ﻿@using System.Diagnostics;
 @model Annunci.Libri.Models.SearchLibri
 @{
-    ViewBag.Title = "Ricerca " + Model.filter.categoria;
+    ViewBag.Title = "Ricerca" + (Model.filter.categoria == null ? "" : ": " + Model.filter.categoria);
     ViewBag.Description = "Trova-libro ti offre la possibilità di cercare gratuitamente libri e testi universitari con estrema velocità e semplicità mettendoti direttamente in contatto con il venditore";
     ViewBag.Keywords = "libro usato, libri usati, libro, usati, usato, università, universitari, compro libri usati, vendo libri usati, cerco libri usati, scambio, annunci, vendo libri, cerco libri, compro vendo libri, vendo libri ";
 
@@ -25,10 +25,10 @@
     //@(Model.collapseShow== 1 ? "show":"")
 }
 
-<h1>Ricerca @Model.filter.categoria</h1>
+<h1>Ricerca <small>@(Model.filter.categoria == null ? "" : Model.filter.categoria.ToLower())</small></h1>
 
 <form action="@Url.Action("Index", "Libri")" method="post" class="form-horizontal" id="MyForm">
-    
+
 
     <button class="btn btn-info" type="button" data-toggle="collapse" data-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">
         <i class="fa fa-bars fa-fw"></i>Filtri <span class="badge badge-light">@Model.countFilter()</span>
@@ -96,7 +96,7 @@
             <div class="col-md-4">
                 <div class="form-group">
                     <label for="comboCategoria">Categoria</label>
-
+                    <input type="hidden" id="categoria" name="filter.categoria" value="@Model.filter.categoria" />
                     <select class="form-control mb-3" id="comboCategoria" name="filter.categoriaId">
                         <option value="">---</option>
                         @foreach (MyManagerCSharp.Models.MyItem item in Model.comboCategorie)
@@ -224,6 +224,7 @@
 
     $(document).ready(function () {
         $("#comboCategoria").on("change", comboCategoriaOnChange);
+        //$("#comboSubCategoria").on("change", comboSubCategoriaOnChange);
         $("#comboRegione").on("change", comboRegioneOnChange);
         $("#comboProvincia").on("change", comboProvinciaOnChange);
 
@@ -255,6 +256,8 @@
         $("#comboCategoria").val("").change();
         //$("#comboSubCategoria").val("");
         $("#comboRegione").val("").change();
+
+        $("#MyForm").submit();
     }
 
 </script>

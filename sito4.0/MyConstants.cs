@@ -15,8 +15,11 @@ public class MyConstants
     public static MyManagerCSharp.ManagerDB.Days DefaultDay = MyManagerCSharp.ManagerDB.Days.Anno_corrente;
 
 
-
-
+#if DEBUG 
+    public static bool ENABLE_CUSTOM_ERROR = false;
+#else
+    public static bool ENABLE_CUSTOM_ERROR = true;
+#endif
 
 
     // jqueryMobile

@@ -42,6 +42,7 @@ namespace MyWebApplication.Controllers
             }
             Debug.WriteLine("collapseShow: " + model.collapseShow);
             Debug.WriteLine("CategoriaId: " + model.filter.categoriaId);
+            Debug.WriteLine("SubCategoriaId: " + model.filter.subCategoriaId);
 
             System.Collections.Hashtable hashtablePhoto = new System.Collections.Hashtable();
             try
@@ -75,6 +76,38 @@ namespace MyWebApplication.Controllers
                     numeroPhoto = manager.countPhoto(i.annuncioId);
                     hashtablePhoto.Add(i.annuncioId, numeroPhoto);
                 }
+
+
+                if (model.filter.categoriaId == 1130000 && model.filter.subCategoriaId == null)
+                {
+                    model.filter.categoria = "Testi scolastici";
+                }
+
+                if (model.filter.categoriaId == 1140000 && model.filter.subCategoriaId == null)
+                {
+                    model.filter.categoria = "Testi universitari";
+                }
+
+               /* 
+                //gestione nome categoria 
+                switch (model.filter.subCategoriaId)
+                {
+                    case 1130100:
+                        model.filter.categoria = "Testi scolastici elemetari";
+                        break;
+                    case 1130200:
+                        model.filter.categoria = "Testi scolastici medie";
+                        break;
+                    case 1130300:
+                        model.filter.categoria = "Testi scolastici superiori";
+                        break;
+                    case 1130400:
+                        model.filter.categoria = "Testi scolastici altro";
+                        break;
+                }
+
+    */
+
             }
             finally
             {
@@ -83,9 +116,9 @@ namespace MyWebApplication.Controllers
 
             Session[SESSSION_FILTER_SEARCH] = model;
             ViewData["hashtablePhoto"] = hashtablePhoto;
-            return View(model);
+            return View("Index", model);
         }
-        
+
 
         [AllowAnonymous]
         public ActionResult Categorie()
@@ -230,7 +263,7 @@ namespace MyWebApplication.Controllers
 
 
             messaggio += getMessageLog();
-            
+
             MyManagerCSharp.MyException exception = new MyManagerCSharp.MyException(MyManagerCSharp.MyException.ErrorNumber.Codice_id_non_valido, messaggio);
             TempData["MyException"] = exception;
             return RedirectToAction("NotAvailable", "Errors");
@@ -384,7 +417,7 @@ namespace MyWebApplication.Controllers
                 return View(model);
             }
 
-            
+
             if (ModelState.IsValid)
             {
                 try
@@ -1063,6 +1096,17 @@ namespace MyWebApplication.Controllers
         }
 
 
+        [AllowAnonymous]
+        public ActionResult TestiScolasticiElementari()
+        {
+
+            Annunci.Libri.Models.SearchLibri model = new Annunci.Libri.Models.SearchLibri();
+            model.filter.categoriaId = 1130000;
+            model.filter.subCategoriaId = 1130100;
+            //return RedirectToAction("Index", model);
+
+            return Index(model);
+        }
 
     }
 }

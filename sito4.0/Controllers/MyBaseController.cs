@@ -150,6 +150,13 @@ namespace MyWebApplication.Controllers
 
         protected override void OnException(ExceptionContext filterContext)
         {
+
+            if (MyConstants.ENABLE_CUSTOM_ERROR == false)
+            {
+                base.OnException(filterContext);
+                return;
+            }
+
             Debug.WriteLine("OnException");
             //base.OnException(filterContext);
 

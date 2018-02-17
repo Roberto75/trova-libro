@@ -1,5 +1,9 @@
 ﻿<script type="text/javascript">
 
+
+
+
+
     function comboCategoriaGetSelectedValue() {
         console.log("comboCategoriaGetSelectedValue");
 
@@ -41,19 +45,22 @@
         console.log("comboCategoriaOnChange", e);
         //let selected = $(this).find("option:selected").val();
         let selectedValue = $(this).val();
-        //var selectedText = $(this).find(":selected").text();
+        let selectedText = $(this).find(":selected").text();
         console.log("comboCategoriaOnChange selectedValue:" + selectedValue);
 
-
+        
         $('#comboSubCategoria').empty();
         $('#comboSubCategoria').append($('<option />', { value: "", text: "---" }));
         $('#comboSubCategoria').val("").change();
 
 
 
-        if (selectedValue === undefined || selectedValue === ""  ) {
+        if (selectedValue === undefined || selectedValue === "") {
+            $('#categoria').val("");
             return;
         }
+
+        $('#categoria').val(selectedText);
 
         if (selectedValue > 1130000 && selectedValue < 1140000) {
             //Testi scolastici
@@ -74,4 +81,20 @@
 
         });
     }
+
+    /*
+    function comboSubCategoriaOnChange(e) {
+        let selectedValue = $(this).val();
+        let selectedText = $(this).find(":selected").text();
+        //console.log("comboCategoriaOnChange selectedValue:" + selectedValue);
+
+
+        
+        if (selectedValue === undefined || selectedValue === "") {
+            //$('#categoria').val("");
+            return;
+        }
+
+        $('#categoria').val(selectedText);
+    }*/
 </script>
