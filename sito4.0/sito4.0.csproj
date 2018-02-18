@@ -856,6 +856,7 @@
     <Content Include="Content\xsl\menuTopSiteMap_2.xsl" />
     <Content Include="Content\xsl\menuTop_2.xsl" />
     <Content Include="Content\xsl\whatsnew.xsl" />
+    <Content Include="default.aspx" />
     <Content Include="Global.asax" />
     <Content Include="google091d7f6415f0069b.html" />
     <Content Include="mercatino\annuncio.aspx" />
@@ -897,6 +898,13 @@
     <Compile Include="Controllers\MyBaseController.cs" />
     <Compile Include="Controllers\RegioneProvinciaComuneController.cs" />
     <Compile Include="Controllers\ThumbnailController.cs" />
+    <Compile Include="default.aspx.cs">
+      <DependentUpon>default.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="default.aspx.designer.cs">
+      <DependentUpon>default.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
