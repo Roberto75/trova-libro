@@ -2,37 +2,37 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:image="http://www.sitemaps.org/schemas/sitemap-image/1.1">
   <url>
-    <loc>http://www.trova-libro.it/</loc>
+    <loc>https://www.trova-libro.it/</loc>
     <lastmod>2018-02-16</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>http://www.trova-libro.it/Home</loc>
+    <loc>https://www.trova-libro.it/Home</loc>
     <lastmod>2018-02-16</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>http://www.trova-libro.it/Libri</loc>
+    <loc>https://www.trova-libro.it/Libri</loc>
     <lastmod>2018-02-16</lastmod>
     <changefreq>always</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>http://www.trova-libro.it/Libri/Categorie</loc>
+    <loc>https://www.trova-libro.it/Libri/Categorie</loc>
     <lastmod>2018-02-16</lastmod>
     <changefreq>always</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>http://www.trova-libro.it/Libri/TestiScolastici</loc>
+    <loc>https://www.trova-libro.it/Libri/TestiScolastici</loc>
     <lastmod>2018-02-16</lastmod>
     <changefreq>always</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>http://www.trova-libro.it/Home/Faq</loc>
+    <loc>https://www.trova-libro.it/Home/Faq</loc>
     <lastmod>2018-02-16</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.8</priority>

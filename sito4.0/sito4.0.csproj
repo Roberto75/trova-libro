@@ -951,7 +951,6 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Content\Style\jquerymobile.css.OLD" />
     <Content Include="Content\Images\shared\frecciaWord.psd" />
-    <Content Include="Content\Images\shared\Thumbs.db" />
     <Content Include="Views\Libri\Index.cshtml" />
     <Content Include="Views\Libri\MyAnnunci.cshtml" />
     <Content Include="Views\Libri\MyTrattative.cshtml" />
