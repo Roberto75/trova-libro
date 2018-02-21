@@ -55,7 +55,8 @@ namespace MyWebApplication.Controllers
             }
 
             Response.Clear();
-            Response.StatusCode = 404;
+            //Response.StatusCode = 404;
+            //Response.StatusCode = 301;
             return View("~/Views/Errors/NotAvailable.cshtml");
         }
 

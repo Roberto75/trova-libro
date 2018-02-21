@@ -17,18 +17,26 @@
 
     <meta content="index,follow" name="robots" />
 
+    <meta name="rating" content="Safe For Kids" />
+    <meta name="revisit-after" content="1 days" />
+    <meta name="doc-type" content="Web Page" />
+    <meta name="doc-class" content="Living Document" />
+    <meta name="doc-rights" content="Public Domain" />
+
+
 
     <!-- Add the following three tags inside head X GOOGLE -->
     <meta itemprop="name" content="www.trova-libro.it" />
     <meta itemprop="description" content="Trova-libro ti offre la possibilità di vendere, comprare e cercare gratuitamente libri usati con estrema velocità e semplicità mettendoti direttamente in contatto con il venditore" />
-    <meta itemprop="image" content="https://www.trova-libro.it/Content/images/LogoLibro.gif" />
+    <meta itemprop="image" content="https://www.trova-libro.it/Content/images/TrovaLibro.png" />
     <meta property="og:title" content="Trova-libro" />
     <meta property="og:description" content="Trova-libro ti offre la possibilità di vendere, comprare e cercare gratuitamente libri usati con estrema velocità e semplicità mettendoti direttamente in contatto con il venditore" />
     <meta property="og:type" content="book" />
     <meta property="og:url" content="https://www.trova-libro.it/" />
-    <meta property="og:image" content="https://www.trova-libro.it/Content/images/LogoLibro.gif" />
+    <meta property="og:image" content="https://www.trova-libro.it/Content/images/TrovaLibro.png" />
     <meta property="og:site_name" content="Trova-libro" />
-    
+    <meta property="fb:app_id" content="333671843811239" />
+
 
     <!-- FAVICONS   -->
     <link rel="apple-touch-icon" sizes="120x120" href="@Url.Content("~/Content/Images/favicon/apple-touch-icon.png")" />
@@ -39,10 +47,7 @@
     <meta name="theme-color" content="#ffffff">
     <!-- /FAVICONS  -->
 
-
-
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous" />
-
 
     <script src="//code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
@@ -59,6 +64,7 @@
     <link href="//cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote-bs4.css" rel="stylesheet">
     <script src="//cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote-bs4.js"></script>
 
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
 
     <script type="text/javascript">
         var _gaq = _gaq || [];
@@ -73,11 +79,18 @@
 
     </script>
 
+    <style>
+        #___plusone_0 {
+            float: right !important;
+        }
+    </style>
 </head>
 
 <body role="document">
+    <div id="fb-root"></div>
 
-    <script>
+    <script type="text/javascript">
+
         window.fbAsyncInit = function () {
             FB.init({
                 appId: '333671843811239',
@@ -91,12 +104,14 @@
 
         (function (d, s, id) {
             var js, fjs = d.getElementsByTagName(s)[0];
-            if (d.getElementById(id)) { return; }
+            if (d.getElementById(id)) return;
             js = d.createElement(s); js.id = id;
-            js.src = "https://connect.facebook.net/en_US/sdk.js";
+            //js.src = "//connect.facebook.net/it_IT/all.js#xfbml=1";
+            js.src = '//connect.facebook.net/it_IT/sdk.js#xfbml=1&version=v2.11';
             fjs.parentNode.insertBefore(js, fjs);
         }(document, 'script', 'facebook-jssdk'));
     </script>
+
 
 
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -141,14 +156,28 @@
     </div>
 
 
-
     <nav class="navbar navbar-light bg-light mt-3">
+
+        <div class="row w-100">
+            <div class="col float-left">
+                <div class="fb-like" data-send="false" data-layout="button_count" data-action="like" data-size="small" data-show-faces="true" data-share="true"></div>
+            </div>
+            <div class="col float-right">
+                <div class="g-plusone float-right" data-size="standard"></div>
+            </div>
+        </div>
+
+        <div class="row small float-none w-100">
+            <div class="col text-center">
+                <b>Pubblicizza</b> il sito in modo da dare più <u>visibilità ai tuoi annunci</u>.
+                <b>Condividilo</b> con i tuoi amici e parenti. Clicca sul tuo social network preferito.
+            </div>
+        </div>
         <div style="color: #C0C0C0; text-align: center; word-spacing: 30px; width:100%">
             COMPRO VENDO CERCO LIBRI USATI UNIVERSITARI SCOLASTICI SUPERIORI ACQUISTO
         </div>
+
     </nav>
-
-
     <!-- /page -->
 
 </body>

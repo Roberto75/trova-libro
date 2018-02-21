@@ -690,6 +690,7 @@
     <Content Include="Content\Images\top_old_working.gif" />
     <Content Include="Content\Images\transparent.gif" />
     <Content Include="Content\Images\trova-libro_120x60.gif" />
+    <Content Include="Content\Images\TrovaLibro.png" />
     <Content Include="Content\Images\TxtAnnunciPrivati.gif" />
     <Content Include="Content\Images\TxtAnnunciPrivati_f2.gif" />
     <Content Include="Content\Images\TxtCataloghiLibrerie.gif" />
@@ -861,6 +862,7 @@
     <Content Include="google091d7f6415f0069b.html" />
     <Content Include="mercatino\annuncio.aspx" />
     <Content Include="mercatino\categoria.aspx" />
+    <Content Include="mercatino\ricerca.aspx" />
     <Content Include="robots.txt" />
     <Content Include="sitemap.xml">
       <SubType>Designer</SubType>
@@ -921,6 +923,13 @@
     </Compile>
     <Compile Include="mercatino\categoria.aspx.designer.cs">
       <DependentUpon>categoria.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="mercatino\ricerca.aspx.cs">
+      <DependentUpon>ricerca.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="mercatino\ricerca.aspx.designer.cs">
+      <DependentUpon>ricerca.aspx</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\ChangePasswordModel.cs" />
@@ -1026,6 +1035,7 @@
     <Content Include="Views\Errors\Index.cshtml" />
     <Content Include="Views\Errors\NotAuthorized.cshtml" />
     <Content Include="Views\Errors\NotAvailable.cshtml" />
+    <Content Include="Views\Libri\TestiScolastici.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

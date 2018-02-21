@@ -21,7 +21,9 @@
 
 <p>Puoi cercare tra gli annunci e trovare il libro di tuo interesse utlizzando la <a href="@Url.Action("Index","Libri")">pagina di ricerca</a> oppure navigando tra le varie <a href="@Url.Action("Categorie","Libri")">categorie</a>.</p>
 
-<p>L'archivio mette a disposizione numerosi libri universitari e testi scolastici.</p>
+<p>L'archivio mette a disposizione numerosi libri universitari e <a href="@Url.Action("TestiScolastici","Libri")">testi scolastici</a>.</p>
+
+
 
 <p>Ad ogni annuncio puoi associare una o più immagini.</p>
 
@@ -36,32 +38,6 @@
     Per qualsisi segnalazione e/o consiglio vi pregiamo di scriverci al seguente indirizzo:
     <a href="mailto:@System.Configuration.ConfigurationManager.AppSettings["mail.webmaster"]">@System.Configuration.ConfigurationManager.AppSettings["mail.webmaster"]</a>
 </p>
+ 
+<img class="mx-auto d-block img-fluid" src="@Url.Content("~/Content/Images/logo_trova-libro.gif")" />
 
-<div class="fb-like" data-href="https://www.trova-libro.it/" data-layout="button_count" data-action="like" data-size="large" data-show-faces="true" data-share="true"></div>
-
-<img class="mx-auto d-block" src="@Url.Content("~/Content/Images/logo_trova-libro.gif")" />
-
-<div id="fb-root"></div>
-<script type="text/javascript">
-    (function (d, s, id) {
-        var js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) return;
-        js = d.createElement(s); js.id = id;
-        //js.src = "//connect.facebook.net/it_IT/all.js#xfbml=1";
-        js.src = 'https://connect.facebook.net/it_IT/sdk.js#xfbml=1&version=v2.11';
-        fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));
-</script>
-
-<!--
-<g:plusone size="small"></g:plusone>
-<script type="text/javascript">
-    window.___gcfg = { lang: 'it' };
-
-    (function () {
-        var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
-        po.src = 'https://apis.google.com/js/plusone.js';
-        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
-    })();
-</script>
-    -->

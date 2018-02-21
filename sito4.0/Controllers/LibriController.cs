@@ -28,7 +28,9 @@ namespace MyWebApplication.Controllers
         public ActionResult Index(Annunci.Libri.Models.SearchLibri model)
         {
 
-            if (Request.HttpMethod.ToString() == "GET" && Session[SESSSION_FILTER_SEARCH] != null && Request.UrlReferrer != null && Request.UrlReferrer.LocalPath != "/Libri/Categorie")
+            if (Request.HttpMethod.ToString() == "GET" && Session[SESSSION_FILTER_SEARCH] != null && Request.UrlReferrer != null
+                && Request.UrlReferrer.LocalPath.IndexOf("/Libri/TestiScolastici") == -1
+                && Request.UrlReferrer.LocalPath != "/Libri/Categorie")
             {
                 model = (Session[SESSSION_FILTER_SEARCH] as Annunci.Libri.Models.SearchLibri);
                 //model.filter = (Session[SESSSION_FILTER_SEARCH] as Annunci.Libri.Models.Libro);
@@ -1096,6 +1098,16 @@ namespace MyWebApplication.Controllers
         }
 
 
+
+
+        
+
+            [AllowAnonymous]
+        public ActionResult TestiScolastici()
+        {
+            return View();
+        }
+
         [AllowAnonymous]
         public ActionResult TestiScolasticiElementari()
         {
@@ -1108,5 +1120,40 @@ namespace MyWebApplication.Controllers
             return Index(model);
         }
 
+        [AllowAnonymous]
+        public ActionResult TestiScolasticiMedie()
+        {
+
+            Annunci.Libri.Models.SearchLibri model = new Annunci.Libri.Models.SearchLibri();
+            model.filter.categoriaId = 1130000;
+            model.filter.subCategoriaId = 1130200;
+            //return RedirectToAction("Index", model);
+
+            return Index(model);
+        }
+
+        [AllowAnonymous]
+        public ActionResult TestiScolasticiSuperiori()
+        {
+
+            Annunci.Libri.Models.SearchLibri model = new Annunci.Libri.Models.SearchLibri();
+            model.filter.categoriaId = 1130000;
+            model.filter.subCategoriaId = 1130300;
+            //return RedirectToAction("Index", model);
+
+            return Index(model);
+        }
+
+        [AllowAnonymous]
+        public ActionResult TestiScolasticiAltro()
+        {
+
+            Annunci.Libri.Models.SearchLibri model = new Annunci.Libri.Models.SearchLibri();
+            model.filter.categoriaId = 1130000;
+            model.filter.subCategoriaId = 1130400;
+            //return RedirectToAction("Index", model);
+
+            return Index(model);
+        }
     }
 }
