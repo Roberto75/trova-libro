@@ -25,6 +25,12 @@
     //@(Model.collapseShow== 1 ? "show":"")
 }
 
+<nav class="mt-3" aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="@Url.Action("Index","Home")">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Ricerca</li>
+      </ol>
+</nav>
 <h1>Ricerca <small>@(Model.filter.categoria == null ? "" : Model.filter.categoria.ToLower())</small></h1>
 
 <form action="@Url.Action("Index", "Libri")" method="post" class="form-horizontal" id="MyForm">

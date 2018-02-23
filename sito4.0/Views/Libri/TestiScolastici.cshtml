@@ -1,15 +1,22 @@
 ﻿
 @{
-    ViewBag.Title = "TestiScolastici";
-    ViewBag.Title = "Trova-libro: vendo testi scolastici";
+    ViewBag.Title = "Trova-libro: vendo testi scolastici usati";
     ViewBag.Description = "Con Trova-libro puoi vendere e comprare testi scolastici usati. Abbiamo catalogato libri per le scuole elementari, medie e superiori";
-    ViewBag.Keywords = "libri scolastici usati, libri usati elementari, libri usati medie, libri usati superiori";
+    ViewBag.Keywords = "testi scolastici usati, libri scolastici usati, libri usati elementari, libri usati medie, libri usati superiori";
 
 
     Layout = "~/Views/Shared/_MasterPageMobile.cshtml";
 }
 
-<h1>Testi scolastici</h1>
+<nav class="mt-3" aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="@Url.Action("Index","Home")">Home</a></li>
+        <li class="breadcrumb-item"><a href="@Url.Action("Index","Libri")">Ricerca</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Testi scolastici</li>
+    </ol>
+</nav>
+
+<h1>Testi scolastici usati</h1>
 
 <p>Abbiamo un catalogo di testi scolastici usati suddiviso nelle seguenti categorie</p>
 
@@ -33,7 +40,7 @@
     <div class="card" style="width: 18rem;">
         <div class="card-body">
             <h5 class="card-title">Superiori</h5>
-            <p class="card-text">Testi scolastici per le scuole superiri.</p>
+            <p class="card-text">Testi scolastici per le scuole superiori.</p>
             <a  href="@Url.Action("TestiScolasticiSuperiori")" class="card-link">Ricerca</a>
         </div>
     </div>

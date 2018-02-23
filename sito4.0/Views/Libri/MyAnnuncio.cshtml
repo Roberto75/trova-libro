@@ -3,6 +3,15 @@
     Layout = "~/Views/Shared/_MasterPageMobile.cshtml";
 }
 
+
+<nav class="mt-3" aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="@Url.Action("Index","Home")">Home</a></li>
+        <li class="breadcrumb-item"><a href="@Url.Action("Index","Libri")">Ricerca</a></li>
+        <li class="breadcrumb-item"><a href="@Url.Action("MyAnnunci","Libri")">I miei annunci</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Annuncio</li>
+    </ol>
+</nav>
 <h2>Annuncio:  @Model.libro.titolo</h2>
 
 

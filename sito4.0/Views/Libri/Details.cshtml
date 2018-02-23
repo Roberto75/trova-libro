@@ -5,7 +5,14 @@
     string temp;
 }
 
-<p class="lead">Dettaglio annuncio</p>
+<nav class="mt-3" aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="@Url.Action("Index","Home")">Home</a></li>
+        <li class="breadcrumb-item"><a href="@Url.Action("Index","Libri")">Ricerca</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Annuncio</li>
+    </ol>
+</nav>
+<h1><small>@Model.libro.titolo</small></h1>
 
 <!-- Nav tabs -->
 

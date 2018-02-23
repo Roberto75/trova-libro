@@ -274,8 +274,16 @@ namespace MyWebApplication.Controllers
 
 
         [AllowAnonymous]
-        public ActionResult Details(long id)
+        public ActionResult Details(long? id)
         {
+
+            if (id == null)
+            {
+               
+                    return AnnuncioNotFound(id);
+                
+            }
+
 
             Models.DetailsModel model = new Models.DetailsModel();
 
@@ -283,7 +291,7 @@ namespace MyWebApplication.Controllers
             manager.mOpenConnection();
             try
             {
-                model.libro = manager.getLibro(id);
+                model.libro = manager.getLibro((long)id);
 
                 if (model.libro == null)
                 {
@@ -298,18 +306,18 @@ namespace MyWebApplication.Controllers
                     if (MySessionData.UserId != model.libro.userId)
                     {
                         //se non si tratta di un mio annuncio ...
-                        manager.annuncioAddClick(id);
+                        manager.annuncioAddClick((long)id);
                     }
                 }
                 else
                 {
                     //nel caso di connessioni anonime non posso fare nulla
-                    manager.annuncioAddClick(id);
+                    manager.annuncioAddClick((long)id);
                 }
 
 
                 Annunci.PhotoManager photoManager = new Annunci.PhotoManager(manager.mGetConnection());
-                model.photos = photoManager.getMyPhotosIsNotPlanimetria(id);
+                model.photos = photoManager.getMyPhotosIsNotPlanimetria((long)id);
                 Debug.WriteLine("Trovate {0} immagini", model.photos.Count);
             }
             finally

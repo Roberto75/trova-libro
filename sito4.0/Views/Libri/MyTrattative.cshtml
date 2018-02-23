@@ -4,7 +4,13 @@
     ViewBag.Title = "Trova libro: le mie trattative";
     Layout = "~/Views/Shared/_MasterPageMobile.cshtml";
 }
-
+<nav class="mt-3" aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="@Url.Action("Index","Home")">Home</a></li>
+        <li class="breadcrumb-item"><a href="@Url.Action("Index","Libri")">Ricerca</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Le mie trattative</li>
+    </ol>
+</nav>
 <h2>Le mie trattative</h2>
 
 <p>
