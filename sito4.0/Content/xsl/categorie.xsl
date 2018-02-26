@@ -19,7 +19,7 @@
 	<xsl:template match="Categoria" mode="L1">
     <li class="list-group-item list-group-item-success" >
       <xsl:element name ="a">
-        <xsl:attribute name ="href"><xsl:value-of select="$contesto"/>/Libri/Index/?filter.categoriaId=<xsl:value-of select="categoria_id"/></xsl:attribute>
+        <xsl:attribute name ="href"><xsl:value-of select="$contesto"/>/Libri/Categoria/<xsl:value-of select="categoria_id"/></xsl:attribute>
         <xsl:attribute name ="title"><xsl:value-of select="nome"/></xsl:attribute>
         <xsl:value-of select="nome"/>
       </xsl:element>
@@ -35,7 +35,7 @@
   <xsl:template match="Categoria" mode="L2" >
     <li class="list-group-item list-group-item-primary " >
       <xsl:element name ="a">
-        <xsl:attribute name ="href"><xsl:value-of select="$contesto"/>/Libri/Index/?filter.categoriaId=<xsl:value-of select="categoria_id"/></xsl:attribute>
+        <xsl:attribute name ="href"><xsl:value-of select="$contesto"/>/Libri/Categoria/<xsl:value-of select="categoria_id"/></xsl:attribute>
         <xsl:attribute name ="title"><xsl:value-of select="nome"/></xsl:attribute>
         <xsl:attribute name ="class">ml-3 </xsl:attribute>
         <xsl:value-of select="nome"/>
@@ -57,7 +57,7 @@
   <xsl:template match="Categoria" mode="L3" >
     <li  class="list-group-item list-group-item-warning" >
       <xsl:element name ="a">
-        <xsl:attribute name ="href"><xsl:value-of select="$contesto"/>/Libri/Index/?filter.categoriaId=<xsl:value-of select="categoria_id"/></xsl:attribute>
+        <xsl:attribute name ="href"><xsl:value-of select="$contesto"/>/Libri/Categoria/<xsl:value-of select="categoria_id"/></xsl:attribute>
         <xsl:attribute name ="title"><xsl:value-of select="nome"/></xsl:attribute>
         <xsl:attribute name ="class">ml-5</xsl:attribute>
         <xsl:value-of select="nome"/>

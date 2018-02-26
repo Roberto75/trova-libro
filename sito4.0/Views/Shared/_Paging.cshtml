@@ -1,4 +1,9 @@
-﻿<div class="d-flex flex-row bg-light flex-nowrap">
+﻿@if (Model.PageSize == 0)
+{
+    return;
+}
+
+<div class="d-flex flex-row bg-light flex-nowrap">
 
     <div class="p-1 mr-auto  d-none d-md-block align-self-center">
         Records @(((Model.PageNumber - 1) * Model.PageSize) + 1) to

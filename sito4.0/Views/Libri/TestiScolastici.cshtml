@@ -41,7 +41,7 @@
         <div class="card-body">
             <h5 class="card-title">Superiori</h5>
             <p class="card-text">Testi scolastici per le scuole superiori.</p>
-            <a  href="@Url.Action("TestiScolasticiSuperiori")" class="card-link">Ricerca</a>
+            <a href="@Url.Action("TestiScolasticiSuperiori")" class="card-link">Ricerca</a>
         </div>
     </div>
 
@@ -49,8 +49,11 @@
     <div class="card" style="width: 18rem;">
         <div class="card-body">
             <h5 class="card-title">Altro</h5>
-            
-            <a  href="@Url.Action("TestiScolasticiAltro")" class="card-link">Ricerca</a>
+
+            <a href="@Url.Action("TestiScolasticiAltro")" class="card-link">Ricerca</a>
         </div>
     </div>
-    </div>
+</div>
+
+
+@{Html.RenderPartial("_SocialNetwork");}

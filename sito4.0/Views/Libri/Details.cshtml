@@ -111,3 +111,7 @@
 
 <a class="btn btn-secondary" href="@Url.Action("Index", "Libri")"> <i class="fa fa-search fa-fw"></i> Pagina di ricerca</a>
 <a class="btn btn-primary text-right" href="@Url.Action("Reply", "Libri", new { annuncioId = Model.libro.annuncioId })"><i class="fa fa-pencil-alt fa-fw"></i>Rispondi</a>
+
+
+
+@{Html.RenderPartial("_SocialNetwork");}

@@ -5,7 +5,14 @@
   type => changes
  -->
 
-    <release number="3.0.0.1" data="26/01/2018">
+  <release number="3.0.0.2" data="26/02/2018">
+    <item data="26/02/2018"     owner="Rutigliano"  type="bug" >
+      Gestione Googlebot nella pagina di ricerca
+    </item>
+  </release>
+
+
+  <release number="3.0.0.1" data="26/01/2018">
     <item data="23/01/2018"     owner="Rutigliano"  type="bug" >
       Gestione delle eccezioni con Global.asax
     </item>

@@ -1036,6 +1036,7 @@
     <Content Include="Views\Errors\NotAuthorized.cshtml" />
     <Content Include="Views\Errors\NotAvailable.cshtml" />
     <Content Include="Views\Libri\TestiScolastici.cshtml" />
+    <Content Include="Views\Shared\_SocialNetwork.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

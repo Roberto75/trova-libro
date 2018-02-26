@@ -130,16 +130,36 @@ namespace MyWebApplication.Controllers
 
 
         [AllowAnonymous]
-        public ActionResult Categoria(int categoriaId)
+        public ActionResult Categoria(int? id)
         {
-            Debug.WriteLine("Categoria: " + categoriaId);
+            Debug.WriteLine("Categoria: " + id);
             Annunci.Libri.Models.SearchLibri model = new Annunci.Libri.Models.SearchLibri();
 
-            if (categoriaId != -1)
+            if (id != -1)
             {
-                model.filter.categoriaId = categoriaId;
+                model.filter.categoriaId = id;
+
+                if (id >= 1130000 && id < 1140000)
+                {
+                    model.filter.categoriaId = 1130000;
+                    model.filter.subCategoriaId = id;
+                }
+
+                if (id >= 1140000 && id < 1150000)
+                {
+                    model.filter.categoriaId = 1140000;
+                    model.filter.subCategoriaId = id;
+
+                }
+
+                if (Request.Browser.Browser.Contains("AdsBot-Google") || Request.Browser.Browser.Contains("Googlebot"))
+                {
+                    model.PageSize = 0;
+                    model.PageNumber = 1;
+                }
             }
-            return RedirectToAction("Index", model);
+            //return RedirectToAction("Index", model);
+            return Index(model);
         }
 
 

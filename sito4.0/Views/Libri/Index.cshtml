@@ -7,7 +7,15 @@
 
     Layout = "~/Views/Shared/_MasterPageMobile.cshtml";
 
-    WebGrid wGrid = new WebGrid(null, rowsPerPage: Model.PageSize, canPage: false, defaultSort: Model.Sort, canSort: true);
+    WebGrid wGrid;
+    if (Model.PageSize == 0) {
+        wGrid = new WebGrid(null, rowsPerPage: Model.TotalRows, canPage: false, defaultSort: Model.Sort, canSort: false);
+    }
+    else
+    {
+        wGrid = new WebGrid(null, rowsPerPage: Model.PageSize, canPage: false, defaultSort: Model.Sort, canSort: true);
+    }
+
 
     if (Model.SortDir == "ASC")
     {
