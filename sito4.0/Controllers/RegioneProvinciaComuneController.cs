@@ -20,8 +20,14 @@ namespace MyWebApplication.Controllers
 
 
 
-        public ActionResult GetProvince(long regioneId)
+        public ActionResult GetProvince(long? regioneId)
         {
+            if (regioneId == null)
+            {
+                return Json(null, JsonRequestBehavior.AllowGet);
+            }
+
+
             MyManagerCSharp.RegioniProvinceComuniManager m = new MyManagerCSharp.RegioniProvinceComuniManager("RegioniProvinceComuni");
             m.mOpenConnection();
 
@@ -32,7 +38,7 @@ namespace MyWebApplication.Controllers
 
                 //  regioneId = int.Parse (m.getRegioneByLabel(regione).Rows[0]["id"].ToString()) ; 
 
-                dt = m.getProvince(regioneId);
+                dt = m.getProvince((long)regioneId);
             }
             finally
             {

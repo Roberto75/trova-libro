@@ -843,7 +843,9 @@
     <Content Include="Content\xml\whatsnew.xml">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Content\xsl\categorie.xsl" />
+    <Content Include="Content\xsl\categorie.xsl">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Content\xsl\faq.xsl" />
     <Content Include="Content\xsl\faq_categorie.xsl" />
     <Content Include="Content\xsl\menuLeft.xsl" />

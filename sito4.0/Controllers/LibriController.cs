@@ -90,25 +90,25 @@ namespace MyWebApplication.Controllers
                     model.filter.categoria = "Testi universitari";
                 }
 
-               /* 
-                //gestione nome categoria 
-                switch (model.filter.subCategoriaId)
-                {
-                    case 1130100:
-                        model.filter.categoria = "Testi scolastici elemetari";
-                        break;
-                    case 1130200:
-                        model.filter.categoria = "Testi scolastici medie";
-                        break;
-                    case 1130300:
-                        model.filter.categoria = "Testi scolastici superiori";
-                        break;
-                    case 1130400:
-                        model.filter.categoria = "Testi scolastici altro";
-                        break;
-                }
+                /* 
+                 //gestione nome categoria 
+                 switch (model.filter.subCategoriaId)
+                 {
+                     case 1130100:
+                         model.filter.categoria = "Testi scolastici elemetari";
+                         break;
+                     case 1130200:
+                         model.filter.categoria = "Testi scolastici medie";
+                         break;
+                     case 1130300:
+                         model.filter.categoria = "Testi scolastici superiori";
+                         break;
+                     case 1130400:
+                         model.filter.categoria = "Testi scolastici altro";
+                         break;
+                 }
 
-    */
+     */
 
             }
             finally
@@ -227,7 +227,7 @@ namespace MyWebApplication.Controllers
                 model.trattativa = manager.getTrattativa((long)id);
                 if (model.trattativa == null)
                 {
-                    return View("NotAvailable");
+                    return View("~/Views/Errors/NotAvailable.cshtml");
                 }
 
                 if (!manager.authorizeShowTrattativa(MySessionData.UserId, (long)id))
@@ -281,14 +281,19 @@ namespace MyWebApplication.Controllers
         private ActionResult AnnuncioNotFound(long? id)
         {
             string messaggio;
-            messaggio = String.Format("Annuncio con id {0} == NULL", id);
+            messaggio = String.Format("Annuncio con id {0} == NULL", id) + System.Environment.NewLine;
 
 
             messaggio += getMessageLog();
 
             MyManagerCSharp.MyException exception = new MyManagerCSharp.MyException(MyManagerCSharp.MyException.ErrorNumber.Codice_id_non_valido, messaggio);
-            TempData["MyException"] = exception;
-            return RedirectToAction("NotAvailable", "Errors");
+
+            MyLogExceptionAsync("NotAvailable", exception);
+            sendMailExceptionAsync(exception);
+
+            //TempData["MyException"] = exception;
+            //return RedirectToAction("NotAvailable", "Errors");
+            return View("~/Views/Errors/NotAvailable.cshtml");
         }
 
 
@@ -299,9 +304,7 @@ namespace MyWebApplication.Controllers
 
             if (id == null)
             {
-               
-                    return AnnuncioNotFound(id);
-                
+                return AnnuncioNotFound(id);
             }
 
 
@@ -656,27 +659,57 @@ namespace MyWebApplication.Controllers
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteExecute(long? MyId)
+        public ActionResult DeleteAnnuncioExecute(long? MyId, Annunci.AnnunciManager.StatoAnnuncio causale, String nota)
         {
 
             if (MyId == null)
             {
-                throw new MyManagerCSharp.MyException(MyManagerCSharp.MyException.ErrorNumber.ParametroNull, "DeleteExecute");
+                throw new MyManagerCSharp.MyException(MyManagerCSharp.MyException.ErrorNumber.ParametroNull, "DeleteAnnuncioExecute");
             }
 
-            Debug.WriteLine("MyAnnuncioId: " + MyId);
-
+            Debug.WriteLine("DeleteAnnuncioExecute MyAnnuncioId: " + MyId);
+            Debug.WriteLine("Causale: " + causale);
+            Debug.WriteLine("Nota: " + nota);
             try
             {
                 manager.mOpenConnection();
 
-                manager.deleteAnnuncioLogic((long)MyId, Annunci.AnnunciManager.StatoAnnuncio.Da_cancellare, Server.MapPath("~"));
 
+                Annunci.Libri.Models.Libro annuncio = manager.getLibro((long)MyId);
+                if (annuncio == null)
+                {
+                    throw new MyManagerCSharp.MyException(MyManagerCSharp.MyException.ErrorNumber.ParametroNull, "DeleteAnnuncioExecute");
+                }
+
+                //    manager.deleteAnnuncioLogic((long)MyId, Annunci.AnnunciManager.StatoAnnuncio.Da_cancellare, Server.MapPath("~"));
+                manager.deleteAnnuncioLogic((long)MyId, causale, Server.MapPath("~"));
+
+
+                System.Data.DataTable dt = manager.getEmailUtentiInTrattativa((long)MyId);
+                if (dt.Rows.Count > 0)
+                {
+                    Annunci.Libri.LibriMailMessageManager mail = new Annunci.Libri.LibriMailMessageManager(System.Configuration.ConfigurationManager.AppSettings["application.name"], System.Configuration.ConfigurationManager.AppSettings["application.url"]);
+                    mail.Subject = System.Configuration.ConfigurationManager.AppSettings["application.name"] + " - Cancellazione annuncio";
+                    mail.Body = mail.getBodyCancellaAnnuncio(annuncio.titolo, "Libri/MyTrattative");
+
+                    //MY-DEBUGG
+                    mail.Bcc(System.Configuration.ConfigurationManager.AppSettings["mail.To.Ccn"]);
+
+                    foreach (System.Data.DataRow row in dt.Rows)
+                    {
+                        mail.To(row["email"].ToString());
+                        mail.send();
+                    }
+                }
             }
             finally
             {
                 manager.mCloseConnection();
             }
+
+
+
+
 
 
             //mando un email a chi ha eseguito la cancellazione
@@ -1128,9 +1161,9 @@ namespace MyWebApplication.Controllers
 
 
 
-        
 
-            [AllowAnonymous]
+
+        [AllowAnonymous]
         public ActionResult TestiScolastici()
         {
             return View();

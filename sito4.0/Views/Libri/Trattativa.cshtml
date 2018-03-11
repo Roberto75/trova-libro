@@ -86,24 +86,26 @@ else
 
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-3">
+                        <div class="col-5 col-sm-3">
                             <h6>Utente: @r.login</h6>
                             @MyHelper.getProfileImage(Server.MapPath("~"), r.login, r.customerId)
                         </div>
 
-                        <div class="col-9">
-                            <div class="row float-right">
-                                <a role="button" class="btn btn-primary btn-sm float-right" href="@Url.Action("Reply", "Libri", new { annuncioId = r.annuncioId, trattativaId = r.trattativaId, rispostaId = r.rispostaId })">Reply<i class="fas fa-reply fa-fw"></i></a>
-                                &nbsp;
-                                <a role="button" class="btn btn-primary btn-sm" href="@Url.Action("Reply", "Libri", new { annuncioId = r.annuncioId, trattativaId = r.trattativaId, quote = r.rispostaId })">Quote<i class="fas fa-quote-right fa-fw"></i></a>
+                        <div class="col-7 col-sm-9">
+                            <div class="row">
+                                <div class="col-12 text-right">
+                                    <a role="button" class="btn btn-primary btn-sm" href="@Url.Action("Reply", "Libri", new { annuncioId = r.annuncioId, trattativaId = r.trattativaId, rispostaId = r.rispostaId })">Reply<i class="fas fa-reply fa-fw"></i></a>
+                                    &nbsp;
+                                    <a role="button" class="btn btn-primary btn-sm" href="@Url.Action("Reply", "Libri", new { annuncioId = r.annuncioId, trattativaId = r.trattativaId, quote = r.rispostaId })">Quote<i class="fas fa-quote-right fa-fw"></i></a>
+                                </div>
                             </div>
-
-                            <div style="clear:both"></div>
-
-                            <div class="row float-none">
-                                <blockquote>@Html.Raw(r.testo)</blockquote>
+                            <div class="row">
+                                <div class="col-12">
+                                    <blockquote>@Html.Raw(r.testo)</blockquote>
+                                </div>
                             </div>
                         </div>
+
                     </div>
                 </div>
             </div>

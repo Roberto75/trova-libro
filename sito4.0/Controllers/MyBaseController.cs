@@ -125,21 +125,21 @@ namespace MyWebApplication.Controllers
 
             if (MySessionData == null)
             {
-                messaggio += String.Format("Utente {0} ", "Anonymous");
+                messaggio += String.Format("Utente {0} ", "Anonymous") + System.Environment.NewLine;
             }
             else
             {
-                messaggio += String.Format("Utente {0} ", MySessionData.Login);
+                messaggio += String.Format("Utente {0} ", MySessionData.Login) + System.Environment.NewLine;
             }
 
-            messaggio += String.Format("URL {0} ", Request.Url.AbsoluteUri);
+            messaggio += String.Format("URL {0} ", Request.Url.AbsoluteUri) + System.Environment.NewLine;
 
             string referrer = "null";
             if (Request.UrlReferrer != null)
             {
                 referrer = Request.UrlReferrer.AbsoluteUri;
             }
-            messaggio += String.Format("Referrer {0} ", referrer);
+            messaggio += String.Format("Referrer {0} ", referrer) + System.Environment.NewLine;
 
             return messaggio;
         }

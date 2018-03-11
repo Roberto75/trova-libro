@@ -10,7 +10,7 @@
 <p>Le seguenti informazioni NON verrano inviate all'utente ma rimarranno nel sistema per scopi statistici.</p>
 
 
-@using (Html.BeginForm("DeleteExecute", "Libri", FormMethod.Post, new { id = "MyForm" }))
+@using (Html.BeginForm("DeleteAnnuncioExecute", "Libri", FormMethod.Post, new { id = "MyForm" }))
 {
     @Html.AntiForgeryToken()
     <p>
@@ -32,6 +32,6 @@
     <br />
 
     <a class="btn btn-secondary" href="@Url.Action("MyAnnunci", "Libri")" role="button">Annulla</a>
-    <button class="btn btn-primary" type="submit">Conferma</button>
+    <button class="btn btn-primary" type="submit"><i class="fa fa-trash fa-fw"></i>Conferma</button>
 
 }

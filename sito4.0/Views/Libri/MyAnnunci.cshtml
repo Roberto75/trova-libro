@@ -1,8 +1,8 @@
 ﻿@model Annunci.Libri.Models.SearchLibri
 @{
     ViewBag.Title = "Trova libro: I miei annunci";
-    ViewBag.Description = "Con Trova-libro puoi vendere e comprare libri usati e testi universitari. Il servizio è gratuito e senza costi di intermediazione";
-    ViewBag.Keywords = "libro usato, libri usati, libro, usati, usato, università, universitari, compro libri usati, vendo libri usati, cerco libri usati, scambio, annunci, vendo libri, cerco libri, compro vendo libri, vendo libri ";
+    ViewBag.Description = "Visualizza i tuoi annunci di vendita libri usati su Trova-libro. Il servizio è gratuito e senza costi di intermediazione";
+    ViewBag.Keywords = "annuncio libro usato, annunci libri usati, libro, usati, usato, università, universitari, compro libri usati, vendo libri usati, cerco libri usati, vendo libri ";
 
     Layout = "~/Views/Shared/_MasterPageMobile.cshtml";
     WebGrid wGrid = new WebGrid(null, rowsPerPage: Model.PageSize, defaultSort: Model.Sort, canPage: false);

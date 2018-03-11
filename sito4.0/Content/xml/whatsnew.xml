@@ -5,6 +5,16 @@
   type => changes
  -->
 
+
+  <release number="3.0.0.3" data="11/03/2018">
+    <item data="11/03/2018"     owner="Rutigliano"  type="bug" >
+      modifica AnnuncioNotFound
+    </item>
+    <item data="11/03/2018"     owner="Rutigliano"  type="bug" >
+      GetProvince con id = null
+    </item>
+  </release>
+
   <release number="3.0.0.2" data="26/02/2018">
     <item data="26/02/2018"     owner="Rutigliano"  type="bug" >
       Gestione Googlebot nella pagina di ricerca
@@ -18,7 +28,7 @@
     </item>
   </release>
 
-  
+
   <release number="3.0.0.0" data="23/01/2018">
     <item data="23/01/2018"     owner="Rutigliano"  type="bug" >
       Rilascio nuova versione in MVC con Boostrap 4
