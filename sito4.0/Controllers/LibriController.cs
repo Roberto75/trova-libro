@@ -702,6 +702,7 @@ namespace MyWebApplication.Controllers
 
                     foreach (System.Data.DataRow row in dt.Rows)
                     {
+                        Debug.WriteLine("mail to:" + row["email"].ToString());
                         mail.To(row["email"].ToString());
                         mail.send();
                     }
