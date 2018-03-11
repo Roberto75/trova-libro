@@ -450,7 +450,7 @@ namespace MyWebApplication.Controllers
                 return View(model);
             }
 
-
+            bool isOwner = true;
             if (ModelState.IsValid)
             {
                 try
@@ -469,7 +469,7 @@ namespace MyWebApplication.Controllers
                     }
 
 
-                    bool isOwner;
+
                     isOwner = manager.isOwner(annuncioId, MySessionData.UserId);
 
                     Annunci.Libri.Models.Libro libro;
@@ -518,6 +518,11 @@ namespace MyWebApplication.Controllers
             }
 
             //return RedirectToAction("Details", new { id = annuncioId });
+
+            if (isOwner)
+            {
+                return RedirectToAction("MyAnnunci");
+            }
             return RedirectToAction("MyTrattative");
         }
 
