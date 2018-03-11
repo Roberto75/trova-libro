@@ -714,10 +714,6 @@ namespace MyWebApplication.Controllers
             }
 
 
-
-
-
-
             //mando un email a chi ha eseguito la cancellazione
             if (!String.IsNullOrEmpty(MySessionData.Email))
             {

@@ -15,10 +15,10 @@
     @Html.AntiForgeryToken()
     <p>
         Specificare il motivo della cancellazione:  <select id="causale" name="causale" data-mini="true" data-inline="true">
-            <option value="">---</option>
-            <option value="@Annunci.AnnunciManager.StatoAnnuncio.Oggetto_non_piu_disponibile.ToString()">Oggetto della compravendita non più disponibile</option>
-            <option value="@Annunci.AnnunciManager.StatoAnnuncio.Concluso_con_successo.ToString()">Compravendita conclusa correttamente</option>
-            <option value="@Annunci.AnnunciManager.StatoAnnuncio.Altro.ToString()">Altro - inserire eventuali note</option>
+            <option value="@Annunci.AnnunciManager.StatoAnnuncio.Undefined">---</option>
+            <option value="@Annunci.AnnunciManager.StatoAnnuncio.Oggetto_non_piu_disponibile">Oggetto della compravendita non più disponibile</option>
+            <option value="@Annunci.AnnunciManager.StatoAnnuncio.Concluso_con_successo">Compravendita conclusa correttamente</option>
+            <option value="@Annunci.AnnunciManager.StatoAnnuncio.Altro">Altro - inserire eventuali note</option>
         </select>
     </p>
 

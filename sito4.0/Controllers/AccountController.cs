@@ -247,10 +247,15 @@ namespace MyWebApplication.Controllers
                         /** SESSIONE **/
                         MyManagerCSharp.MySessionData session = new MyManagerCSharp.MySessionData(userId);
                         session.Login = manager.getLogin(userId);
-                        session.Roles = manager.getRoles(userId);
-                        session.Profili = manager.getProfili(userId);
-                        session.Groups = manager.getGroupSmall(userId);
 
+                        Debug.WriteLine("Area: " + TempData["AREA"]);
+                        if (TempData["AREA"] != null && TempData["AREA"].ToString() == "Admin")
+                        {
+                            session.Roles = manager.getRoles(userId);
+                            session.Profili = manager.getProfili(userId);
+                            session.Groups = manager.getGroupSmall(userId);
+                        }
+                        session.Email = manager.getEmail(userId);
                         Session["MySessionData"] = session;
 
                         string temp;
