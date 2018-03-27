@@ -293,6 +293,10 @@ namespace MyWebApplication.Controllers
 
             //TempData["MyException"] = exception;
             //return RedirectToAction("NotAvailable", "Errors");
+
+            //410 Gone Indica che la risorsa richiesta non è più disponibile e non lo sarà più in futuro.
+            Response.StatusCode = 410;
+
             return View("~/Views/Errors/NotAvailable.cshtml");
         }
 

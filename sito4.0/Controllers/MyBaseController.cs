@@ -236,13 +236,18 @@ namespace MyWebApplication.Controllers
 
             MyManagerCSharp.MailMessageManager mail = new MyManagerCSharp.MailMessageManager(System.Configuration.ConfigurationManager.AppSettings["application.name"], System.Configuration.ConfigurationManager.AppSettings["application.url"]);
 
-            string temp;
-            temp = String.Format("Controller [{0}] - Action [{1}] - Url [{2}] - Refferer [{3}]", currentController, currentAction, Request.Url.AbsoluteUri, referrer);
+            string temp = "";
+            //temp += String.Format("Controller [{0}] - Action [{1}] - Url [{2}] - Refferer [{3}]", currentController, currentAction, Request.Url.AbsoluteUri, referrer);
+            temp += "<p>" + String.Format("Controller [{0}] - Action [{1}]", currentController, currentAction) + "</p>";
+
+            temp += "<p>" + String.Format("URL  [<a href=\"{0}\" target=\"_blank\">{0}</a>]", Request.Url.AbsoluteUri) + "</p>";
+            temp += "<p>" + String.Format("Referrer {0} ", referrer) + "</p>";
+
             temp += String.Format(" - Browser [{0}]", browser);
 
             if (!String.IsNullOrEmpty(messaggio))
             {
-                temp = String.Format("{0} - {1}", temp, messaggio);
+                temp += "<p>" + messaggio + "</p>";
             }
 
             mail.sendException(ex, temp);

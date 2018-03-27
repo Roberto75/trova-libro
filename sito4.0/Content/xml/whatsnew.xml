@@ -6,6 +6,18 @@
  -->
 
 
+  <release number="3.0.0.4" data="27/03/2018">
+    <item data="27/03/2018"     owner="Rutigliano"  type="bug" >
+      410 Gone Indica che la risorsa richiesta non è più disponibile e non lo sarà più in futuro.
+      Response.StatusCode = 410;
+    </item>
+
+    <item data="27/03/2018"     owner="Rutigliano"  type="bug" >
+      formattazione sendMailException
+    </item>
+
+  </release>
+
   <release number="3.0.0.3" data="11/03/2018">
     <item data="11/03/2018"     owner="Rutigliano"  type="bug" >
       modifica AnnuncioNotFound
