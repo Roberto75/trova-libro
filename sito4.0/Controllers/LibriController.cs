@@ -289,7 +289,8 @@ namespace MyWebApplication.Controllers
             MyManagerCSharp.MyException exception = new MyManagerCSharp.MyException(MyManagerCSharp.MyException.ErrorNumber.Codice_id_non_valido, messaggio);
 
             MyLogExceptionAsync("NotAvailable", exception);
-            sendMailExceptionAsync(exception);
+            //08/04/2018 Disabilito l'invio della mail ... non serve dato che sembra funzionare tutto correttamente
+            //sendMailExceptionAsync(exception);
 
             //TempData["MyException"] = exception;
             //return RedirectToAction("NotAvailable", "Errors");
