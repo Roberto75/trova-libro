@@ -887,6 +887,7 @@
     <Compile Include="Areas\Admin\Controllers\UsersController.cs" />
     <Compile Include="Areas\Admin\Models\AnnuncioDetailsModel.cs" />
     <Compile Include="Areas\Admin\Models\CheckModel.cs" />
+    <Compile Include="Areas\Admin\Models\EmailModel.cs" />
     <Compile Include="Areas\Admin\Models\LogsSummaryModel.cs" />
     <Compile Include="Areas\Admin\Models\ModelHome.cs" />
     <Compile Include="Areas\Admin\Models\MyGroupModel.cs" />
@@ -1032,6 +1033,8 @@
     <Content Include="Areas\Admin\Views\Annunci\_tabellaAnnuncio.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_ConfirmDelete.cshtml" />
     <Content Include="Content\Images\favicon\manifest.json" />
+    <Content Include="Areas\Admin\Views\Admin\Email.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\_MenuTop.cshtml" />
     <None Include="Properties\PublishProfiles\TEMP.pubxml" />
     <Content Include="Views\Errors\NotFound.cshtml" />
     <Content Include="Views\Errors\Index.cshtml" />

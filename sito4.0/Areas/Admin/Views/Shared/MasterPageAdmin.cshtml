@@ -97,41 +97,13 @@
 <body>
     <div role="document">
 
-        <div data-role="header" style="background-color: white; min-height: 60px; overflow: hidden;">
-            <span>
-                <a href="@Url.Action("Index", "Admin")" class="ui-btn-left">
-                    <img src="@Url.Content("~/Content/Images/logo.png")" height="55">
-                </a>
-            </span>
+        @Html.Partial("_MenuTop")
 
-            <div data-role="controlgroup" data-type="horizontal" style="text-align: right;">
-                @if (Request.IsAuthenticated)
-                {
-                    <a href="@Url.Action("Index", "Admin")" data-role="button">Home</a>
-                    <a href="@Url.Action("Index", "Users")" data-role="button">Utenti</a>
-                    <a href="@Url.Action("Index", "Groups")" data-role="button">Gruppi</a>
-                    <a href="@Url.Action("Summary", "Logs")" data-role="button">Logs</a>
-                    <a href="@Url.Action("Check", "Admin")" data-role="button">Check</a>
-                    <a href="@Url.Action("Index", "Annunci")" data-role="button">Annunci</a>
-                    <a href="@Url.Action("Index", "Ticket")" data-role="button">Ticket</a>
-                    <a href="@Url.Action("Index", "Queue")" data-role="button">Queue</a>
-                    <!--
-                        <a href="@Url.Action("Index", "Test")"         data-role="button"     >Test</a>
-                     -->
-                    <a href="@Url.Action("Manage", "Account")" data-role="button">@User.Identity.Name</a>
-                    <a href="@Url.Action("LogOff", "Account")" data-role="button">Log Off</a>
-                }
-            </div>
-        </div>
         <!-- /header -->
 
-        <div id="content">
-
-            <div id="main" data-role="main" class="ui-content jqm-content jqm-fullwidth">
-                @RenderBody()
-            </div>
-            <!-- /main -->
-        </div>
+        <div class="container theme-showcase" role="main">
+            @RenderBody()
+        </div> <!-- /main -->
 
         @{Html.RenderPartial("_footer");}
 
@@ -139,6 +111,6 @@
     </div>
 
     <!-- /page -->
-   
+
 </body>
 </html>

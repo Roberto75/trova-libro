@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MyWebApplication.Areas.Admin.Models;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -31,19 +32,19 @@ namespace MyWebApplication.Areas.Admin.Controllers
         {
             Debug.WriteLine("MyError:" + TempData["MyError"]);
 
-          /*  if (TempData["MyError"] != null && !String.IsNullOrEmpty(TempData["MyError"].ToString()))
-            {
-                MyManagerCSharp.Log.LogManager log = new MyManagerCSharp.Log.LogManager("DefaultConnection");
-                log.mOpenConnection();
-                try
-                {
-                    log.error(TempData["MyError"].ToString(), "AdminController.Error");
-                }
-                finally
-                {
-                    log.mCloseConnection();
-                }
-            }*/
+            /*  if (TempData["MyError"] != null && !String.IsNullOrEmpty(TempData["MyError"].ToString()))
+              {
+                  MyManagerCSharp.Log.LogManager log = new MyManagerCSharp.Log.LogManager("DefaultConnection");
+                  log.mOpenConnection();
+                  try
+                  {
+                      log.error(TempData["MyError"].ToString(), "AdminController.Error");
+                  }
+                  finally
+                  {
+                      log.mCloseConnection();
+                  }
+              }*/
             return View();
         }
 
@@ -64,6 +65,36 @@ namespace MyWebApplication.Areas.Admin.Controllers
 
 
 
+        public ActionResult Email(EmailModel model)
+        {
+            model.to = "roberto.rutigliano@gmail.com";
+            model.subject = "Test invio email";
+            model.body = "Test del " +  DateTime.Now;
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult SendEmail(EmailModel model)
+        {
+
+
+            MyManagerCSharp.MailMessageManager mail = new MyManagerCSharp.MailMessageManager(System.Configuration.ConfigurationManager.AppSettings["application.name"], System.Configuration.ConfigurationManager.AppSettings["application.url"]);
+
+            mail.Subject = model.subject;
+            mail.To(model.to);
+            mail.Body = model.body;
+
+                model.esito =  mail.send();
+
+            if (model.esito == "")
+            {
+                model.esito = "Email inviata con successo";
+            }
+
+
+            return View("Email", model);
+        }
 
         public ActionResult Whatsnew()
         {
@@ -113,7 +144,7 @@ namespace MyWebApplication.Areas.Admin.Controllers
                 }
                 model.checkList.Add(check);
 
-                
+
 
 
                 check = new MyManagerCSharp.Models.MyCheckItem();

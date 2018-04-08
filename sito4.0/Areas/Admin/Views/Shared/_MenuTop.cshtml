@@ -1,0 +1,54 @@
+﻿<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="@Url.Action("Index", "Home")"><img src="@Url.Content("~/Content/Images/LogoLibro.gif")" /></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <ul class="navbar-nav">
+            @if (Request.IsAuthenticated && Session != null && Session["MySessionData"] != null)
+            {
+                <li class="nav-item">
+                    <a class="nav-link" href="@Url.Action("Index", "Admin")">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="@Url.Action("Email", "Admin")">Email</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="@Url.Action("Index", "Users")">Utenti</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="@Url.Action("Index", "Groups")">Gruppi</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="@Url.Action("Summary", "Logs")">Logs</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="@Url.Action("Check", "Admin")">Check</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="@Url.Action("Index", "Annunci")">Annunci</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="@Url.Action("Index", "Ticket")">Ticket</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="@Url.Action("Index", "Queue")">Queue</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="@Url.Action("Manage", "Account")"><i class="fa fa-user fa-fw"></i>@User.Identity.Name</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="@Url.Action("LogOff", "Account")">Log Off</a>
+                </li>
+
+            }
+            else
+            {
+                <li class="nav-item">
+                    <a class="nav-link" href="@Url.Action("Login", "Account")">Login</a>
+                </li>
+            }
+        </ul>
+    </div>
+</nav>
