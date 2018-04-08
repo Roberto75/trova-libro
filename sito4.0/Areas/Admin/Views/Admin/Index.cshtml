@@ -7,19 +7,20 @@
 <h2>Index</h2>
 
 
-<style>
-    #main {
-        background-image: url('@Url.Content("~/Content/Images/logoPoste.jpg")');
-             background-repeat: no-repeat;
-        background-position: center;
-    }
-</style>
+
 
 
 
 <h3>Benvenuto @User.Identity.Name</h3>
 
-<p>Version: @Model.version</p>
+MyWebApplication: @Model.versionMyWebApplication
+<br />
+Annunci (C#): @Model.versionAnnunci
+<br />
+MyManagerCSharp: @Model.versionMyManagerCSharp
+<br />
+MyUsers: @Model.versionMyUsers
+<br />
 <p>MVC: @Model.versionMVC</p>
 
 

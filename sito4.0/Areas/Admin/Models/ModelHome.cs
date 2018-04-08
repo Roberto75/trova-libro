@@ -7,7 +7,12 @@ namespace MyWebApplication.Areas.Admin.Models
 {
     public class ModelHome
     {
-        public string version { get; set; }
+
+        public string versionMyWebApplication { get; set; }
+        public string versionAnnunci { get; set; }
+       // public string versionImmobiliareVb { get; set; }
+        public string versionMyManagerCSharp { get; set; }
+        public string versionMyUsers { get; set; }
         public string versionMVC { get; set; }
 
         public bool mailIsEnabled { get; set; }

@@ -22,6 +22,14 @@ namespace MyWebApplication.Areas.Admin.Controllers
             //model.versionMVC = typeof(System.Web.Mvc.Controller).Assembly.GetName().Version.ToString();
 
 
+
+            model.versionMyWebApplication = typeof(MyWebApplication.MvcApplication).Assembly.GetName().Version.ToString();
+            model.versionAnnunci = typeof(Annunci.ImmobiliareManager).Assembly.GetName().Version.ToString();
+           // model.versionImmobiliareVb = typeof(ImmobiliareVb.RevoAgent).Assembly.GetName().Version.ToString();
+            model.versionMyManagerCSharp = typeof(MyManagerCSharp.ManagerDB).Assembly.GetName().Version.ToString();
+            model.versionMyUsers = typeof(MyUsers.UserManager).Assembly.GetName().Version.ToString();
+            model.versionMVC = typeof(Controller).Assembly.GetName().Version.ToString();
+
             model.mailIsEnabled = bool.Parse(System.Configuration.ConfigurationManager.AppSettings["mail.isEnabled"]);
 
             return View(model);
