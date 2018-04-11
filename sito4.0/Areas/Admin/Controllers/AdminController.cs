@@ -25,7 +25,7 @@ namespace MyWebApplication.Areas.Admin.Controllers
 
             model.versionMyWebApplication = typeof(MyWebApplication.MvcApplication).Assembly.GetName().Version.ToString();
             model.versionAnnunci = typeof(Annunci.ImmobiliareManager).Assembly.GetName().Version.ToString();
-           // model.versionImmobiliareVb = typeof(ImmobiliareVb.RevoAgent).Assembly.GetName().Version.ToString();
+            // model.versionImmobiliareVb = typeof(ImmobiliareVb.RevoAgent).Assembly.GetName().Version.ToString();
             model.versionMyManagerCSharp = typeof(MyManagerCSharp.ManagerDB).Assembly.GetName().Version.ToString();
             model.versionMyUsers = typeof(MyUsers.UserManager).Assembly.GetName().Version.ToString();
             model.versionMVC = typeof(Controller).Assembly.GetName().Version.ToString();
@@ -72,28 +72,48 @@ namespace MyWebApplication.Areas.Admin.Controllers
         }
 
 
-
+        [AllowAnonymous]
         public ActionResult Email(EmailModel model)
         {
+
+           // model.server = System.Configuration.ConfigurationManager.AppSettings["mail.server"];
+
+            if (System.Configuration.ConfigurationManager.AppSettings["mail.server.port"] != null && !String.IsNullOrEmpty(System.Configuration.ConfigurationManager.AppSettings["mail.server.port"]))
+            {
+                model.port = int.Parse(System.Configuration.ConfigurationManager.AppSettings["mail.server.port"]);
+            }
+            else
+            {
+                model.port = 465;
+            }
+            model.server = "smtps.aruba.it";
+            model.enableSsl = true;
+            model.enableTsl = true;
+
             model.to = "roberto.rutigliano@gmail.com";
             model.subject = "Test invio email";
-            model.body = "Test del " +  DateTime.Now;
+            model.body = "Test del " + DateTime.Now;
             return View(model);
         }
 
+        [AllowAnonymous]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult SendEmail(EmailModel model)
         {
-
-
             MyManagerCSharp.MailMessageManager mail = new MyManagerCSharp.MailMessageManager(System.Configuration.ConfigurationManager.AppSettings["application.name"], System.Configuration.ConfigurationManager.AppSettings["application.url"]);
+
+            mail.MailServer = model.server;
+            mail.port = model.port;
+            mail.enableSsl = model.enableSsl;
+            mail.enableTls = model.enableTsl;
 
             mail.Subject = model.subject;
             mail.To(model.to);
             mail.Body = model.body;
 
-                model.esito =  mail.send();
+
+            model.esito = mail.send();
 
             if (model.esito == "")
             {

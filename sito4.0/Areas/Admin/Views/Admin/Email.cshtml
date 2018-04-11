@@ -9,56 +9,94 @@
 <dl class="row">
     <dt class="col-sm-3 col-6">isEnabled</dt>
     <dd class="col-sm-3 col-6">@System.Configuration.ConfigurationManager.AppSettings["mail.isEnabled"]</dd>
-
+    <!--
     <dt class="col-sm-3 col-6">Server</dt>
     <dd class="col-sm-3 col-6">@System.Configuration.ConfigurationManager.AppSettings["mail.server"]</dd>
     <dt class="col-sm-3 col-6">Port</dt>
     <dd class="col-sm-3 col-6">@System.Configuration.ConfigurationManager.AppSettings["mail.server.port"]</dd>
-
+        -->
 
     <dt class="col-sm-3 col-6">UserName</dt>
     <dd class="col-sm-3 col-6">@System.Configuration.ConfigurationManager.AppSettings["mail.server.userName"]</dd>
     <dt class="col-sm-3 col-6">Password</dt>
-    <dd class="col-sm-3 col-6">@System.Configuration.ConfigurationManager.AppSettings["mail.server.password"]</dd>
+    <dd class="col-sm-3 col-6">*******</dd>
 
 
     <dt class="col-sm-3 col-6">From</dt>
     <dd class="col-sm-3 col-6">@System.Configuration.ConfigurationManager.AppSettings["mail.From"]</dd>
-    <dt class="col-sm-3 col-6">CCN</dt>
+  <!--  <dt class="col-sm-3 col-6">CCN</dt>
     <dd class="col-sm-3 col-6">@System.Configuration.ConfigurationManager.AppSettings["mail.To.Ccn"]</dd>
+      -->
 
-
-    <dt class="col-sm-3 col-6">EnableTls</dt>
-    <dd class="col-sm-3 col-6">@System.Configuration.ConfigurationManager.AppSettings["mail.server.enableTls"]</dd>
-    <dt class="col-sm-3 col-6">EnableSsl</dt>
-    <dd class="col-sm-3 col-6">@System.Configuration.ConfigurationManager.AppSettings["mail.server.enableSsl"]</dd>
-
+    <!--
+        <dt class="col-sm-3 col-6">EnableTls</dt>
+        <dd class="col-sm-3 col-6">@System.Configuration.ConfigurationManager.AppSettings["mail.server.enableTls"]</dd>
+        <dt class="col-sm-3 col-6">EnableSsl</dt>
+        <dd class="col-sm-3 col-6">@System.Configuration.ConfigurationManager.AppSettings["mail.server.enableSsl"]</dd>
+        -->
 </dl>
 
+
+
+
+<p>
+    Se provo con questi valori NON funziona:
+</p>
+
+<ul>
+    <li>Server: smtps.aruba.it</li>
+    <li>Port: 465</li>
+    <li>enableTls: true</li>
+    <li>enableSsl: true</li>
+</ul>
 
 @using (Html.BeginForm("SendEmail", "Admin", FormMethod.Post))
 {
     @Html.AntiForgeryToken()
 
-    <div style="max-width: 500px;">
-        <div class="form-group">
 
-            <input class="form-control" placeholder="To" type="text" name="to" id="to" required value="@Model.to" />
-        </div>
-        <div class="form-group">
+    <div class="form-group">
+        <label>Server</label>
+        <input class="form-control" placeholder="Server" type="text" name="server" id="server"  value="@Model.server" />
+    </div>
 
-            <input class="form-control" placeholder="Subject" type="text" name="subject" id="subject" required value="@Model.subject" />
-        </div>
+    <div class="form-group">
+        <label>Port</label>
+        <input class="form-control" placeholder="Server" type="number" name="port" id="port"  value="@Model.port" />
+    </div>
 
-        <div class="form-group">
+
+
+    <div class="form-group">
+        <label>Enalbe TLS</label>
+        <input class="form-control" placeholder="scrivere TRUE oppure FALSE" type="text" name="enableTsl" id="enableTsl"  value="@Model.enableTsl.ToString()" />
+    </div>
+
+    <div class="form-group">
+        <label>Enalbe SSL</label>
+        <input class="form-control" placeholder="scrivere TRUE oppure FALSE" type="text" name="enableSsl" id="enableSsl"  value="@Model.enableSsl.ToString()" />
+    </div>
+
+
+    <div class="form-group">
+        <label>To</label>
+        <input class="form-control" placeholder="To" type="text" name="to" id="to" required value="@Model.to" />
+    </div>
+    <div class="form-group">
+        <label>Subject</label>
+        <input class="form-control" placeholder="Subject" type="text" name="subject" id="subject" required value="@Model.subject" />
+    </div>
+
+        <div class="form-group ">
+            <label>Body</label>
             <textarea rows="5" class="form-control" placeholder="Body" name="body" id="body">@Model.body</textarea>
         </div>
 
         <button class="btn btn-primary" type="submit"><i class="fa fa-envelope-square fa-fw"></i>Send </button>
 
-    </div>
 
-   
+
+
 }
 
 

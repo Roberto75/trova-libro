@@ -307,7 +307,18 @@ namespace MyWebApplication.Controllers
 
                 if (String.IsNullOrEmpty(returnUrl))
                 {
-                    returnUrl = Url.Action("Index", "Home");
+
+                    if (Url == null)
+                    {
+                        //UrlHelper url = new UrlHelper(HttpContext.Request.RequestContext);
+                        //returnUrl = url.Action("Index", "Home");
+                        returnUrl = "Admin/Admin/Home";
+                    }
+                    else
+                    {
+                        returnUrl = Url.Action("Index", "Home");
+                    }
+                   
                 }
                 return Redirect(returnUrl);
             }

@@ -12,6 +12,12 @@ namespace MyWebApplication.Areas.Admin.Models
         public string body { get; set; }
 
 
+        public string server { get; set; }
+        public int? port { get; set; }
+
+        public bool enableSsl { get; set; }
+        public bool enableTsl { get; set; }
+
         public string esito { get; set; }
     }
 }

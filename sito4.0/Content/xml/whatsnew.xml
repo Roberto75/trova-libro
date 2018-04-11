@@ -5,6 +5,12 @@
   type => changes
  -->
 
+  <release number="3.0.0.5" data="11/04/2018">
+    <item data="11/04/2018"     owner="Rutigliano"  type="bug" >
+      Test invio email per supporto Aruba
+    </item>
+  </release>
+  
 
   <release number="3.0.0.4" data="27/03/2018">
     <item data="27/03/2018"     owner="Rutigliano"  type="bug" >
