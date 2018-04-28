@@ -24,7 +24,9 @@ namespace MyWebApplication.Controllers
         {
             if (regioneId == null)
             {
-                return Json(null, JsonRequestBehavior.AllowGet);
+                //return Json(null, JsonRequestBehavior.AllowGet);
+                List<MyManagerCSharp.Models.MyItem> risultato = new List<MyManagerCSharp.Models.MyItem>();
+                return Json(risultato, JsonRequestBehavior.AllowGet);
             }
 
 

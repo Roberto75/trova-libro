@@ -5,12 +5,25 @@
   type => changes
  -->
 
+
+  <release number="3.0.0.6" data="21/04/2018">
+    <item data="21/04/2018"     owner="Rutigliano"  type="bug" >
+      GetProvince con id = null
+    </item>
+    <item data="21/04/2018"     owner="Rutigliano"  type="bug" >
+      upgrade boostrap 4.1.0
+    </item>
+    <item data="21/04/2018"     owner="Rutigliano"  type="bug" >
+      upgrade jquery 3.3.1
+    </item>
+  </release>
+
+
   <release number="3.0.0.5" data="11/04/2018">
     <item data="11/04/2018"     owner="Rutigliano"  type="bug" >
       Test invio email per supporto Aruba
     </item>
   </release>
-  
 
   <release number="3.0.0.4" data="27/03/2018">
     <item data="27/03/2018"     owner="Rutigliano"  type="bug" >
@@ -21,7 +34,6 @@
     <item data="27/03/2018"     owner="Rutigliano"  type="bug" >
       formattazione sendMailException
     </item>
-
   </release>
 
   <release number="3.0.0.3" data="11/03/2018">
