@@ -5,6 +5,14 @@
   type => changes
  -->
 
+
+  <release number="3.0.0.8" data="30/04/2018">
+    <item data="30/04/2018"     owner="Rutigliano"  type="bug" >
+      Categoria rimosso il controllo su Googlebot
+    </item>
+  </release>
+
+
   <release number="3.0.0.7" data="28/04/2018">
     <item data="28/04/2018"     owner="Rutigliano"  type="bug" >
       nuove icone su Manage

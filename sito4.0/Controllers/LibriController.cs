@@ -151,12 +151,13 @@ namespace MyWebApplication.Controllers
                     model.filter.subCategoriaId = id;
 
                 }
-
+                /* rimosso nella rel.  3.0.0.8 - 30/04/2018
                 if (Request.Browser.Browser.Contains("AdsBot-Google") || Request.Browser.Browser.Contains("Googlebot"))
                 {
                     model.PageSize = 0;
                     model.PageNumber = 1;
                 }
+                */
             }
             //return RedirectToAction("Index", model);
             return Index(model);
