@@ -12,22 +12,30 @@
     <dt class="col-sm-3 col-6">Tipo annuncio</dt>
     <dd class="col-sm-3 col-6">@Model.tipo</dd>
     <dt class="col-sm-3 col-6">Categoria</dt>
-    <dd class="col-sm-3 col-6">@Model.categoria</dd>
+    <dd class="col-sm-3 col-6" itemprop="genre">@Model.categoria</dd>
 
 
     <dt class="col-sm-3 col-6">Titolo</dt>
-    <dd class="col-sm-3 col-6">@Model.titolo</dd>
+    <dd class="col-sm-3 col-6" itemprop="name">@Model.titolo</dd>
     <dt class="col-sm-3 col-6">Autore</dt>
-    <dd class="col-sm-3 col-6">@MyHelper.decodeNull(Model.autore)</dd>
+    <dd class="col-sm-3 col-6" itemprop="author">@MyHelper.decodeNull(Model.autore)</dd>
 
+
+
+
+    <dt class="col-sm-3 col-6">Prezzo</dt>
+    <dd class="col-sm-3 col-6">
+        <span itemprop="offers" itemscope itemtype="http://schema.org/Offer">
+            <span itemprop="priceCurrency" content="EUR"></span>
+            <span itemprop="price">@Model.prezzo.ToString("C")</span>
+        </span>
+    </dd>
 
     <dt class="col-sm-3 col-6">Casa editrice</dt>
     <dd class="col-sm-3 col-6">@MyHelper.decodeNull(Model.casaEditrice)</dd>
-    <dt class="col-sm-3 col-6">Prezzo</dt>
-    <dd class="col-sm-3 col-6">@Model.prezzo.ToString("C")</dd>
 
     <dt class="col-sm-3 col-6">ISBN</dt>
-    <dd class="col-sm-3 col-6">@MyHelper.decodeNull(Model.isbn)</dd>
+    <dd class="col-sm-3 col-6" itemprop="isbn">@MyHelper.decodeNull(Model.isbn)</dd>
     <dt class="col-sm-3 col-6">Regione</dt>
     <dd class="col-sm-3 col-6">@MyHelper.decodeNull(Model.regione)</dd>
 

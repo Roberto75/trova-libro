@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html itemscope="" itemtype="http://schema.org/Book">
+<html itemscope itemtype="http://schema.org/WebPage">
 <head>
     <title>@ViewBag.Title</title>
     <meta name="Description" content="@ViewBag.Description" />
@@ -29,9 +29,11 @@
     <meta itemprop="name" content="www.trova-libro.it" />
     <meta itemprop="description" content="Trova-libro ti offre la possibilità di vendere, comprare e cercare gratuitamente libri usati con estrema velocità e semplicità mettendoti direttamente in contatto con il venditore" />
     <meta itemprop="image" content="https://www.trova-libro.it/Content/images/TrovaLibro.png" />
+
+
+    <meta property="og:type" content="WebPage" />
     <meta property="og:title" content="Trova-libro" />
     <meta property="og:description" content="Trova-libro ti offre la possibilità di vendere, comprare e cercare gratuitamente libri usati con estrema velocità e semplicità mettendoti direttamente in contatto con il venditore" />
-    <meta property="og:type" content="book" />
     <meta property="og:url" content="https://www.trova-libro.it/" />
     <meta property="og:image" content="https://www.trova-libro.it/Content/images/TrovaLibro.png" />
     <meta property="og:site_name" content="Trova-libro" />
@@ -60,6 +62,8 @@
 
     <link href="@Url.Content("~/Content/lightbox-2.10.0/css/lightbox.min.css")" rel="stylesheet">
     <script src="@Url.Content("~/Content/lightbox-2.10.0/js/lightbox.min.js")"></script>
+
+
 
     <!--script src="@Url.Content("~/Content/tinymce-4.3.3/tinymce.min.js")"></!--script> -->
     <!-- include summernote css/js -->
@@ -117,7 +121,7 @@
 
 
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="@Url.Action("Index", "Home")"><img src="@Url.Content("~/Content/Images/LogoLibro.gif")" /></a>
+        <a class="navbar-brand" href="@Url.Action("Index", "Home")"><img itemprop="image" src="@Url.Content("~/Content/Images/LogoLibro.gif")" /></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>

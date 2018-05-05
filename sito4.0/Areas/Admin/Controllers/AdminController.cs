@@ -72,11 +72,10 @@ namespace MyWebApplication.Areas.Admin.Controllers
         }
 
 
-        [AllowAnonymous]
         public ActionResult Email(EmailModel model)
         {
 
-           // model.server = System.Configuration.ConfigurationManager.AppSettings["mail.server"];
+            // model.server = System.Configuration.ConfigurationManager.AppSettings["mail.server"];
 
             if (System.Configuration.ConfigurationManager.AppSettings["mail.server.port"] != null && !String.IsNullOrEmpty(System.Configuration.ConfigurationManager.AppSettings["mail.server.port"]))
             {
@@ -96,7 +95,6 @@ namespace MyWebApplication.Areas.Admin.Controllers
             return View(model);
         }
 
-        [AllowAnonymous]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult SendEmail(EmailModel model)
@@ -247,11 +245,6 @@ namespace MyWebApplication.Areas.Admin.Controllers
             {
                 manager.mCloseConnection();
             }
-
-
-
-
-
 
             return View(model);
         }

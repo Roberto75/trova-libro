@@ -6,6 +6,21 @@
  -->
 
 
+
+ 
+  <release number="3.0.0.9" data="05/05/2018">
+    <item data="05/05/2018"   owner="Rutigliano"  type="bug" >
+      fix datePreviousLogin = null al primo accesso
+    </item>
+    <item data="05/05/2018"   owner="Rutigliano"  type="bug" >
+      Details http://schema.org/Book
+    </item>
+    <item data="05/05/2018"   owner="Rutigliano"  type="bug" >
+      MasterPage  http://schema.org/WebPage + itemprop="breadcrumb"
+    </item>
+  </release>
+
+
   <release number="3.0.0.8" data="30/04/2018">
     <item data="30/04/2018"     owner="Rutigliano"  type="bug" >
       Categoria rimosso il controllo su Googlebot
