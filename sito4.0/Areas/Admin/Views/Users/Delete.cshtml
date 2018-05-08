@@ -24,11 +24,9 @@
 {
     @Html.AntiForgeryToken()
 
-    <input  type="hidden" name="id" value="@Model.userId" />
-    
-    <div data-role="controlgrup" data-type="horizontal">
-        <a href="@Url.Action("Index", "Users")" class="ui-btn-inline ui-btn ui-corner-all" >Torna alla lista</a>
-        <a href="@Url.Action("Details", "Users", new { id = Model.userId })"  class="ui-btn-inline ui-btn ui-corner-all" >Annulla</a>
-        <input type="submit" value="Elimina" data-inline="true" data-icon="delete" />
-    </div>
+    <input type="hidden" name="id" value="@Model.userId" />
+
+    <a href="@Url.Action("Details", "Users", new { id = Model.userId })" class="btn btn-primary" role="button">Annulla</a>
+    <button type="submit"  class="btn btn-secondary text-right"><i class="fa fa-trash fa-fw"></i>Elimina</button>
+
 }

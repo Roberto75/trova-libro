@@ -21,8 +21,6 @@
     <dd class="col-sm-3 col-6" itemprop="author">@MyHelper.decodeNull(Model.autore)</dd>
 
 
-
-
     <dt class="col-sm-3 col-6">Prezzo</dt>
     <dd class="col-sm-3 col-6">
         <span itemprop="offers" itemscope itemtype="http://schema.org/Offer">
@@ -32,7 +30,7 @@
     </dd>
 
     <dt class="col-sm-3 col-6">Casa editrice</dt>
-    <dd class="col-sm-3 col-6">@MyHelper.decodeNull(Model.casaEditrice)</dd>
+    <dd class="col-sm-3 col-6" itemprop="publisher">@MyHelper.decodeNull(Model.casaEditrice)</dd>
 
     <dt class="col-sm-3 col-6">ISBN</dt>
     <dd class="col-sm-3 col-6" itemprop="isbn">@MyHelper.decodeNull(Model.isbn)</dd>
@@ -46,4 +44,4 @@
 
 </dl>
 
-
+<meta itemprop="bookFormat" content="Paperback" />

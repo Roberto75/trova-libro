@@ -5,11 +5,20 @@
     string temp;
 }
 
-<nav class="mt-3" aria-label="breadcrumb" itemprop="breadcrumb">
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="@Url.Action("Index","Home")">Home</a></li>
-        <li class="breadcrumb-item"><a href="@Url.Action("Index","Libri")">Ricerca</a></li>
-        <li class="breadcrumb-item active" aria-current="page">Annuncio</li>
+<nav class="mt-3" aria-label="breadcrumb">
+    <ol class="breadcrumb" itemscope itemtype="http://schema.org/BreadcrumbList">
+        <li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+            <a href="@Url.Action("Index","Home")" itemscope itemtype="http://schema.org/Thing" itemprop="item"><span itemprop="name">Home</span></a>
+            <meta itemprop="position" content="1" />
+        </li>
+        <li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+            <a href="@Url.Action("Index","Libri")" itemscope itemtype="http://schema.org/Thing" itemprop="item"><span itemprop="name">Ricerca</span></a>
+            <meta itemprop="position" content="2" />
+        </li>
+        <li class="breadcrumb-item active" aria-current="page" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+            <span itemprop="name">Annuncio</span>
+            <meta itemprop="position" content="3" />
+        </li>
     </ol>
 </nav>
 

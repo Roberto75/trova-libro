@@ -19,18 +19,7 @@ namespace MyWebApplication.Areas.Admin.Controllers
 
         public ActionResult Index(MyUsers.Models.SearchUsers model)
         {
-            if (model.Sort == "Login")
-            {
-                model.Sort = "my_login";
-            }
-            else if (model.Sort == "DateAdded")
-            {
-                model.Sort = "date_added";
-            }
-            else if (model.Sort == "DateLastLogin")
-            {
-                model.Sort = "date_last_login";
-            }
+           
             TryUpdateModel(model.filter, "filter");
 
             Debug.WriteLine(String.Format("Filtri di ricerca  Nome: {0} Email: {1}", model.filter.nome, model.filter.email));

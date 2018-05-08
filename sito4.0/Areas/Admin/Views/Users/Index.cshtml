@@ -3,7 +3,15 @@
     ViewBag.Title = "Admin: elenco utenti";
     Layout = "~/Areas/Admin/Views/Shared/MasterPageAdmin.cshtml";
 
-    WebGrid wGrid = new WebGrid(null, rowsPerPage: Model.PageSize, defaultSort: "MY_LOGIN", canPage: false);
+    WebGrid wGrid = new WebGrid(null, rowsPerPage: Model.PageSize, defaultSort: Model.Sort, canSort: true, canPage: false);
+    if (Model.SortDir == "ASC")
+    {
+        wGrid.SortDirection = SortDirection.Ascending;
+    }
+    else
+    {
+        wGrid.SortDirection = SortDirection.Descending;
+    }
     wGrid.Bind(Model.Utenti, rowCount: Model.TotalRows, autoSortAndPage: false);
 }
 
@@ -19,25 +27,25 @@
         <div class="col-md-3">
             <div class="form-group">
                 <label for="filter_login">Login:</label>
-                <input type="text" data-mini="true" data-clear-btn="true" id="filter_login" name="filter.login" value="@Model.filter.login" />
+                <input type="text" id="filter_login" name="filter.login" value="@Model.filter.login" />
             </div>
         </div>
         <div class="col-md-3">
             <div class="form-group">
                 <label for="filter_email">Email:</label>
-                <input type="text" data-mini="true" data-clear-btn="true" id="filter_email" name="filter.email" value="@Model.filter.email" />
+                <input type="text" id="filter_email" name="filter.email" value="@Model.filter.email" />
             </div>
         </div>
         <div class="col-md-3">
             <div class="form-group">
                 <label for="filter_nome">Nome:</label>
-                <input type="text" data-mini="true" data-clear-btn="true" id="filter_nome" name="filter.nome" value="@Model.filter.nome" />
+                <input type="text" id="filter_nome" name="filter.nome" value="@Model.filter.nome" />
             </div>
         </div>
         <div class="col-md-3">
             <div class="form-group">
                 <label for="filter_cognome">Cognome:</label>
-                <input type="text" data-mini="true" data-clear-btn="true" id="filter_cognome" name="filter.cognome" value="@Model.filter.cognome" />
+                <input type="text" id="filter_cognome" name="filter.cognome" value="@Model.filter.cognome" />
             </div>
         </div>
     </div>
