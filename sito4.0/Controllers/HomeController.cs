@@ -21,6 +21,16 @@ namespace MyWebApplication.Controllers
             return View();
         }
 
+        public ActionResult Cookies()
+        {
+            return View();
+        }
+
+        public ActionResult Privacy()
+        {
+            return View();
+        }
+
         public ActionResult Donazione()
         {
             return View();

@@ -1,0 +1,25 @@
+﻿
+@{
+    ViewBag.Title = "Trova-libro: cookies";
+    ViewBag.Description = "Con Trova-libro puoi vendere e comprare libri usati e testi universitari. Il servizio è gratuito e senza costi di intermediazione";
+    ViewBag.Keywords = "libro usato, libri usati, libro, usati, usato, università, universitari, compro libri usati, vendo libri usati, cerco libri usati, scambio, annunci, vendo libri, cerco libri, compro vendo libri, vendo libri ";
+
+    Layout = "~/Views/Shared/_MasterPageMobile.cshtml";
+}
+<nav class="mt-3" aria-label="breadcrumb" itemprop="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="@Url.Action("Index","Home")">Home</a></li>
+        <li class="breadcrumb-item"><a href="@Url.Action("Privacy","Home")">Privacy policy</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Cookies policy</li>
+    </ol>
+</nav>
+
+<h1>Utilizzo dei cookies</h1>
+
+
+@Html.Partial("~/Views/Account/_TestoCookies.cshtml")
+
+
+<h3>Ulteriori informazioni sulla Privacy</h3>
+
+Se desideri altre informazioni relative alla privacy ti invitiamo a consultare la nostra <a href="@Url.Action("Privacy","Home")">Privacy Policy</a>
