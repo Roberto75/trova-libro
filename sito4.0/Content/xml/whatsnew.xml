@@ -6,6 +6,11 @@
  -->
 
 
+  <release number="3.0.0.12" data="26/05/2018">
+    <item data="26/05/2018"   owner="Rutigliano"  type="bug" >
+      Rimossi i riferimenti a Facebook
+    </item>
+  </release>
 
   <release number="3.0.0.11" data="08/05/2018">
     <item data="08/05/2018"   owner="Rutigliano"  type="bug" >

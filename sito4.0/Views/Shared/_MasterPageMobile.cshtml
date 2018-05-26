@@ -22,8 +22,7 @@
     <meta name="doc-type" content="Web Page" />
     <meta name="doc-class" content="Living Document" />
     <meta name="doc-rights" content="Public Domain" />
-
-
+    
 
     <!-- Add the following three tags inside head X GOOGLE -->
     <meta itemprop="name" content="www.trova-libro.it" />
@@ -37,7 +36,7 @@
     <meta property="og:url" content="https://www.trova-libro.it/" />
     <meta property="og:image" content="https://www.trova-libro.it/Content/images/TrovaLibro.png" />
     <meta property="og:site_name" content="Trova-libro" />
-    <meta property="fb:app_id" content="333671843811239" />
+
 
 
     <!-- FAVICONS   -->
@@ -62,7 +61,6 @@
 
     <link href="@Url.Content("~/Content/lightbox-2.10.0/css/lightbox.min.css")" rel="stylesheet">
     <script src="@Url.Content("~/Content/lightbox-2.10.0/js/lightbox.min.js")"></script>
-
 
 
     <!--script src="@Url.Content("~/Content/tinymce-4.3.3/tinymce.min.js")"></!--script> -->
@@ -93,32 +91,6 @@
 </head>
 
 <body role="document">
-    <div id="fb-root"></div>
-
-    <script type="text/javascript">
-
-        window.fbAsyncInit = function () {
-            FB.init({
-                appId: '333671843811239',
-                autoLogAppEvents: true,
-                xfbml: true,
-                version: 'v2.12'
-            });
-
-            FB.AppEvents.logPageView();
-        };
-
-        (function (d, s, id) {
-            var js, fjs = d.getElementsByTagName(s)[0];
-            if (d.getElementById(id)) return;
-            js = d.createElement(s); js.id = id;
-            //js.src = "//connect.facebook.net/it_IT/all.js#xfbml=1";
-            js.src = '//connect.facebook.net/it_IT/sdk.js#xfbml=1&version=v2.11';
-            fjs.parentNode.insertBefore(js, fjs);
-        }(document, 'script', 'facebook-jssdk'));
-    </script>
-
-
 
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand" href="@Url.Action("Index", "Home")"><img itemprop="image" src="@Url.Content("~/Content/Images/LogoLibro.gif")" /></a>
@@ -163,12 +135,9 @@
 
 
     <nav class="navbar navbar-light bg-light mt-3">
-
-
         <div style="color: #C0C0C0; text-align: center; word-spacing: 30px; width:100%">
             COMPRO VENDO CERCO LIBRI USATI UNIVERSITARI SCOLASTICI SUPERIORI ACQUISTO
         </div>
-
     </nav>
     <!-- /page -->
 
