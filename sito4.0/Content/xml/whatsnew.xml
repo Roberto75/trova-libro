@@ -10,6 +10,9 @@
     <item data="26/05/2018"   owner="Rutigliano"  type="bug" >
       Rimossi i riferimenti a Facebook
     </item>
+    <item data="26/05/2018"   owner="Rutigliano"  type="bug" >
+      Privacy e cookies policy
+    </item>
   </release>
 
   <release number="3.0.0.11" data="08/05/2018">
