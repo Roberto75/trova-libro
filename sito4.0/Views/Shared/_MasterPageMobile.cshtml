@@ -22,7 +22,7 @@
     <meta name="doc-type" content="Web Page" />
     <meta name="doc-class" content="Living Document" />
     <meta name="doc-rights" content="Public Domain" />
-    
+
 
     <!-- Add the following three tags inside head X GOOGLE -->
     <meta itemprop="name" content="www.trova-libro.it" />
@@ -68,17 +68,20 @@
     <link href="//cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote-bs4.css" rel="stylesheet">
     <script src="//cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote-bs4.js"></script>
 
-    <script src="https://apis.google.com/js/platform.js" async defer></script>
 
-    <script type="text/javascript">
+    <script type="text/plain" src="https://apis.google.com/js/platform.js" async defer class="ce-script">
+    </script>
+
+
+    <script type="text/plain" class="ce-script">
         var _gaq = _gaq || [];
         _gaq.push(['_setAccount', 'UA-18792002-1']);
         _gaq.push(['_trackPageview']);
 
         (function () {
-            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
         })();
 
     </script>
@@ -90,7 +93,23 @@
     </style>
 </head>
 
+
+
 <body role="document">
+
+    <!-- Load Facebook SDK for JavaScript -->
+    <div id="fb-root"></div>
+    <script type="text/plain" class="ce-script">
+        (function (d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        //js.src = "//connect.facebook.net/it_IT/all.js#xfbml=1";
+        js.src = '//connect.facebook.net/it_IT/sdk.js#xfbml=1&version=v2.11';
+        fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+    </script>
+
 
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand" href="@Url.Action("Index", "Home")"><img itemprop="image" src="@Url.Content("~/Content/Images/LogoLibro.gif")" /></a>
@@ -135,11 +154,64 @@
 
 
     <nav class="navbar navbar-light bg-light mt-3">
+        
+            <a  href="@Url.Action("Cookies","Home")">Cookies policy</a>
+            <a href="@Url.Action("Privacy","Home")">Privacy policy</a>
+        
         <div style="color: #C0C0C0; text-align: center; word-spacing: 30px; width:100%">
             COMPRO VENDO CERCO LIBRI USATI UNIVERSITARI SCOLASTICI SUPERIORI ACQUISTO
         </div>
     </nav>
     <!-- /page -->
+    <!-- Templates -->
+    <script id="ce-banner-html" type="text/plain">
+        <div class="alert alert-warning fixed-bottom" role="alert">
+            <p>Questo sito usa i cookies solo per facilitarne il suo utilizzo aiutandoci a capire un po' meglio come lo utilizzi, migliorando di conseguenza la qualità della navigazione tua e degli altri. Se vuoi saperne di più o negare il consenso a tutti o ad alcuni cookie clicca <a href="@Url.Action("Cookies", "Home")">qui</a>. Chiudendo questo banner, scorrendo questa pagina o cliccando qualunque suo elemento acconsenti all'uso dei cookie.</p>
+            <p>
+                <a href="#" class="ce-accept btn btn-primary ">Attiva Cookies</a>
+                <a href="#" class="ce-disable btn btn-secondary ">Disabilita Cookies</a>
+            </p>
+        </div>
+    </script>
+
+
+
+    <script src="@Url.Content("~/Content/js/cookies-enabler.js")"></script>
+
+    <script type="text/javascript">
+        COOKIES_ENABLER.init({
+            scriptClass: 'ce-script',
+            iframeClass: 'ce-iframe',
+
+            acceptClass: 'ce-accept',
+            dismissClass: 'ce-dismiss',
+            disableClass: 'ce-disable',
+
+            bannerClass: 'ce-banner',
+
+
+            eventScroll: false,
+            scrollOffset: 200,
+
+            clickOutside: true,
+
+            cookieName: 'ce-cookie',
+            cookieDuration: '10',
+            wildcardDomain: false,
+
+            iframesPlaceholder: true,
+            iframesPlaceholderHTML:
+                '<p>To view this content you need to'
+                    + '<a href="#" class="ce-accept">Enable Cookies</a>'
+                + '</p>',
+            iframesPlaceholderClass: 'ce-iframe-placeholder',
+
+            // Callbacks
+            onEnable: '',
+            onDismiss: '',
+            onDisable: ''
+        });
+    </script>
 
 </body>
 </html>
