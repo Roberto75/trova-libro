@@ -30,6 +30,57 @@
 
 
 <p><a class="btn btn-secondary" href="@Url.Action("ChangePassword")"><i class="fa fa-key fa-fw"></i> Modifica password</a></p>
-
-
 <p><a class="btn btn-secondary" href="@Url.Action("Create","Libri")"><i class="fa fa-book fa-fw"></i> Nuovo annuncio</a></p>
+<p><a class="btn btn-secondary" href="@Url.Action("Cookies","Home")">Cookies policy</a></p>
+<p><a class="btn btn-secondary" href="@Url.Action("Privacy","Home")">Privacy policy</a></p>
+
+
+
+<p><button id="btnAttivaCookie" class="btn btn-primary invisible" onclick="attivaCookiesOnClick()">Attiva Cookies</button></p>
+<!--<p><button class="btn btn-secondary" onclick="disattivaCookiesOnClick()">Disabilita Cookies</button></p>-->
+
+<script>
+
+    function attivaCookiesOnClick() {
+        console.log("attivaCookiesOnClick");
+        let cookie = Cookies.get('ce-cookie');
+        if (cookie = 'N') {
+            Cookies.remove('ce-cookie');
+            $("#btnAttivaCookie").addClass('invisible');
+        }
+    }
+    function disattivaCookiesOnClick() {
+        console.log("disattivaCookiesOnClick");
+        let cookie = Cookies.get('ce-cookie')
+        console.log(cookie);
+        if (cookie = 'Y') {
+            Cookies.remove('ce-cookie');
+        }
+
+    }
+    function listCookies() {
+        console.log("listCookies");
+        let theCookies = document.cookie.split(';');
+        //let aString = '';
+        let cookie;
+        for (let i = 1 ; i <= theCookies.length; i++) {
+            cookie = theCookies[i - 1];
+            //aString = i + ' ' + theCookies[i - 1] + "\n";
+            console.log(cookie);
+        }
+    }
+    function checkCookies() {
+        console.log("checkCookies");
+        let cookie = Cookies.get('ce-cookie');
+        console.log("ce-cookie: " + cookie);
+        if (cookie != undefined && cookie === 'N') {
+            //Cookies.remove('ce-cookie');
+            $("#btnAttivaCookie").removeClass('invisible');
+
+        }
+    }
+    //listCookies();
+
+    checkCookies();
+
+</script>

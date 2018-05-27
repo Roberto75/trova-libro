@@ -68,6 +68,8 @@
     <link href="//cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote-bs4.css" rel="stylesheet">
     <script src="//cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote-bs4.js"></script>
 
+    <script src="//cdnjs.cloudflare.com/ajax/libs/js-cookie/2.2.0/js.cookie.min.js"></script>
+  
 
     <script type="text/plain" src="https://apis.google.com/js/platform.js" async defer class="ce-script">
     </script>
@@ -154,10 +156,10 @@
 
 
     <nav class="navbar navbar-light bg-light mt-3">
-        
-            <a  href="@Url.Action("Cookies","Home")">Cookies policy</a>
-            <a href="@Url.Action("Privacy","Home")">Privacy policy</a>
-        
+
+        <a href="@Url.Action("Cookies","Home")">Cookies policy</a>
+        <a href="@Url.Action("Privacy","Home")">Privacy policy</a>
+
         <div style="color: #C0C0C0; text-align: center; word-spacing: 30px; width:100%">
             COMPRO VENDO CERCO LIBRI USATI UNIVERSITARI SCOLASTICI SUPERIORI ACQUISTO
         </div>
@@ -166,10 +168,10 @@
     <!-- Templates -->
     <script id="ce-banner-html" type="text/plain">
         <div class="alert alert-warning fixed-bottom" role="alert">
-            <p>Questo sito usa i cookies solo per facilitarne il suo utilizzo aiutandoci a capire un po' meglio come lo utilizzi, migliorando di conseguenza la qualità della navigazione tua e degli altri. Se vuoi saperne di più o negare il consenso a tutti o ad alcuni cookie clicca <a href="@Url.Action("Cookies", "Home")">qui</a>. Chiudendo questo banner, scorrendo questa pagina o cliccando qualunque suo elemento acconsenti all'uso dei cookie.</p>
+            <p>Questo sito usa i cookies solo per facilitarne il suo utilizzo aiutandoci a capire un po' meglio come lo utilizzi.
+             Se vuoi saperne di più sulla Policy dei Cookies clicca <a href="@Url.Action("Cookies", "Home")">qui</a>.</p>
             <p>
-                <a href="#" class="ce-accept btn btn-primary ">Attiva Cookies</a>
-                <a href="#" class="ce-disable btn btn-secondary ">Disabilita Cookies</a>
+                <a href="#" class="ce-accept btn btn-primary">Attiva Cookies</a>
             </p>
         </div>
     </script>
