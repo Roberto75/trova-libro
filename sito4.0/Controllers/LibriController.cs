@@ -30,6 +30,7 @@ namespace MyWebApplication.Controllers
 
             if (Request.HttpMethod.ToString() == "GET" && Session[SESSSION_FILTER_SEARCH] != null && Request.UrlReferrer != null
                 && Request.UrlReferrer.LocalPath.IndexOf("/Libri/TestiScolastici") == -1
+                  && Request.UrlReferrer.LocalPath.IndexOf("/Libri/Details") == -1
                 && Request.UrlReferrer.LocalPath != "/Libri/Categorie")
             {
                 model = (Session[SESSSION_FILTER_SEARCH] as Annunci.Libri.Models.SearchLibri);
@@ -356,12 +357,15 @@ namespace MyWebApplication.Controllers
 
             string temp = "";
 
-            temp = String.IsNullOrEmpty(model.libro.titolo) ? "" : model.libro.titolo;
-            temp += String.IsNullOrEmpty(model.libro.autore) ? "" : "," + model.libro.autore;
-            temp += String.IsNullOrEmpty(model.libro.isbn) ? "" : ", ISBN " + model.libro.isbn;
+            temp = String.IsNullOrEmpty(model.libro.titolo) ? "Titolo: " : model.libro.titolo;
+            temp += String.IsNullOrEmpty(model.libro.autore) ? "" : ", Autore: " + model.libro.autore;
+            temp += String.IsNullOrEmpty(model.libro.isbn) ? "" : ", ISBN: " + model.libro.isbn;
+            temp += String.IsNullOrEmpty(model.libro.categoria) ? "" : ", Categoria: " + model.libro.categoria;
+            temp += String.IsNullOrEmpty(model.libro.casaEditrice) ? "" : ", Casa editrice: " + model.libro.casaEditrice;
 
-            ViewBag.Title = String.Format("{0} libro {1}", model.libro.tipo, temp);
-            ViewBag.Description = String.Format("{0}, libro usato, {1}", model.libro.tipo, temp);
+            //ViewBag.Title = String.Format("{0} libro {1} ", model.libro.tipo, temp);
+            ViewBag.Title = String.Format("Trova-libro: {0} libro {1}", model.libro.tipo, model.libro.titolo);
+            ViewBag.Description = String.Format("{0} libro: {1}", model.libro.tipo, temp);
             ViewBag.Keywords = String.Format("{0}, libro, libro usato, {1}", model.libro.tipo, temp);
 
             return View(model);

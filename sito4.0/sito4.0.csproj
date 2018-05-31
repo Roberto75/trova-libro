@@ -206,6 +206,7 @@
     <Content Include="Content\Images\LogoInserimentoAnnuncio.gif" />
     <Content Include="Content\Images\LogoInserimentoAnnuncio_f2.gif" />
     <Content Include="Content\Images\LogoLibro.gif" />
+    <Content Include="Content\Images\LogoLibro.png" />
     <Content Include="Content\Images\LogoLibro120x60_ANI.gif" />
     <Content Include="Content\Images\logoLibro468x60_ANI.gif" />
     <Content Include="Content\Images\LogoLink.gif" />
@@ -218,6 +219,7 @@
     <Content Include="Content\Images\logo_entra.gif" />
     <Content Include="Content\Images\logo_svelenati.gif" />
     <Content Include="Content\Images\logo_trova-libro.gif" />
+    <Content Include="Content\Images\logo_trova-libro.png" />
     <Content Include="Content\Images\marker.gif" />
     <Content Include="Content\Images\menu1.gif" />
     <Content Include="Content\Images\menu1top.gif" />
@@ -870,6 +872,7 @@
     <Content Include="sitemap.xml">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="trovalibro.html" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>

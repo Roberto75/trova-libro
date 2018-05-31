@@ -4,6 +4,11 @@
     System.IO.FileInfo fi;
     string temp;
 }
+<meta property="og:title" content="@Model.libro.titolo" />
+<meta property="og:type" content="book" />
+<meta property="og:url" content="https://www.trova-libro.it/Libri/Details/@Model.libro.annuncioId" />
+
+
 
 <nav class="mt-3" aria-label="breadcrumb">
     <ol class="breadcrumb" itemscope itemtype="http://schema.org/BreadcrumbList">
@@ -15,10 +20,12 @@
             <a href="@Url.Action("Index","Libri")" itemscope itemtype="http://schema.org/Thing" itemprop="item"><span itemprop="name">Ricerca</span></a>
             <meta itemprop="position" content="2" />
         </li>
-        <li class="breadcrumb-item active" aria-current="page" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
-            <span itemprop="name">Annuncio</span>
+        <li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+            <a href="@Url.Action("Categoria","Libri", new { id = Model.libro.categoriaId })" itemscope itemtype="http://schema.org/Thing" itemprop="item"><span itemprop="name">@Model.libro.categoria</span></a>
             <meta itemprop="position" content="3" />
         </li>
+        <li class="breadcrumb-item active" aria-current="page">Libro</li>
+
     </ol>
 </nav>
 

@@ -8,6 +8,22 @@
     Layout = "~/Views/Shared/_MasterPageMobile.cshtml";
 }
 
+
+
+    <meta itemprop="name" content="www.trova-libro.it" />
+    <meta itemprop="description" content="Con Trova-libro puoi vendere e comprare libri usati e testi universitari. Il servizio è gratuito e senza costi di intermediazione" />
+    <meta itemprop="image" content="https://www.trova-libro.it/Content/images/TrovaLibro.png" />
+
+    <meta property="og:type" content="WebPage" />
+    <meta property="og:title" content="Trova-libro" />
+    <meta property="og:description" content="Trova-libro ti offre la possibilità di vendere, comprare e cercare gratuitamente libri usati con estrema velocità e semplicità mettendoti direttamente in contatto con il venditore" />
+    <meta property="og:url" content="https://www.trova-libro.it/" />
+    <meta property="og:image" content="https://www.trova-libro.it/Content/images/TrovaLibro.png" />
+    <meta property="og:site_name" content="Trova-libro" />
+
+
+
+
 <h1>Benvenuto su Trova-libro</h1>
 <div class="float-right"><img src="@Url.Content("~/Content/Images/libri1_128x128.gif")" alt="Trova-libro" /></div>
 
@@ -39,6 +55,6 @@
     <a href="mailto:@System.Configuration.ConfigurationManager.AppSettings["mail.webmaster"]">@System.Configuration.ConfigurationManager.AppSettings["mail.webmaster"]</a>
 </p>
  
-<img class="mx-auto d-block img-fluid" src="@Url.Content("~/Content/Images/logo_trova-libro.gif")" />
+<img class="mx-auto d-block img-fluid" src="@Url.Content("~/Content/Images/logo_trova-libro.png")" />
 
 @{Html.RenderPartial("_SocialNetwork");}
