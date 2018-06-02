@@ -1,7 +1,7 @@
 ﻿<script type="text/javascript">
 
     function comboRegioneOnChange(e) {
-        console.log("comboRegioneOnChange", e);
+        //console.log("comboRegioneOnChange", e);
         //let selected = $(this).find("option:selected").val();
         let selectedValue = $(this).val();
         //var selectedText = $(this).find(":selected").text();
@@ -31,11 +31,12 @@
     }
 
     function comboProvinciaOnChange(e) {
-        console.log("comboProvinciaOnChange", e);
-        //let selected = $(this).find("option:selected").val();
+        //console.log("comboProvinciaOnChange", e);
+        
         let selectedValue = $(this).val();
-        //var selectedText = $(this).find(":selected").text();
+        let selectedText = $(this).find(":selected").text();
         console.log("comboProvinciaOnChange selectedValue:" + selectedValue);
+        console.log("comboProvinciaOnChange selectedText:" + selectedText);
 
         $('#comboComune').empty();
         $('#comboComune').append($('<option />', { value: "", text: "---" }));
@@ -49,10 +50,16 @@
   
             $.each(dati, function (index, item) {
                 //console.log(item.Value)
-                $('#comboComune').append($('<option />', { value: item.value, text: item.text }));
+                if (item.text === selectedText) {
+                    console.log("TROVATO il comune uguale alla provincia");
+                    $('#comboComune').append($('<option />', { value: item.value, text: item.text , selected: true}));
+                } else {
+                    $('#comboComune').append($('<option />', { value: item.value, text: item.text }));
+                }
+                
             });
-
         });
+
     }
 
 </script>

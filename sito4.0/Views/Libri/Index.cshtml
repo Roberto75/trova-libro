@@ -14,12 +14,13 @@
     }
 
 
-    ViewBag.Keywords = "libro usato "  + (Model.filter.categoria == null ? "" : ": " + Model.filter.categoria) +", libri usati " + (Model.filter.categoria == null ? "" : ": " + Model.filter.categoria) + ", libro, usati, usato, università, universitari, compro libri usati, vendo libri usati, cerco libri usati, scambio, annunci, vendo libri, cerco libri, compro vendo libri, vendo libri " + (Model.filter.categoria == null ? "" : ": " + Model.filter.categoria);
+    ViewBag.Keywords = "libro usato " + (Model.filter.categoria == null ? "" : ": " + Model.filter.categoria) + ", libri usati " + (Model.filter.categoria == null ? "" : ": " + Model.filter.categoria) + ", libro, usati, usato, università, universitari, compro libri usati, vendo libri usati, cerco libri usati, scambio, annunci, vendo libri, cerco libri, compro vendo libri, vendo libri " + (Model.filter.categoria == null ? "" : ": " + Model.filter.categoria);
 
     Layout = "~/Views/Shared/_MasterPageMobile.cshtml";
 
     WebGrid wGrid;
-    if (Model.PageSize == 0) {
+    if (Model.PageSize == 0)
+    {
         wGrid = new WebGrid(null, rowsPerPage: Model.TotalRows, canPage: false, defaultSort: Model.Sort, canSort: false);
     }
     else
@@ -37,18 +38,18 @@
         wGrid.SortDirection = SortDirection.Descending;
     }
     wGrid.Bind(Model.Libri, rowCount: Model.TotalRows, autoSortAndPage: false);
-    //wGrid.SortFieldName = "login";
 
-    Debug.WriteLine(String.Format("wGrid  sort {0} - dir {1} - {2}", wGrid.SortColumn, wGrid.SortDirection, wGrid.SortDirectionFieldName));
-    Debug.WriteLine(String.Format("Model  sort {0} - dir {1}", Model.Sort, Model.SortDir));
-    //@(Model.collapseShow== 1 ? "show":"")
+
+    //Debug.WriteLine(String.Format("wGrid  sort {0} - dir {1} - {2}", wGrid.SortColumn, wGrid.SortDirection, wGrid.SortDirectionFieldName));
+    //Debug.WriteLine(String.Format("Model  sort {0} - dir {1}", Model.Sort, Model.SortDir));
+
 }
 
 <nav class="mt-3" aria-label="breadcrumb" itemprop="breadcrumb">
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="@Url.Action("Index","Home")">Home</a></li>
         <li class="breadcrumb-item active" aria-current="page">Ricerca</li>
-      </ol>
+    </ol>
 </nav>
 <h1>Ricerca <small>@(Model.filter.categoria == null ? "" : Model.filter.categoria.ToLower())</small></h1>
 
