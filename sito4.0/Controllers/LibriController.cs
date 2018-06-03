@@ -27,12 +27,12 @@ namespace MyWebApplication.Controllers
         [AllowAnonymous]
         public ActionResult Index(Annunci.Libri.Models.SearchLibri model)
         {
-            Debug.WriteLine("HttpMethod: " + Request.HttpMethod.ToString());
-            Debug.WriteLine("UrlReferrer: " + Request.UrlReferrer.LocalPath);
+            Debug.WriteLine("HttpMethod: " + (Request.HttpMethod == null ? "NULL" : Request.HttpMethod.ToString()));
+            Debug.WriteLine("UrlReferrer: " + (Request.UrlReferrer == null || Request.UrlReferrer.LocalPath == null ? "NULL" : Request.UrlReferrer.LocalPath));
 
             if (Request.HttpMethod.ToString() == "GET" && Session[SESSSION_FILTER_SEARCH] != null && Request.UrlReferrer != null
                 && Request.UrlReferrer.LocalPath.IndexOf("/Libri/TestiScolastici") == -1
-                  //&& Request.UrlReferrer.LocalPath.IndexOf("/Libri/Details") == -1
+                //&& Request.UrlReferrer.LocalPath.IndexOf("/Libri/Details") == -1
                 && Request.UrlReferrer.LocalPath != "/Libri/Categorie")
             {
                 model = (Session[SESSSION_FILTER_SEARCH] as Annunci.Libri.Models.SearchLibri);
@@ -135,12 +135,16 @@ namespace MyWebApplication.Controllers
         [AllowAnonymous]
         public ActionResult Categoria(int? id)
         {
-            Debug.WriteLine("HttpMethod: " + Request.HttpMethod.ToString());
-            Debug.WriteLine("UrlReferrer: " + Request.UrlReferrer.LocalPath);
+            Debug.WriteLine("HttpMethod: " + (Request.HttpMethod == null ? "NULL" : Request.HttpMethod.ToString()));
+            Debug.WriteLine("UrlReferrer: " +( Request.UrlReferrer == null || Request.UrlReferrer.LocalPath == null ? "NULL" : Request.UrlReferrer.LocalPath));
             Debug.WriteLine("Categoria: " + id);
 
             Annunci.Libri.Models.SearchLibri model;
             model = (Session[SESSSION_FILTER_SEARCH] as Annunci.Libri.Models.SearchLibri);
+            if (model == null)
+            {
+                model = new Annunci.Libri.Models.SearchLibri();
+            }
 
             if (id != -1)
             {
