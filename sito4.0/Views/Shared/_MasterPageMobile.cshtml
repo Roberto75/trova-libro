@@ -19,13 +19,10 @@
 
     <meta name="rating" content="Safe For Kids" />
     <meta name="revisit-after" content="1 days" />
-    
+
     <meta name="doc-rights" content="Public Domain" />
 
-
-
-
-
+    <link rel="alternate" hreflang="it" href="https://www.trova-libro.it" />
 
     <!-- FAVICONS   -->
     <link rel="apple-touch-icon" sizes="120x120" href="@Url.Content("~/Content/Images/favicon/apple-touch-icon.png")" />
@@ -57,10 +54,9 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote-bs4.js"></script>
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/js-cookie/2.2.0/js.cookie.min.js"></script>
-  
 
-    <script type="text/plain" src="https://apis.google.com/js/platform.js" async defer class="ce-script">
-    </script>
+
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
 
 
     <script type="text/plain" class="ce-script">
@@ -153,17 +149,19 @@
         </div>
     </nav>
     <!-- /page -->
+
     <!-- Templates -->
     <script id="ce-banner-html" type="text/plain">
         <div class="alert alert-warning fixed-bottom" role="alert">
-            <p>Questo sito usa i cookies solo per facilitarne il suo utilizzo aiutandoci a capire un po' meglio come lo utilizzi.
-             Se vuoi saperne di più sulla Policy dei Cookies clicca <a href="@Url.Action("Cookies", "Home")">qui</a>.</p>
+            <p>
+                Questo sito usa i cookies solo per facilitarne il suo utilizzo aiutandoci a capire un po' meglio come lo utilizzi.
+                Se vuoi saperne di più sulla Policy dei Cookies clicca <a href="@Url.Action("Cookies", "Home")">qui</a>.
+            </p>
             <p>
                 <a href="#" class="ce-accept btn btn-primary">Attiva Cookies</a>
             </p>
         </div>
     </script>
-
 
 
     <script src="@Url.Content("~/Content/js/cookies-enabler.js")"></script>

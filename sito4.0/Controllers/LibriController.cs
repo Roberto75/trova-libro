@@ -136,7 +136,7 @@ namespace MyWebApplication.Controllers
         public ActionResult Categoria(int? id)
         {
             Debug.WriteLine("HttpMethod: " + (Request.HttpMethod == null ? "NULL" : Request.HttpMethod.ToString()));
-            Debug.WriteLine("UrlReferrer: " +( Request.UrlReferrer == null || Request.UrlReferrer.LocalPath == null ? "NULL" : Request.UrlReferrer.LocalPath));
+            Debug.WriteLine("UrlReferrer: " + (Request.UrlReferrer == null || Request.UrlReferrer.LocalPath == null ? "NULL" : Request.UrlReferrer.LocalPath));
             Debug.WriteLine("Categoria: " + id);
 
             Annunci.Libri.Models.SearchLibri model;
@@ -376,9 +376,12 @@ namespace MyWebApplication.Controllers
             temp += String.IsNullOrEmpty(model.libro.casaEditrice) ? "" : ", Casa editrice: " + model.libro.casaEditrice;
 
             //ViewBag.Title = String.Format("{0} libro {1} ", model.libro.tipo, temp);
-            ViewBag.Title = String.Format("Trova-libro: {0} libro {1}", model.libro.tipo, model.libro.titolo);
-            ViewBag.Description = String.Format("{0} libro: {1}", model.libro.tipo, temp);
-            ViewBag.Keywords = String.Format("{0}, libro, libro usato, {1}", model.libro.tipo, temp);
+            //ViewBag.Title = String.Format("Trova-libro: {0} libro {1}", model.libro.tipo, model.libro.titolo);
+
+            //09/06/2018 tolgo Vendo, Compro, Scambio 
+            ViewBag.Title = String.Format("Trova-libro: {0}", model.libro.titolo);
+            ViewBag.Description = String.Format("{1} libro usato: {0}",  temp, model.libro.tipo);
+            ViewBag.Keywords = String.Format("vendo libro, libro usato, {0}", temp.Replace(":",""));
 
             return View(model);
         }

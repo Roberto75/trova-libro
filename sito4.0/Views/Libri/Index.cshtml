@@ -1,16 +1,16 @@
 ﻿@using System.Diagnostics;
 @model Annunci.Libri.Models.SearchLibri
 @{
-    ViewBag.Title = "Ricerca libri usati" + (Model.filter.categoria == null ? "" : ": " + Model.filter.categoria);
+    ViewBag.Title = "Trova-libro: ricerca libri " + (Model.filter.categoria == null ? "" : " categoria: " + Model.filter.categoria);
     //ViewBag.Description = "Trova-libro ti offre la possibilità di cercare gratuitamente libri e testi universitari con estrema velocità e semplicità mettendoti direttamente in contatto con il venditore";
 
     if (Model.filter.categoria == null)
     {
-        ViewBag.Description = "Ricerca libri e testi universitari usati tra tutte le categorie presenti su Trova-libro ";
+        ViewBag.Description = "Ricerca libri e testi universitari usati tra tutte le categorie presenti";
     }
     else
     {
-        ViewBag.Description = "Ricerca libri usati nella categoria " + Model.filter.categoria;
+        ViewBag.Description = "Ricerca libri usati: categoria " + Model.filter.categoria;
     }
 
 

@@ -5,12 +5,22 @@
   type => changes
  -->
 
+
+
+
+  <release number="3.0.0.14" data="09/06/2018">
+    <item data="09/06/2018"   owner="Rutigliano"  type="bug" >
+      hreflang
+    </item>
+  </release>
+
+
   <release number="3.0.0.13" data="02/06/2018">
     <item data="02/06/2018"   owner="Rutigliano"  type="bug" >
       combo del comune = a quella della provincia
     </item>
   </release>
-  
+
   <release number="3.0.0.12" data="26/05/2018">
     <item data="26/05/2018"   owner="Rutigliano"  type="bug" >
       Rimossi i riferimenti a Facebook
