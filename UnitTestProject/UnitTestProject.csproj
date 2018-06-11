@@ -54,12 +54,17 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="CryptAndDecrypt.cs" />
     <Compile Include="DataBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RegioneProvinciaComune.cs" />
     <Compile Include="TestEmail.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\MyFramework4.5\MyAnnunciManager\MyAnnunci.csproj">
+      <Project>{5c5c908f-04c5-49a5-b9f2-6cfc686981c6}</Project>
+      <Name>MyAnnunci</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\MyFramework4.5\MyManagerCSharp\MyManagerCSharp.csproj">
       <Project>{1cfb1797-36c1-4887-b980-747fcc81d6a1}</Project>
       <Name>MyManagerCSharp</Name>

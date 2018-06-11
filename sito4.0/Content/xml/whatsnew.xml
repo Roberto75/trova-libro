@@ -6,6 +6,11 @@
  -->
 
 
+  <release number="3.0.0.15" data="11/06/2018">
+    <item data="11/06/2018"   owner="Rutigliano"  type="bug" >
+      crypt credenziali email
+    </item>
+  </release>
 
 
   <release number="3.0.0.14" data="09/06/2018">

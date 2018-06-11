@@ -83,11 +83,13 @@ namespace MyWebApplication.Areas.Admin.Controllers
             }
             else
             {
-                model.port = 465;
+                //model.port = 465;
+                model.port = 25;
             }
-            model.server = "smtps.aruba.it";
-            model.enableSsl = true;
-            model.enableTsl = true;
+            //model.server = "smtps.aruba.it";
+            model.server = "smtp.trova-libro.it";
+            model.enableSsl = false;
+            model.enableTsl = false;
 
             model.to = "roberto.rutigliano@gmail.com";
             model.subject = "Test invio email";
@@ -99,7 +101,8 @@ namespace MyWebApplication.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult SendEmail(EmailModel model)
         {
-            MyManagerCSharp.MailMessageManager mail = new MyManagerCSharp.MailMessageManager(System.Configuration.ConfigurationManager.AppSettings["application.name"], System.Configuration.ConfigurationManager.AppSettings["application.url"]);
+            //MyManagerCSharp.MailMessageManager mail = new MyManagerCSharp.MailMessageManager(System.Configuration.ConfigurationManager.AppSettings["application.name"], System.Configuration.ConfigurationManager.AppSettings["application.url"]);
+            Annunci.Libri.LibriMailMessageManager mail = new Annunci.Libri.LibriMailMessageManager(System.Configuration.ConfigurationManager.AppSettings["application.name"], System.Configuration.ConfigurationManager.AppSettings["application.url"]);
 
             mail.MailServer = model.server;
             mail.port = model.port;

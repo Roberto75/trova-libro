@@ -234,7 +234,8 @@ namespace MyWebApplication.Controllers
                 browser = String.Format("{0} IsMobileDevice {1}", Request.Browser.Browser, Request.Browser.IsMobileDevice); ;
             }
 
-            MyManagerCSharp.MailMessageManager mail = new MyManagerCSharp.MailMessageManager(System.Configuration.ConfigurationManager.AppSettings["application.name"], System.Configuration.ConfigurationManager.AppSettings["application.url"]);
+            //MyManagerCSharp.MailMessageManager mail = new MyManagerCSharp.MailMessageManager(System.Configuration.ConfigurationManager.AppSettings["application.name"], System.Configuration.ConfigurationManager.AppSettings["application.url"]);
+            Annunci.Libri.LibriMailMessageManager mail = new Annunci.Libri.LibriMailMessageManager(System.Configuration.ConfigurationManager.AppSettings["application.name"], System.Configuration.ConfigurationManager.AppSettings["application.url"]);
 
             string temp = "";
             //temp += String.Format("Controller [{0}] - Action [{1}] - Url [{2}] - Refferer [{3}]", currentController, currentAction, Request.Url.AbsoluteUri, referrer);
