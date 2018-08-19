@@ -611,6 +611,15 @@ namespace MyWebApplication.Controllers
                 ModelState.AddModelError("", "Il titolo è un campo obbligatorio");
             }
 
+            if (model.libro.titolo != null && model.libro.titolo.Length > 150)
+            {
+                ModelState.AddModelError("", "Il titolo deve essere minore di 150 caratteri");
+            }
+
+            if (model.libro.isbn != null && model.libro.isbn.Length > 50)
+            {
+                ModelState.AddModelError("", "ISBN deve essere minore di 50 caratteri");
+            }
 
             if (!ModelState.IsValid)
             {
@@ -624,8 +633,9 @@ namespace MyWebApplication.Controllers
                 return View(model);
             }
 
+            Debug.WriteLine("ISBN: " + model.libro.isbn);
+            Debug.WriteLine("CasaEditrice: " + model.libro.casaEditrice);
             Debug.WriteLine("Nota: " + model.libro.nota);
-
 
             manager.mOpenConnection();
             long annuncioId;
