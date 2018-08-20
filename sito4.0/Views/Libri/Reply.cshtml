@@ -38,7 +38,19 @@
     $(document).ready(function () {
         //tinymce.init({            mode: "exact",            elements: "nota",            encoding: "xml"        });
 
-        $('#nota').summernote({ tabsize: 2, height: 300 });
+        // $('#nota').summernote({ tabsize: 2, height: 300 });
+        $('#nota').summernote({
+            tabsize: 2, height: 300,
+            toolbar: [
+              // [groupName, [list of button]]
+              ['style', ['bold', 'italic', 'underline', 'clear']],
+              ['font', ['strikethrough', 'superscript', 'subscript']],
+              ['fontsize', ['fontsize']],
+              ['color', ['color']],
+              ['para', ['ul', 'ol', 'paragraph']],
+              ['height', ['height']]
+            ]
+        });
 
     });
 

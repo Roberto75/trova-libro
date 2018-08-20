@@ -67,7 +67,7 @@
                     @Html.AntiForgeryToken()
 
                     <label>Prezzo attuale € @Model.libro.prezzo.ToString("N2")</label>
-                    
+
                     <div data-role="fieldcontain">
                         <label for="nuovoPrezzo">Nuovo valore (nel seguente formato: 12345,00) €:</label>
                         <input type="number" id="nuovoPrezzo" name="nuovoPrezzo" pattern="[0-9]+([,\.][0-9]+)?" required="required" step="0.01" min="0" value="@Model.libro.prezzo.ToString("N2").Replace(".", "").Replace(",", ".")" />
@@ -98,7 +98,7 @@
             <textarea name="nota" id="nota">@Model.libro.nota</textarea>
 
             <br />
-                    <input type="hidden" name="annuncioId" value="@Model.libro.annuncioId" />
+            <input type="hidden" name="annuncioId" value="@Model.libro.annuncioId" />
                     <input type="submit" value="Modifica la nota" class="btn btn-primary float-right" onclick="return confirm('Tutti gli utenti in trattativa con questo annuncio verranno notificati della modifica tramite un messaggio email. Confermare la modifica?')" />
         }
 
@@ -131,7 +131,19 @@
 
 <script type="text/javascript">
     //tinymce.init({ mode: "exact", elements: "nota", encoding: "xml" });
-    $('#nota').summernote({ tabsize: 2, height: 200 });
+    //$('#nota').summernote({ tabsize: 2, height: 200 });
+    $('#nota').summernote({
+        tabsize: 2, height: 200,
+        toolbar: [
+          // [groupName, [list of button]]
+          ['style', ['bold', 'italic', 'underline', 'clear']],
+          ['font', ['strikethrough', 'superscript', 'subscript']],
+          ['fontsize', ['fontsize']],
+          ['color', ['color']],
+          ['para', ['ul', 'ol', 'paragraph']],
+          ['height', ['height']]
+        ]
+    });
 </script>
 
 
