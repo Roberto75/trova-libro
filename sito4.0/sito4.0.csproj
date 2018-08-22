@@ -939,6 +939,7 @@
       <DependentUpon>ricerca.aspx</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountModels.cs" />
+    <Compile Include="Models\ChangeEmailModel.cs" />
     <Compile Include="Models\ChangePasswordModel.cs" />
     <Compile Include="Models\CreateModel.cs" />
     <Compile Include="Models\DetailsModel.cs" />
@@ -1051,6 +1052,8 @@
     <Content Include="Views\Account\_TestoPrivacy.cshtml" />
     <Content Include="Views\Account\_CookiesOLD.cshtml" />
     <Content Include="Views\Account\_TestoCookies.cshtml" />
+    <Content Include="Views\Account\ChangeEmail.cshtml" />
+    <Content Include="Views\Account\ConfirmEmail.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

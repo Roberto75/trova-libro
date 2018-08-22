@@ -318,7 +318,7 @@ namespace MyWebApplication.Controllers
                     {
                         returnUrl = Url.Action("Index", "Home");
                     }
-                   
+
                 }
                 return Redirect(returnUrl);
             }
@@ -1098,5 +1098,179 @@ namespace MyWebApplication.Controllers
             }
         }
         #endregion
+
+
+
+        public ActionResult ChangeEmail()
+        {
+            ChangeEmailModel model = new ChangeEmailModel();
+            model.isCompleted = false;
+            return View(model);
+        }
+
+
+        [HttpPost]
+        public ActionResult ChangeEmail(ChangeEmailModel model)
+        {
+             
+            if (model.newEmail.Trim() != model.newEmailConfirm.Trim())
+            {
+                ModelState.AddModelError("", "I due indirizzi email inseriti non corrispondono");
+            }
+
+            if (!RegularExpressionManager.isValidEmail(model.newEmail.Trim()))
+            {
+                ModelState.AddModelError("", "Indirizzo email non valido");
+            }
+
+
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+
+            string codiceAttivazioneEmail;
+            MyUsers.Models.MyUser utente = null;
+            try
+            {
+                manager.mOpenConnection();
+
+                utente = manager.getUser(MySessionData.UserId);
+                if (utente == null)
+                {
+                    throw new MyException("utente non trovato: " + MySessionData.UserId);
+                }
+
+                codiceAttivazioneEmail = manager.updateEmailChanging(MySessionData.UserId, model.newEmail.Trim());
+
+                
+            }
+            finally
+            {
+                manager.mCloseConnection();
+            }
+
+
+
+            if (utente != null)
+            {
+                Annunci.Libri.LibriMailMessageManager mail = new Annunci.Libri.LibriMailMessageManager(System.Configuration.ConfigurationManager.AppSettings["application.url"], System.Configuration.ConfigurationManager.AppSettings["application.name"]);
+                mail.Subject = System.Configuration.ConfigurationManager.AppSettings["application.name"] + " - Conferma indirizzo email";
+
+                //MY-DEBUGG
+                if (!String.IsNullOrEmpty(System.Configuration.ConfigurationManager.AppSettings["mail.To.Ccn"]))
+                {
+                    mail.Bcc(System.Configuration.ConfigurationManager.AppSettings["mail.To.Ccn"]);
+                }
+
+
+                mail.Body = mail.getBodyUpdateEmail(utente.nome, utente.cognome, codiceAttivazioneEmail, MyManagerCSharp.MailMessageManager.Lingua.IT);
+
+                try
+                {
+                    mail.To(model.newEmail.Trim());
+                    mail.send();
+                }
+                catch (Exception ex)
+                {
+                    sendMailExceptionAsync(ex, "Errore durante l'invio della mail per Modifica indirizzo email: " + model.newEmail.Trim() + " - login: " + utente.login);
+                }
+
+            }
+
+            model.isCompleted = true;
+
+            return View(model);
+        }
+
+        // [AllowAnonymous]
+        public ActionResult ConfirmEmail(String id)
+        {
+            Debug.WriteLine("Codice attivazione: " + id);
+            if (String.IsNullOrEmpty(id))
+            {
+                ModelState.AddModelError("", "Codice di attivazione non valido");
+            }
+
+
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+
+            string newEmail;
+
+            try
+            {
+                manager.mOpenConnection();
+
+                newEmail = manager.getNewEmailChanging(id, MySessionData.UserId);
+                Debug.WriteLine("newEmail: " + newEmail);
+                if (String.IsNullOrEmpty(newEmail))
+                {
+                    ModelState.AddModelError("", "Codice di attivazione non valido");
+                    return View();
+                }
+
+                manager.updateEmailChanged(MySessionData.UserId, newEmail);
+
+               
+            }
+            finally
+            {
+                manager.mCloseConnection();
+            }
+
+
+            // aggiorno la email in sessione
+            MySessionData.Email = newEmail.Trim();
+
+            /*
+            If CBool(System.Configuration.ConfigurationManager.AppSettings("mercatino.isEnabled")) Then
+                      Dim manager As New MyManager.MercatinoManager()
+
+                      Try
+
+                          manager.openConnection()
+                          manager.updateEmail(userId, newEmail)
+
+                      Catch ex As Exception
+
+                          MyManager.MailManager.send(ex)
+
+                      Finally
+                          manager.closeConnection()
+                      End Try
+                  End If
+
+
+
+                  If CBool(System.Configuration.ConfigurationManager.AppSettings("forum.isEnabled")) Then
+                      Dim manager As New MyManager.ForumManager()
+                      Try
+
+                          manager.openConnection()
+                          manager.updateEmail(userId, newEmail)
+
+                      Catch ex As Exception
+                          MyManager.MailManager.send(ex)
+
+                      Finally
+
+                          manager.closeConnection()
+
+                      End Try
+
+                  End If
+*/
+
+
+
+            return View();
+        }
+
+
+
     }
 }
