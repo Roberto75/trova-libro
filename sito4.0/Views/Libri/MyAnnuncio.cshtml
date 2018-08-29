@@ -51,7 +51,7 @@
                 {
                     @Html.AntiForgeryToken()
                     <input type="hidden" name="annuncioId" value="@Model.libro.annuncioId" />
-                    <input type="button" class="btn btn-primary float-right" value="Reset del contatore parziale" onclick="javascript: MyAsyncReset();" />
+                    <input type="button" class="btn btn-primary float-right" value="Reset del contatore parziale" onclick="javascript: MyAsyncResetPopup();" />
                 }
             </div>
         </div>
@@ -74,7 +74,7 @@
                     </div>
 
                     <input type="hidden" name="annuncioId" value="@Model.libro.annuncioId" />
-                    <input type="submit" class="btn btn-primary float-right" value="Modifica il prezzo" onclick="return updatePrezzo();" />
+                    <input type="button" class="btn btn-primary float-right" value="Modifica il prezzo" onclick="updatePrezzoPopup();" />
                 }
             </div>
         </div>
@@ -99,7 +99,7 @@
 
             <br />
             <input type="hidden" name="annuncioId" value="@Model.libro.annuncioId" />
-                    <input type="submit" value="Modifica la nota" class="btn btn-primary float-right" onclick="return confirm('Tutti gli utenti in trattativa con questo annuncio verranno notificati della modifica tramite un messaggio email. Confermare la modifica?')" />
+            <input type="button" value="Modifica la descrizione" class="btn btn-primary float-right" onclick="updateNotaPopup()" />
         }
 
     </div>
@@ -156,45 +156,85 @@
 
 <script type="text/javascript">
 
+    function MyAsyncResetPopup() {
+        console.log("MyAsyncResetPopup");
+        $("#confirmReset").modal('show');
+    }
+
+    //
+    function confirmResetConfirmOnClick() {
+        console.log("confirmResetConfirmOnClick");
+        MyAsyncReset();
+        $("#confirmReset").modal('hide');
+    }
+
     function MyAsyncReset() {
+        console.log("MyAsyncReset");
 
-        if (confirm("Confermare l'azzeramento del contatore parziale?")) {
-            //alert("MyAsyncReset");
-            var data = $('#MyFormResetContatore').serialize();
 
-            $.post('@Url.Action("ResetContatore", "Libri")', data, function (risposta) {
-                //alert("Risposta: " + risposta.esito);
-                if (risposta.esito == "Success") {
-                    // alert("Risposta: " + risposta.esito);
-                    $("#contatoreParziale").text("0");
-                }
-            });
-        }
+        //   if (confirm("Confermare l'azzeramento del contatore parziale?")) {
+        //alert("MyAsyncReset");
+        var data = $('#MyFormResetContatore').serialize();
+
+        $.post('@Url.Action("ResetContatore", "Libri")', data, function (risposta) {
+            //alert("Risposta: " + risposta.esito);
+            if (risposta.esito == "Success") {
+                // alert("Risposta: " + risposta.esito);
+                $("#contatoreParziale").text("0");
+            }
+        });
+        // }
+
+
     }
 
 
-    function updatePrezzo() {
-        // alert("updatePrezzo" + isNaN(parseFloat($("#nuovoPrezzo").val())));
-
+    function updatePrezzoPopup() {
+        console.log("updatePrezzoPopup");
         if (isNaN(parseFloat($("#nuovoPrezzo").val()))) {
             alert("Fomato non corretto. Es: 1234,00");
             return false;
         }
+        $("#confirmPezzo").modal('show');
 
-        var num;
+    }
+
+    function confirmPezzoConfirmOnClick() {
+        console.log("confirmPezzoConfirmOnClick");
+        let num;
         num = parseFloat($("#nuovoPrezzo").val()).toFixed(2);
 
-
-        var messaggio;
+        let messaggio;
         messaggio = "Nuovo importo: " + num.replace(".", ",") + '\n\r';
+        console.log(messaggio);
 
-        if (!confirm(messaggio + 'Tutti gli utenti in trattativa con questo annuncio verranno notificati della modifica tramite un messaggio email. Confermare la modifica?')) {
-            return false;
-        }
 
         $("#nuovoPrezzo").val(num);
+        $("#MyFormUpdatePrezzo").submit();
 
-        return true;
+        //$("#confirmPezzo").modal('hide');
     }
+
+
+    function updateNotaPopup() {
+        console.log("updateNotaPopup");
+        $("#confirmNota").modal('show');
+    }
+
+    function confirmNotaConfirmOnClick() {
+        console.log("confirmNotaConfirmOnClick");
+        $("#MyFormUpdateNota").submit();
+    }
+
 </script>
 
+
+@{ Html.RenderPartial("_ConfirmPopup", new ViewDataDictionary { { "ID", "confirmReset" }, { "title", "Reset del contatore" } }); }
+
+
+
+@{ Html.RenderPartial("_ConfirmPopup", new ViewDataDictionary { { "ID", "confirmPezzo" }, { "title", "Modifica del prezzo" }, { "body" , "Tutti gli utenti in trattativa con questo annuncio verranno notificati della modifica tramite un messaggio email. Confermare la modifica?" } }); }
+
+
+
+@{ Html.RenderPartial("_ConfirmPopup", new ViewDataDictionary { { "ID", "confirmNota" }, { "title", "Modifica della descrizione" }, { "body", "Tutti gli utenti in trattativa con questo annuncio verranno notificati della modifica tramite un messaggio email. Confermare la modifica?" } }); }

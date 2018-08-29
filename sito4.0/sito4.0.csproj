@@ -1054,6 +1054,8 @@
     <Content Include="Views\Account\_TestoCookies.cshtml" />
     <Content Include="Views\Account\ChangeEmail.cshtml" />
     <Content Include="Views\Account\ConfirmEmail.cshtml" />
+    <Content Include="Views\Shared\_ConfirmPopup.cshtml" />
+    <Content Include="Views\Shared\_ConfirmDelete.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
