@@ -649,7 +649,7 @@ namespace MyWebApplication.Controllers
             }
 
             //*** EMAIL ***
-            Annunci.Libri.LibriMailMessageManager mail = new Annunci.Libri.LibriMailMessageManager(System.Configuration.ConfigurationManager.AppSettings["application.url"], System.Configuration.ConfigurationManager.AppSettings["application.name"]);
+            Annunci.Libri.LibriMailMessageManager mail = new Annunci.Libri.LibriMailMessageManager(System.Configuration.ConfigurationManager.AppSettings["application.name"], System.Configuration.ConfigurationManager.AppSettings["application.url"]);
             mail.Subject = System.Configuration.ConfigurationManager.AppSettings["application.name"] + " - Nuovo annuncio";
             mail.Body = mail.getBodyInserimentoNuovoAnnuncio(annuncioId, model.libro.titolo, String.Format("Libri/Details/{0}", annuncioId));
             mail.To(MySessionData.Email);
