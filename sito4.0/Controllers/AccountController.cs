@@ -1105,6 +1105,9 @@ namespace MyWebApplication.Controllers
         {
             ChangeEmailModel model = new ChangeEmailModel();
             model.isCompleted = false;
+
+            model.emailAttuale = MySessionData.Email;
+
             return View(model);
         }
 
@@ -1155,7 +1158,7 @@ namespace MyWebApplication.Controllers
 
             if (utente != null)
             {
-                Annunci.Libri.LibriMailMessageManager mail = new Annunci.Libri.LibriMailMessageManager(System.Configuration.ConfigurationManager.AppSettings["application.url"], System.Configuration.ConfigurationManager.AppSettings["application.name"]);
+                Annunci.Libri.LibriMailMessageManager mail = new Annunci.Libri.LibriMailMessageManager(System.Configuration.ConfigurationManager.AppSettings["application.name"], System.Configuration.ConfigurationManager.AppSettings["application.url"]);
                 mail.Subject = System.Configuration.ConfigurationManager.AppSettings["application.name"] + " - Conferma indirizzo email";
 
                 //MY-DEBUGG

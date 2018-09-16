@@ -6,7 +6,17 @@
 
 <h2>Modifica indirizzo email</h2>
 
-<p>Operazione conclusa con successo <img src="@Url.Content("~/Content/Images/Shared/ok.png")" border="0" alt="Passed" style="margin-top:1em;margin-left:1em;" /></p>
-<p>Abbiamo aggiornato il tuo indirizzo email</p>
+@Html.Partial("_MyValidationSummary", ViewData.ModelState)
 
-<p>Tutte le notifiche future saranno mandate a questo indirizzo email</p>
+@{
+    if ( ((ModelStateDictionary) ViewData.ModelState).IsValid)
+    {
+        <p>Operazione conclusa con successo <img src="@Url.Content("~/Content/Images/Shared/ok.png")" border="0" alt="Passed" style="margin-top:1em;margin-left:1em;" /></p>
+
+        <p>Abbiamo aggiornato il tuo indirizzo email.</p>
+
+        <p>Tutte le notifiche future saranno mandate a questo indirizzo email: <b>@((Session["MySessionData"] as MyManagerCSharp.MySessionData).Email)</b></p>
+
+    }
+
+}

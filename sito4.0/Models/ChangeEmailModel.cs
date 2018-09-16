@@ -7,6 +7,8 @@ namespace MyWebApplication.Models
 {
     public class ChangeEmailModel
     {
+        public string emailAttuale { get; set; }
+
         public string newEmail { get; set; }
         public string newEmailConfirm { get; set; }
 

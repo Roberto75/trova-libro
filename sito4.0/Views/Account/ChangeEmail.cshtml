@@ -4,16 +4,17 @@
 }
 
 <h2>Modifica indirizzo email</h2>
-<p></p>
-
 
 @if (Model.isCompleted)
 {
-    <p>Abbimamo inviato una mail al nuovo indirizzo</p>
+    <p>Abbiamo inviato una mail al nuovo indirizzo: <b>@Model.newEmail</b></p>
     <p>Accedi alla casella email e clicca sul link che ti abbiamo inviato per confermare l'indirizzo</p>
 }
 else
 {
+
+    <p>Il tuo attuale indirizzo email è: <b>@Model.emailAttuale</b></p>
+
     using (Html.BeginForm("ChangeEmail", "Account", FormMethod.Post))
     {
         @Html.AntiForgeryToken()
