@@ -11,7 +11,6 @@ namespace MyWebApplication.Models
         public long annuncioId { get; set; }
         public long trattativaId { get; set; }
         public long rispostaId { get; set; }
-
         public string replyTo { get; set; }
         public Annunci.Libri.Models.Libro annuncio { get; set; }
         [AllowHtml]

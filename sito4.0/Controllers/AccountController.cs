@@ -452,7 +452,6 @@ namespace MyWebApplication.Controllers
         {
             if (!ModelState.IsValid)
             {
-                //ModelState.AddModelError("", "Login o email errati");
                 model.carattariConsentiti = PasswordManager.PASSWORD_CHARS_SPECIAL;
                 model.catatteriVietati = PasswordManager.PASSWORD_CHARS_SPECIAL_DENY;
                 return View(model);
