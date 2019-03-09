@@ -5,6 +5,14 @@
   type => changes
  -->
 
+  <release number="3.0.0.17" data="09/03/2019">
+    <item data="09/03/2019"   owner="Rutigliano"  type="changes" >
+      fix Upload di una foto per un annuncio
+    </item>
+    <item data="09/03/2019"   owner="Rutigliano"  type="changes" >
+      messaggio di conferma prima di cancellare una photo dall’annuncio
+    </item>
+  </release>
 
   <release number="3.0.0.16" data="16/09/2018">
     <item data="11/09/2018"     owner="Rutigliano"  type="changes" >

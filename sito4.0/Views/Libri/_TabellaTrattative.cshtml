@@ -8,14 +8,14 @@
 }
 else
 {
-    <table id="MyTable" class="table table-striped table-hover">
+    <table id="MyTable" class="table table-striped table-hover table-responsive">
         <thead class="thead-light">
             <tr>
+                <th>Info</th>
                 <th>Data inserimento</th>
                 <th>Utente</th>
                 <th>Stato</th>
                 <th>Risposte</th>
-                <th>Info</th>
                 <th>Cancella</th>
             </tr>
         </thead>
@@ -26,14 +26,13 @@ else
             {
 
                 <tr>
+                    <td><a href="@(Url.Action("Trattativa") + "/" + i.trattativaId)"><i class="fa fa-info"></i></a></td>
                     <td>@i.dateAdded.ToShortDateString()</td>
                     <td>@i.login</td>
                     <td>@i.stato</td>
                     <td>@((ViewData["hashtableRisposte"] as System.Collections.Hashtable)[i.trattativaId])</td>
-                    <td><a href="@(Url.Action("Trattativa") + "/" + i.trattativaId)"><i class="fa fa-info"></i></a></td>
                     <td><a href="javascript:deleteRow('@i.trattativaId');"><i class="fa fa-trash"></i></a></td>
                 </tr>
-
             }
         </tbody>
     </table>
@@ -41,18 +40,29 @@ else
 }
 
 
+
 @using (Html.BeginForm("DeleteTrattativa", "Libri", FormMethod.Post, new { id = "MyForm" }))
 {
     @Html.AntiForgeryToken()
     <input type="hidden" id="trattativaId" name="trattativaId" />
+
+    { Html.RenderPartial("_ConfirmDelete", new ViewDataDictionary { { "ID", "confirmDeleteTrattativa" }, { "title", "Cancellazione trattativa" } }); }
+
 }
 
 
 <script type="text/javascript">
+
+
+
     function deleteRow(id) {
-        // alert("deleteRow: " + id);
+        console.log("deleteRow: " + id);
+        $("#trattativaId").val(id);
+
+        $("#confirmDeleteTrattativa").modal('show');
 
 
+       
 
         //<td><a href="javascript:deleteRow('i.immobileId');" data-role="button" data-iconpos="notext" data-inline="true" data-theme="b" data-icon="delete">Delete</a></td>
 
@@ -73,8 +83,8 @@ else
         //});
         //$.mobile.changePage("#myDialog");
         //if (window.confirm("Confermare l'operazione")) {
-        $("#trattativaId").val(id);
-        $("#MyForm").submit();
+        // $("#trattativaId").val(id);
+        //$("#MyForm").submit();
         //}
 
     }

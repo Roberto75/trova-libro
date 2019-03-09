@@ -16,7 +16,7 @@
 
 <br />
 <div id="MyGalleryEdit">
-    <table class="table table-bordered mt-3">
+    <table class="table table-bordered mt-3 table-responsive">
         <tbody>
 
             @foreach (Annunci.Models.MyPhoto p in Model.photos)
@@ -28,14 +28,15 @@
                 {
                     <tr>
                         <td class="align-middle">@conta</td>
-                        <td>
-                            <a href="@p.Path" data-lightbox="gallery" >
-                                <img src="@p.Path" alt="@p.Note" />
-                            </a>
-                        </td>
                         <td class="align-middle" style="width:10em">
                             <button class="btn btn-warning" disabled>Delete <i class="fa fa-trash"></i></button>
                         </td>
+                        <td>
+                            <a href="@p.Path" data-lightbox="gallery">
+                                <img src="@p.Path" alt="@p.Note" />
+                            </a>
+                        </td>
+
                     </tr>
 
                 }
@@ -56,28 +57,30 @@
 
                         <tr>
                             <td class="align-middle">@conta</td>
+                            <td class="align-middle" style="width:10em">
+                                <button class="btn btn-warning" onclick="javascript:MyDeleteAsyncPopup('@p.PhotoId')">Delete <i class="fa fa-trash"></i></button>
+                            </td>
                             <td>
                                 <a href="@Url.Content(p.Path)" data-lightbox="gallery">
                                     <img src="@Url.Content(temp)" alt="@p.Note" />
                                 </a>
                             </td>
-                            <td class="align-middle" style="width:10em">
-                                <button class="btn btn-warning" onclick="javascript:MyDeleteAsync('@p.PhotoId')">Delete <i class="fa fa-trash"></i></button>
-                            </td>
+
                         </tr>
                     }
                     else
                     {
                         <tr>
                             <td class="align-middle">@conta</td>
+                            <td class="align-middle" style="width:10em">
+                                <button class="btn btn-warning" onclick="javascript:MyDeleteAsyncPopup('@p.PhotoId')">Delete <i class="fa fa-trash"></i></button>
+                            </td>
                             <td>
                                 <a href="#">
                                     <img src="@Url.Content("~/Content/Images/Shared/unavailable.jpg")" alt="Immagine non disponibile" width="120" height="120" />
                                 </a>
                             </td>
-                            <td class="align-middle" style="width:10em">
-                                <button class="btn btn-warning" onclick="javascript:MyDeleteAsync('@p.PhotoId')">Delete <i class="fa fa-trash"></i></button>
-                            </td>
+
                         </tr>
                     }
                 }
@@ -124,6 +127,12 @@
     </div>
 </div>
 
+<input type="hidden" id="imageToBeDeleted" value="" />
+
+
+@{ Html.RenderPartial("_ConfirmPopup", new ViewDataDictionary { { "ID", "confirmDeletePhoto" }, { "title", "Cancellazione immangine" } }); }
+
+
 
 <script src="@Url.Content("~/Content/js/jquery.form-3.51.js")"></script>
 
@@ -136,8 +145,26 @@
 
     });
 
+    function MyDeleteAsyncPopup(id) {
+        console.log("MyDeleteAsyncPopup" + id);
+        $("#imageToBeDeleted").val(id);
+        $("#confirmDeletePhoto").modal('show');
+    }
+
+
+
+    function confirmDeletePhotoConfirmOnClick(){
+        console.log("confirmDeletePhotoConfirmOnClick");
+        $("#confirmDeletePhoto").modal('hide');
+        let id = $("#imageToBeDeleted").val();
+        MyDeleteAsync(id);
+    }
+
+
+
     function MyDeleteAsync(id) {
         console.log("MyDeleteAsync: " + id);
+
         $.post("@(Url.Action("DeleteImage","Libri") + "/")" + id,
              function (data) {
                  //alert("data: " + data.esito);
@@ -223,10 +250,6 @@
             // $('#MyGalleryEdit').trigger('create');
         });
     }
-
-
-
-
 
 
 
