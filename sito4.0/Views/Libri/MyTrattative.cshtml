@@ -72,8 +72,8 @@ else
                     <td>@t.login</td>
                     <td>@t.tipoAnnuncio</td>
                     <td>@t.prezzo.ToString("C")</td>
-                    <td><a class="btn btn-info btn-sm" title="Detagli" href="@(Url.Action("Trattativa", "Libri") + "/" + t.trattativaId)"><i class="fa fa-info"></i></a></td>
-                    <td><button class="btn btn-info btn-sm" title="Cancella" type="button" onclick="deleteOnClick(@t.trattativaId)"><i class="fa fa-trash"></i></button></td>
+                    <td><a class="btn btn-secondary btn-sm" title="Detagli" href="@(Url.Action("Trattativa", "Libri") + "/" + t.trattativaId)"><i class="fa fa-info"></i></a></td>
+                    <td><button class="btn btn-secondary btn-sm" title="Cancella" type="button" onclick="deleteOnClick(@t.trattativaId)"><i class="fa fa-trash"></i></button></td>
                 </tr>
 
             }
@@ -107,7 +107,7 @@ else
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="deleteModal">Cancellazione</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -122,7 +122,7 @@ else
                 <input type="hidden" id="trattativaId" name="trattativaId" />
 
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
                     <button type="submit" class="btn btn-primary">Si <i class="fa fa-trash fa-fw"></i></button>
                 </div>
             }

@@ -56,7 +56,7 @@
 <form action="@Url.Action("Index", "Libri")" method="post" class="form-horizontal" id="MyForm">
 
 
-    <button class="btn btn-info" type="button" data-toggle="collapse" data-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">
+    <button class="btn btn-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">
         <i class="fa fa-bars fa-fw"></i>Filtri <span class="badge badge-light">@Model.countFilter()</span>
     </button>
 
@@ -257,14 +257,14 @@
         setComboCategoria(@Model.filter.categoriaId);
         setComboSubCategoria(@Model.filter.subCategoriaId);
 
-
-        $('#collapseFilter').on('hidden.bs.collapse', function () {
+    
+        document.getElementById('collapseFilter').addEventListener('hidden.bs.collapse', function () {
             console.log("collapseFilter hide");
             $("#collapseShow").val(0);
         })
 
 
-        $('#collapseFilter').on('shown.bs.collapse', function () {
+        document.getElementById('collapseFilter').addEventListener('shown.bs.collapse', function () {
             console.log("collapseFilter show");
             $("#collapseShow").val(1);
         })

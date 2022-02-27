@@ -19,11 +19,11 @@
 
 
 <ul class="nav nav-tabs" id="myTab" role="tablist">
-    <li class="nav-item"><a href="#tab-1" id="tab-1-tab" class="nav-link active" role="tab" data-toggle="tab" aria-controls="tab-1" aria-selected="true">Info</a></li>
-    <li class="nav-item"><a href="#tab-2" id="tab-2-tab" class="nav-link" role="tab" data-toggle="tab" aria-controls="tab-2" aria-selected="false">Click & Prezzo</a></li>
-    <li class="nav-item"><a href="#tab-3" id="tab-3-tab" class="nav-link" role="tab" data-toggle="tab" aria-controls="tab-3" aria-selected="false">Trattative</a></li>
-    <li class="nav-item"><a href="#tab-4" id="tab-4-tab" class="nav-link" role="tab" data-toggle="tab" aria-controls="tab-4" aria-selected="false">Descrizione</a></li>
-    <li class="nav-item"><a href="#tab-5" id="tab-5-tab" class="nav-link" role="tab" data-toggle="tab" aria-controls="tab-5" aria-selected="false">Photo</a></li>
+    <li class="nav-item"><a href="#tab-1" id="tab-1-tab" class="nav-link active" role="tab" data-bs-toggle="tab" aria-controls="tab-1" aria-selected="true">Info</a></li>
+    <li class="nav-item"><a href="#tab-2" id="tab-2-tab" class="nav-link" role="tab" data-bs-toggle="tab" aria-controls="tab-2" aria-selected="false">Click & Prezzo</a></li>
+    <li class="nav-item"><a href="#tab-3" id="tab-3-tab" class="nav-link" role="tab" data-bs-toggle="tab" aria-controls="tab-3" aria-selected="false">Trattative</a></li>
+    <li class="nav-item"><a href="#tab-4" id="tab-4-tab" class="nav-link" role="tab" data-bs-toggle="tab" aria-controls="tab-4" aria-selected="false">Descrizione</a></li>
+    <li class="nav-item"><a href="#tab-5" id="tab-5-tab" class="nav-link" role="tab" data-bs-toggle="tab" aria-controls="tab-5" aria-selected="false">Photo</a></li>
 </ul>
 
 
@@ -93,9 +93,9 @@
 
 
         @using (Html.BeginForm("UpdateNota", "Libri", FormMethod.Post, new { id = "MyFormUpdateNota" }))
-            {
+        {
             @Html.AntiForgeryToken()
-            <textarea name="nota" id="nota">@Model.libro.nota</textarea>
+            <textarea class="summernote" name="nota" id="nota">@Model.libro.nota</textarea>
 
             <br />
             <input type="hidden" name="annuncioId" value="@Model.libro.annuncioId" />
@@ -132,18 +132,24 @@
 <script type="text/javascript">
     //tinymce.init({ mode: "exact", elements: "nota", encoding: "xml" });
     //$('#nota').summernote({ tabsize: 2, height: 200 });
-    $('#nota').summernote({
-        tabsize: 2, height: 200,
-        toolbar: [
-          // [groupName, [list of button]]
-          ['style', ['bold', 'italic', 'underline', 'clear']],
-          ['font', ['strikethrough', 'superscript', 'subscript']],
-          ['fontsize', ['fontsize']],
-          ['color', ['color']],
-          ['para', ['ul', 'ol', 'paragraph']],
-          ['height', ['height']]
-        ]
+
+    $(document).ready(function () {
+        $('#nota').summernote({
+            tabsize: 2, height: 200,
+            toolbar: [
+                // [groupName, [list of button]]
+                ['style', ['bold', 'italic', 'underline', 'clear']],
+                ['font', ['strikethrough', 'superscript', 'subscript']],
+                ['fontsize', ['fontsize']],
+                ['color', ['color']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['height', ['height']]
+            ]
+        });
+
     });
+
+
 </script>
 
 
@@ -233,7 +239,7 @@
 
 
 
-@{ Html.RenderPartial("_ConfirmPopup", new ViewDataDictionary { { "ID", "confirmPezzo" }, { "title", "Modifica del prezzo" }, { "body" , "Tutti gli utenti in trattativa con questo annuncio verranno notificati della modifica tramite un messaggio email. Confermare la modifica?" } }); }
+@{ Html.RenderPartial("_ConfirmPopup", new ViewDataDictionary { { "ID", "confirmPezzo" }, { "title", "Modifica del prezzo" }, { "body", "Tutti gli utenti in trattativa con questo annuncio verranno notificati della modifica tramite un messaggio email. Confermare la modifica?" } }); }
 
 
 

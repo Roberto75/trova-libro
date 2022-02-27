@@ -23,7 +23,7 @@
 
         <input type="hidden" name="id" value="@Model.annuncioId" />
 
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#confirmDelete01">Cancellazione FISICA</button>
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#confirmDelete01">Cancellazione FISICA</button>
         { Html.RenderPartial("_ConfirmDelete", new ViewDataDictionary { { "ID", "confirmDelete01" }, { "title", "Cancellazione FISICA" } }); }
     }
 
@@ -34,14 +34,10 @@
     {
         @Html.AntiForgeryToken()
         <input type="hidden" name="id" value="@Model.annuncioId" />
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#confirmDelete02">Cancellazione LOGICA</button>
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#confirmDelete02">Cancellazione LOGICA</button>
         { Html.RenderPartial("_ConfirmDelete", new ViewDataDictionary { { "ID", "confirmDelete02" }, { "title", "Cancellazione LOGICA" } }); }
     }
 </div>
-
-
-
-
 
 
 

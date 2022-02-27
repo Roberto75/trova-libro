@@ -28,7 +28,7 @@
             <p>Ti consigliamo di cancellare la trattativa dall'elenco delle tue trattativa</p>
 
             <a class="btn btn-secondary" href="@Url.Action("MyTrattative")">Torna all'elenco delle trattative</a>
-            <button class="btn btn-primary" title="Cancella" type="button" data-toggle="modal" data-target="#deleteModal"><i class="fa fa-trash"></i> Cancella la trattativa</button>
+            <button class="btn btn-primary" title="Cancella" type="button" data-bs-toggle="modal" data-bs-target="#deleteModal"><i class="fa fa-trash"></i> Cancella la trattativa</button>
 
         </div>
     </div>
@@ -41,7 +41,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="deleteModal">Cancellazione</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
@@ -56,7 +56,7 @@
                     <input type="hidden" name="trattativaId" value="@Model.trattativa.trattativaId" />
 
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
                         <button type="submit" class="btn btn-primary">Si <i class="fa fa-trash fa-fw"></i></button>
                     </div>
                 }

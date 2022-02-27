@@ -36,7 +36,7 @@
 
 <form action="@Url.Action("MyAnnunci")" method="post" id="MyForm">
 
-    <button class="btn btn-info" type="button" data-toggle="collapse" data-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">
+    <button class="btn btn-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">
         <i class="fa fa-bars fa-fw"></i>Filtri <span class="badge badge-light">@Model.countFilter()</span>
     </button>
 
@@ -105,10 +105,10 @@
                 wGrid.Column (columnName:"prezzo", header :"Prezzo", canSort : true),
                 wGrid.Column ("", header :"Risposte",    format: item=> (ViewData["hashtableRisposte"] as System.Collections.Hashtable)[item.annuncioId],  canSort : false),
                 wGrid.Column ("", header :"",
-                        format:@<text><a class="btn btn-info btn-sm" title="Detagli" href="@Url.Action("MyAnnuncio", "Libri", new { id = item.annuncioId })"><i class="fa fa-info"></i></a></text>
+                        format:@<text><a class="btn btn-secondary btn-sm" title="Detagli" href="@Url.Action("MyAnnuncio", "Libri", new { id = item.annuncioId })"><i class="fa fa-info"></i></a></text>
                         , canSort : false)   ,
                 wGrid.Column ("", header :"",
-                        format:@<text><a class="btn btn-info btn-sm" title="Cancella" href="javascript:deleteRow('@item.annuncioId');"><i class="fa fa-trash"></i></a></text>
+                        format:@<text><a class="btn btn-secondary btn-sm" title="Cancella" href="javascript:deleteRow('@item.annuncioId');"><i class="fa fa-trash"></i></a></text>
                         , canSort : false)
                 })
 
