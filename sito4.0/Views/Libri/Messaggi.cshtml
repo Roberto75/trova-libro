@@ -28,37 +28,38 @@
 else
 {
 
-    <table id="MyTable" class="@MyConstants.TABLE_STYLE">
-        <thead class="thead-light">
-            <tr>
-                <th>Categoria</th>
-                <th>Mittente</th>
-                <th>Titolo</th>
-                <th>Tipo</th>
-                <th>Prezzo</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (Annunci.Models.Trattativa t in Model)
-                {
+    <div class="table-responsive-lg">
+        <table id="MyTable" class="@MyConstants.TABLE_STYLE">
+            <thead class="thead-light">
                 <tr>
-                    <td>@t.categoriaLibro</td>
-                    <td>@t.login</td>
-                    <td>@t.titolo</td>
-                    <td>@t.tipoAnnuncio</td>
-                    <td>@t.prezzo.ToString("C")</td>
-                    <td><a class="btn btn-info btn-sm" title="Detagli" href="@(Url.Action("Trattativa", "Libri") + "/" + t.trattativaId)"><i class="fa fa-info"></i></a></td>
+                    <th>Categoria</th>
+                    <th>Mittente</th>
+                    <th>Titolo</th>
+                    <th>Tipo</th>
+                    <th>Prezzo</th>
+                    <th></th>
                 </tr>
+            </thead>
+            <tbody>
+                @foreach (Annunci.Models.Trattativa t in Model)
+                {
+                    <tr>
+                        <td>@t.categoriaLibro</td>
+                        <td>@t.login</td>
+                        <td>@t.titolo</td>
+                        <td>@t.tipoAnnuncio</td>
+                        <td>@t.prezzo.ToString("C")</td>
+                        <td><a class="btn btn-info btn-sm" title="Detagli" href="@(Url.Action("Trattativa", "Libri") + "/" + t.trattativaId)"><i class="fa fa-info"></i></a></td>
+                    </tr>
 
-            }
-        </tbody>
-    </table>
-
+                }
+            </tbody>
+        </table>
+    </div>
     <br />
 
-        <a class="btn btn-secondary" href="@Url.Action("Index", "Libri")">Pagina di ricerca</a>
-        <a class="btn btn-primary text-right" href="@Url.Action("MyAnnunci", "Libri")">I miei annunci</a>
+    <a class="btn btn-secondary" href="@Url.Action("Index", "Libri")">Pagina di ricerca</a>
+    <a class="btn btn-primary text-right" href="@Url.Action("MyAnnunci", "Libri")">I miei annunci</a>
 }
 
 

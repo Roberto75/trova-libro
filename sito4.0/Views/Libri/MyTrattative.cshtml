@@ -31,55 +31,56 @@
 }
 else
 {
+    <div class="table-responsive-lg">
 
-    <table id="MyTable" class="@MyConstants.TABLE_STYLE">
-        <thead class="thead-light">
-            <tr>
-                <th></th>
-                <th>Stato</th>
-                <th>Categoria</th>
-                <th>Data inserimento</th>
-                <th>Titolo</th>
-                <th>Utente</th>
-                <th>Tipo</th>
-                <th>Prezzo</th>
-                <th></th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-
-
-            @foreach (Annunci.Models.Trattativa t in Model)
-            {
-
+        <table id="MyTable" class="@MyConstants.TABLE_STYLE">
+            <thead class="thead-light">
                 <tr>
-                    <th>
-                        @if (t.stato == Annunci.Models.Trattativa.StatoTrattativa.Attiva)
-                        {
-                            <img src="@Url.Content("~/Content/Images/Shared/green2_16x16.png")" alt="@t.stato.ToString()" />
-                        }
-                        else
-                        {
-                            <img src="@Url.Content("~/Content/Images/Shared/red2_16x16.png")" alt="@t.stato.ToString()" />
-                        }
-
-                    </th>
-                    <th>@t.stato</th>
-                    <td>@t.categoriaLibro</td>
-                    <td>@t.dateAdded.ToShortDateString()</td>
-                    <td>@t.titolo</td>
-                    <td>@t.login</td>
-                    <td>@t.tipoAnnuncio</td>
-                    <td>@t.prezzo.ToString("C")</td>
-                    <td><a class="btn btn-secondary btn-sm" title="Detagli" href="@(Url.Action("Trattativa", "Libri") + "/" + t.trattativaId)"><i class="fa fa-info"></i></a></td>
-                    <td><button class="btn btn-secondary btn-sm" title="Cancella" type="button" onclick="deleteOnClick(@t.trattativaId)"><i class="fa fa-trash"></i></button></td>
+                    <th></th>
+                    <th>Stato</th>
+                    <th>Categoria</th>
+                    <th>Data inserimento</th>
+                    <th>Titolo</th>
+                    <th>Utente</th>
+                    <th>Tipo</th>
+                    <th>Prezzo</th>
+                    <th></th>
+                    <th></th>
                 </tr>
+            </thead>
+            <tbody>
 
-            }
-        </tbody>
-    </table>
 
+                @foreach (Annunci.Models.Trattativa t in Model)
+                {
+
+                    <tr>
+                        <th>
+                            @if (t.stato == Annunci.Models.Trattativa.StatoTrattativa.Attiva)
+                            {
+                                <img src="@Url.Content("~/Content/Images/Shared/green2_16x16.png")" alt="@t.stato.ToString()" />
+                            }
+                            else
+                            {
+                                <img src="@Url.Content("~/Content/Images/Shared/red2_16x16.png")" alt="@t.stato.ToString()" />
+                            }
+
+                        </th>
+                        <th>@t.stato</th>
+                        <td>@t.categoriaLibro</td>
+                        <td>@t.dateAdded.ToShortDateString()</td>
+                        <td>@t.titolo</td>
+                        <td>@t.login</td>
+                        <td>@t.tipoAnnuncio</td>
+                        <td>@t.prezzo.ToString("C")</td>
+                        <td><a class="btn btn-secondary btn-sm" title="Detagli" href="@(Url.Action("Trattativa", "Libri") + "/" + t.trattativaId)"><i class="fa fa-info"></i></a></td>
+                        <td><button class="btn btn-secondary btn-sm" title="Cancella" type="button" onclick="deleteOnClick(@t.trattativaId)"><i class="fa fa-trash"></i></button></td>
+                    </tr>
+
+                }
+            </tbody>
+        </table>
+    </div>
 }
 
 
@@ -94,8 +95,8 @@ else
         $("#deleteModal").modal('show');
         $("#trattativaId").val(id);
     }
-    
-  
+
+
 </script>
 
 
@@ -118,7 +119,7 @@ else
             @using (Html.BeginForm("DeleteTrattativa", "Libri", FormMethod.Post, new { id = "MyForm" }))
             {
                 @Html.AntiForgeryToken()
-                
+
                 <input type="hidden" id="trattativaId" name="trattativaId" />
 
                 <div class="modal-footer">
@@ -126,7 +127,7 @@ else
                     <button type="submit" class="btn btn-primary">Si <i class="fa fa-trash fa-fw"></i></button>
                 </div>
             }
-            
+
         </div>
     </div>
 </div>

@@ -214,31 +214,32 @@
     else
     {
         <div class="mt-3">
-            @wGrid.GetHtml(
-            fillEmptyRows: false,
-            tableStyle: MyConstants.TABLE_STYLE,
-            headerStyle: MyConstants.TABLE_HEADER_STYLE,
-            footerStyle: MyConstants.TABLE_FOOTER_STYLE,
-            rowStyle: MyConstants.TABLE_ROW_STYLE,
-            alternatingRowStyle: MyConstants.TABLE_ALTERNATING_ROW_STYLE,
-            htmlAttributes: new { data_role = "table", id = "MyWebGrid", data_mode = "reflow" },
-            columns: new[]{
-                wGrid.Column (columnName:"dataInserimento", header :"Data",  format: p=>p.DataInserimento.ToShortDateString() ,canSort : true),
-                    wGrid.Column (columnName:"titolo", header :"Titolo", format:(item) =>  Html.ActionLink ( (string) (string.IsNullOrEmpty (item.titolo)?"N/A":item.titolo.ToString()), "Details",   new {id=item.annuncioId} ), canSort:true),
-                    wGrid.Column (columnName:"categoria", header :"Categoria", canSort : true),
-                    wGrid.Column (columnName:"autore", header :"Autore", canSort : true),
-                    wGrid.Column (columnName:"login", header :"Utente", canSort : true),
-                    wGrid.Column (columnName:"tipo", header :"Tipo", canSort : true),
-                    wGrid.Column (columnName:"prezzo", header :"Prezzo", canSort : true),
-                    wGrid.Column ("", header :"Photo",    format: item=> (ViewData["hashtablePhoto"] as System.Collections.Hashtable)[item.annuncioId],  canSort : false),
-                    wGrid.Column ("", header :"",
-                        format:@<text><a class="btn btn-info btn-sm" title="Detagli" href="@Url.Action("Details", "Libri", new { id = item.annuncioId })"><i class="fa fa-info"></i></a></text>
-                        , canSort : false)   ,
-            })
-
+            <div class="table-responsive-lg">
+                @wGrid.GetHtml(
+                fillEmptyRows: false,
+                tableStyle: MyConstants.TABLE_STYLE,
+                headerStyle: MyConstants.TABLE_HEADER_STYLE,
+                footerStyle: MyConstants.TABLE_FOOTER_STYLE,
+                rowStyle: MyConstants.TABLE_ROW_STYLE,
+                alternatingRowStyle: MyConstants.TABLE_ALTERNATING_ROW_STYLE,
+                htmlAttributes: new { data_role = "table", id = "MyWebGrid", data_mode = "reflow" },
+                columns: new[]{
+                    wGrid.Column (columnName:"dataInserimento", header :"Data",  format: p=>p.DataInserimento.ToShortDateString() ,canSort : true),
+                        wGrid.Column (columnName:"titolo", header :"Titolo", format:(item) =>  Html.ActionLink ( (string) (string.IsNullOrEmpty (item.titolo)?"N/A":item.titolo.ToString()), "Details",   new {id=item.annuncioId} ), canSort:true),
+                        wGrid.Column (columnName:"categoria", header :"Categoria", canSort : true),
+                        wGrid.Column (columnName:"autore", header :"Autore", canSort : true),
+                        wGrid.Column (columnName:"login", header :"Utente", canSort : true),
+                        wGrid.Column (columnName:"tipo", header :"Tipo", canSort : true),
+                        wGrid.Column (columnName:"prezzo", header :"Prezzo", canSort : true),
+                        wGrid.Column ("", header :"Photo",    format: item=> (ViewData["hashtablePhoto"] as System.Collections.Hashtable)[item.annuncioId],  canSort : false),
+                        wGrid.Column ("", header :"",
+                            format:@<text><a class="btn btn-secondary btn-sm" title="Detagli" href="@Url.Action("Details", "Libri", new { id = item.annuncioId })"><i class="fa fa-info"></i></a></text>
+                                                                                , canSort : false)   ,
+                                                                                  })
+            </div>
             @{Html.RenderPartial("_Paging", Model);}
         </div>
-                }
+    }
 </form>
 
 
@@ -257,7 +258,7 @@
         setComboCategoria(@Model.filter.categoriaId);
         setComboSubCategoria(@Model.filter.subCategoriaId);
 
-    
+
         document.getElementById('collapseFilter').addEventListener('hidden.bs.collapse', function () {
             console.log("collapseFilter hide");
             $("#collapseShow").val(0);
