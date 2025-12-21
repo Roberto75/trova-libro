@@ -1,14 +1,22 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using MyManagerCSharp;
+using MyUsers;
+using MyWebApplication.Models;
+using MyWebApplication.RecaptchaV3;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Configuration;
+using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
-
+using System.Net;
+using System.Reflection;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
-using MyManagerCSharp;
-using System.Diagnostics;
-using MyUsers;
-using MyWebApplication.Models;
 
 namespace MyWebApplication.Controllers
 {
@@ -200,6 +208,17 @@ namespace MyWebApplication.Controllers
             {
                 string messaggioDiErrore;
 
+
+                // FIX 2025-12-14  CAPTCHA server-side
+                string captchaError;
+                string expectedAction = "login";
+                if (!VerifyRecaptcha(expectedAction, out captchaError))
+                {
+                    ModelState.AddModelError("", captchaError);
+                    return View(model);
+                }
+
+
                 // MyUsers.UserManager manager = new UserManager("utenti");
                 long userId;
 
@@ -372,6 +391,15 @@ namespace MyWebApplication.Controllers
                 return View(model);
             }
 
+
+            // FIX 2025-12-14  CAPTCHA server-side
+            string captchaError;
+            string expectedAction = "password_reset";
+            if (!VerifyRecaptcha(expectedAction, out captchaError))
+            {
+                ModelState.AddModelError("", captchaError);
+                return View(model);
+            }
 
             //MyUsers.UserManager manager = new UserManager("utenti");
             long userId;
@@ -602,6 +630,20 @@ namespace MyWebApplication.Controllers
 
             if (ModelState.IsValid)
             {
+
+
+                // FIX 2025-12-14  CAPTCHA server-side
+                string captchaError;
+                string expectedAction = "signup";
+                if (!VerifyRecaptcha(expectedAction, out captchaError))
+                {
+                    ModelState.AddModelError("", captchaError);
+                    ViewData["TestoPrivacy"] = testoPrivacy;
+                    return View(model);
+                }
+
+
+
                 // Attempt to register the user
                 try
                 {
@@ -1114,7 +1156,7 @@ namespace MyWebApplication.Controllers
         [HttpPost]
         public ActionResult ChangeEmail(ChangeEmailModel model)
         {
-             
+
             if (model.newEmail.Trim() != model.newEmailConfirm.Trim())
             {
                 ModelState.AddModelError("", "I due indirizzi email inseriti non corrispondono");
@@ -1146,7 +1188,7 @@ namespace MyWebApplication.Controllers
 
                 codiceAttivazioneEmail = manager.updateEmailChanging(MySessionData.UserId, model.newEmail.Trim());
 
-                
+
             }
             finally
             {
@@ -1217,7 +1259,7 @@ namespace MyWebApplication.Controllers
 
                 manager.updateEmailChanged(MySessionData.UserId, newEmail);
 
-               
+
             }
             finally
             {
@@ -1272,6 +1314,84 @@ namespace MyWebApplication.Controllers
             return View();
         }
 
+
+
+
+        private bool VerifyRecaptcha(string expectedAction, out string errorMessage)
+        {
+            errorMessage = null;
+
+            var recaptchaToken = Request.Form["g-recaptcha-token"];
+            if (string.IsNullOrWhiteSpace(recaptchaToken))
+            {
+                errorMessage = "Verifica CAPTCHA mancante.";
+                return false;
+            }
+
+            var action = Request.Form["g-recaptcha-action"];
+            if (string.IsNullOrWhiteSpace(action))
+            {
+                errorMessage = "Verifica CAPTCHA action mancante.";
+                return false;
+            }
+
+
+            if (action != expectedAction)
+            {
+                errorMessage = "Verifica CAPTCHA action non valida.";
+                return false;
+            }
+
+            var secret = ConfigurationManager.AppSettings["RecaptchaV3.SecretKey"];
+            if (string.IsNullOrWhiteSpace(secret))
+            {
+                errorMessage = "Configurazione CAPTCHA non presente sul server.";
+                return false;
+            }
+
+
+
+            try
+            {
+
+
+                // Verifica reCAPTCHA PRIMA di procedere
+                var verifyTask = RecaptchaV3.RecaptchaV3.VerifyRequestAsync(recaptchaToken, Request.UserHostAddress);
+                var verify = verifyTask.GetAwaiter().GetResult(); // Await the task synchronously
+
+
+                bool SKIP_RECAPTCHA = false;
+
+#if DEBUG
+                SKIP_RECAPTCHA = false;
+#else
+                    SKIP_RECAPTCHA = false;
+#endif
+
+                if (SKIP_RECAPTCHA)
+                {
+                    return true;
+                }
+
+
+                bool esito;
+                string message;
+                esito = RecaptchaV3.RecaptchaV3.VerifyResponse(verify, expectedAction, out message);
+
+                errorMessage = message;
+                return esito;
+
+            }
+            catch (Exception ex)
+            {
+                // Log minimo: utile in diagnostica; non esporre dettagli all'utente
+                Debug.WriteLine("Errore verifica reCAPTCHA: " + ex);
+                errorMessage = "Errore durante la verifica CAPTCHA. Riprova più tardi.";
+                return false;
+            }
+
+
+        }
 
 
     }

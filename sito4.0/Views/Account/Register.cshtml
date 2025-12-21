@@ -5,19 +5,24 @@
     ViewBag.Keywords = "registrazione, creazione account, login, acceso al sito, password , recupero password ";
 
     Layout = "~/Views/Shared/_MasterPageMobile.cshtml";
+
+    var siteKey = System.Configuration.ConfigurationManager.AppSettings["RecaptchaV3.SiteKey"];
 }
+
+
+
 
 <nav class="mt-3" aria-label="breadcrumb" itemprop="breadcrumb">
     <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="@Url.Action("Index","Home")">Home</a></li>
-        <li class="breadcrumb-item"><a href="@Url.Action("Index","Libri")">Ricerca</a></li>
+        <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")">Home</a></li>
+        <li class="breadcrumb-item"><a href="@Url.Action("Index", "Libri")">Ricerca</a></li>
         <li class="breadcrumb-item active" aria-current="page">Registrazione</li>
     </ol>
 </nav>
 
 <h2>Registrazione ai Servizi di @System.Configuration.ConfigurationManager.AppSettings["application.name"]</h2>
 
-@using (Html.BeginForm("Register", "Account", FormMethod.Post))
+@using (Html.BeginForm("Register", "Account", null, FormMethod.Post, new { id = "registerForm" }))
 {
     @Html.AntiForgeryToken()
 
@@ -163,17 +168,53 @@
             </div>
 
 
-            <a class="btn btn-secondary" href="@Url.Action("Index","Home")">Annulla</a>
-            <button class="btn btn-primary" type="button" onclick="buttonSalvaOnClick()">Salva</button>
+            <input type="hidden" id="g-recaptcha-token" name="g-recaptcha-token" />
+            <input type="hidden" id="g-recaptcha-action" name="g-recaptcha-action" value="signup" />
+
+            <div id="grecaptcha_html_element"></div>
+
+
+            <a class="btn btn-secondary" href="@Url.Action("Index", "Home")">Annulla</a>
+
+            <button class="btn btn-primary" type="button" onclick="buttonSalvaOnClick(event)">Salva</button>
         </div>
     </div>
 }
 
 
-<script>
 
-    function buttonSalvaOnClick() {
-        console.log("buttonSalvaOnClick");
+<script src="https://www.google.com/recaptcha/api.js?render=@System.Configuration.ConfigurationManager.AppSettings["RecaptchaV3.SiteKey"]"></script>
+
+<script type="text/javascript">
+
+    function buttonSalvaOnClick(e) {
+        console.log("buttonSalvaOnClick",e);
+
+        e.preventDefault();
+
+        if (!validateForm()) return false;
+
+        console.log("validateForm return TRUE!");
+
+        grecaptcha.ready(async () => {
+            const token = await grecaptcha.execute('@siteKey', { action: 'signup' });
+
+            console.log("token:", token);
+            document.getElementById("g-recaptcha-token").value = token;
+
+            // IMPORTANT: The 'token' that results from execute is an encrypted response sent by
+            // reCAPTCHA to the end user's browser.
+            // This token must be validated by creating an assessment.
+            // See https://cloud.google.com/recaptcha/docs/create-assessment
+
+            $("form").submit();
+        });
+
+    }
+
+    function validateForm() {
+        console.log("validateForm");
+
         let check = true;
 
         if ($("#nome").val().trim() === "") {
@@ -213,9 +254,9 @@
 
         if (check === false) {
             $('html, body').scrollTop($("#datiObbligatori").offset().top);
-            return;
+            return false;
         }
-        console.log("Privacy " + $("input[name='privacy']").attr("checked"));
+        //console.log("Privacy " + $("input[name='privacy']").attr("checked"));
         console.log("Privacy " + $("#privacy-si").is(":checked"));
 
 
@@ -226,13 +267,12 @@
             $("#privacy-si").removeClass("is-invalid");
         }
 
-        if (check === false) {
-            return;
-        }
+        return check;
 
-
-        $("form").submit();
+        //$("form").submit();
     }
+
+
 
 
 </script>
