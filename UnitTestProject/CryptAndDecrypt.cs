@@ -33,6 +33,29 @@ namespace UnitTestProject
 
 
         [TestMethod]
+        public void TestTrovaLibro()
+        {
+            
+            string encryptedBase64;
+            encryptedBase64 = "bKtUiNfXvfSoaSXKpkjaHsIU4kyr1MUXaED9l1Ejca4=";
+
+            // Decrypt the bytes to a string.
+            string roundtrip = LibriSecurityManager.Decrypt(encryptedBase64);
+            Debug.WriteLine(String.Format("Decrypted from byte: {0}", roundtrip));
+
+
+            encryptedBase64 = "GeTjRsNoO8nO1fMehFT5MA==";
+            roundtrip = LibriSecurityManager.Decrypt(encryptedBase64);
+            Debug.WriteLine(String.Format("Decrypted from byte: {0}", roundtrip));
+
+
+            string testoOriginale = "--2[]26-mast!!ERR--";
+            _encrypt (testoOriginale);
+        }
+
+
+
+        [TestMethod]
         public void Encrypt()
         {
             _encrypt(@"XXXX");

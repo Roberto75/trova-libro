@@ -1209,6 +1209,7 @@
     <Content Include="Content\summernote\summernote-lite.js.map" />
     <Content Include="Content\summernote\summernote.css.map" />
     <Content Include="Content\summernote\summernote.js.map" />
+    <Content Include=".gitignore" />
     <None Include="packages.config" />
     <None Include="Properties\PublishProfiles\TEMP.pubxml" />
     <Content Include="Views\Errors\NotFound.cshtml" />
@@ -1231,6 +1232,16 @@
     <Content Include="Views\Test\Modal.cshtml" />
     <Content Include="README.md" />
     <Content Include="Views\Test\Summernote.cshtml" />
+    <None Include="Web.config.template">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web.config.Debug.template">
+      <DependentUpon>Web.config.template</DependentUpon>
+    </None>
+    <None Include="Web.config.Release.template">
+      <DependentUpon>Web.config.template</DependentUpon>
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
